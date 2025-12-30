@@ -3,6 +3,8 @@ import "./_app.css";
 import { type AppProps } from "next/app";
 import Head from "next/head";
 
+import { AppPage } from "#src/pages";
+
 export default function App({ Component }: AppProps<any>) {
   return (
     <>
@@ -15,7 +17,9 @@ export default function App({ Component }: AppProps<any>) {
         />
       </Head>
 
-      <Component />
+      <AppPage>
+        <Component />
+      </AppPage>
     </>
   );
 }
