@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@theme {
+  --color-*: initial;
+  --color-black: #000000;
+  --color-yellow: #edbc40;
+  --color-red: #b42424;
+  --color-white: #ffffff;
+}
+
+@theme {
+  --font-*: initial;
+  --font-catan: "Catan";
+}
+
+@theme {
+  --text-shadow-*: initial;
+  --text-shadow-stroke-md:
+    -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  --text-shadow-stroke-lg:
+    -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000,
+    1.5px 1.5px 0 #000;
+}
+
+@font-face {
+  font-family: "Catan";
+  src: url("/fonts/catan.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+  size-adjust: 112.5%;
+}
+
+* {
+  @apply font-catan;
+}
+
+body {
+  @apply bg-black;
+  @apply antialiased;
+}

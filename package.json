@@ -1,0 +1,32 @@
+{
+  "name": "@agusmgarcia/next-catan-the-league",
+  "core": "app",
+  "version": "0.0.0",
+  "private": true,
+  "author": "Agus Garcia",
+  "description": "An app to register Catan matches",
+  "scripts": {
+    "build": "react-essentials-commands-build",
+    "check": "react-essentials-commands-check",
+    "deploy": "react-essentials-commands-deploy",
+    "format": "react-essentials-commands-format",
+    "regenerate": "react-essentials-commands-regenerate",
+    "start": "react-essentials-commands-start",
+    "test": "react-essentials-commands-test"
+  },
+  "dependencies": {
+    "@agusmgarcia/react-essentials-store": "^0.19.0",
+    "@agusmgarcia/react-essentials-utils": "^0.12.1",
+    "lazysizes": "^5.3.2",
+    "next": "^15.5.9",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "tailwind-merge": "^3.4.0"
+  },
+  "devDependencies": {
+    "@agusmgarcia/react-essentials-commands": "^0.13.1"
+  },
+  "engines": {
+    "node": "22.16.0"
+  }
+}
