@@ -12,6 +12,13 @@ export default function Icon(props: IconProps) {
         </svg>
       );
 
+    case "spinner":
+      return (
+        <svg {...rest}>
+          <path d="m18.364 5.63604 -1.4143 1.41421C15.683 5.7835 13.933 5 12 5c-3.86599 0 -7 3.13401 -7 7 0 3.866 3.13401 7 7 7 3.866 0 7 -3.134 7 -7h2c0 4.9706 -4.0294 9 -9 9 -4.97056 0 -9 -4.0294 -9 -9 0 -4.97056 4.02944 -9 9 -9 2.4853 0 4.7353 1.00736 6.364 2.63604Z" />
+        </svg>
+      );
+
     default:
       throw new Error(`Variant ${variant} not found`);
   }
