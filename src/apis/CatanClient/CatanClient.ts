@@ -10,6 +10,8 @@ import {
 import unknown from "#public/assets/unknown.webp";
 
 import {
+  type GetLeaguesRequest,
+  type GetLeaguesResponse,
   type GetUserRequest,
   type GetUserResponse,
   type LoginRequest,
@@ -37,6 +39,22 @@ export default class CatanClient {
 
     this.auth = getAuth(this.app);
     this.googleAuthProvider = new GoogleAuthProvider();
+  }
+
+  async getLeagues(
+    { userId }: GetLeaguesRequest,
+    _: AbortSignal,
+  ): Promise<GetLeaguesResponse> {
+    if (!userId) return [];
+
+    // TODO: fetch from the database.
+    await delay(2000);
+    return [
+      {
+        completedAt: undefined,
+        id: "league-2026",
+      },
+    ];
   }
 
   async getUser(

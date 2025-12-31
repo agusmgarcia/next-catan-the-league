@@ -1,3 +1,12 @@
+export type GetLeaguesRequest = {
+  userId: string;
+};
+
+export type GetLeaguesResponse = {
+  completedAt: number | undefined;
+  id: string;
+}[];
+
 export type GetUserRequest = {};
 
 export type GetUserResponse =
