@@ -1,6 +1,6 @@
 type ButtonProps = Pick<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
-  "children" | "className" | "onClick" | "type"
+  "children" | "className" | "disabled" | "onClick" | "type"
 > & {
   variant: "raw";
 };

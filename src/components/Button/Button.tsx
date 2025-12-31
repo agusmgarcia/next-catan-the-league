@@ -10,7 +10,11 @@ export default function Button(props: ButtonProps) {
     return (
       <button
         {...rest}
-        className={twMerge("h-14 w-full cursor-pointer p-4", className)}
+        className={twMerge(
+          "h-14 w-full cursor-pointer p-4 transition-colors",
+          "disabled:cursor-default disabled:bg-gray-500",
+          className,
+        )}
       >
         {children}
       </button>
