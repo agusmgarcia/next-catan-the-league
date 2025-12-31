@@ -1,6 +1,8 @@
-import { useRouter } from "next/navigation";
-import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { errors } from "@agusmgarcia/react-essentials-utils";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useMemo } from "react";
+
+import { useUser } from "#src/store";
 
 import type AppPageProps from "./AppPage.types";
 
@@ -8,10 +10,18 @@ export default function useAppPage(props: AppPageProps) {
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  useEffect(() => {
-    if (pathname === "/login") return;
-    replace("/login");
-  }, [pathname, replace]);
+  const { user, userError: userErrorFromStore, userLoading } = useUser();
 
-  return { ...props };
+  const userError = useMemo(
+    () => errors.getMessage(userErrorFromStore),
+    [userErrorFromStore],
+  );
+
+  useEffect(() => {
+    if (userLoading || !!userError) return;
+    if (!user && pathname !== "/login") replace("/login");
+    else if (!!user && pathname === "/login") replace("/");
+  }, [pathname, replace, user, userError, userLoading]);
+
+  return { ...props, user, userError, userLoading };
 }

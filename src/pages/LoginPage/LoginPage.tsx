@@ -16,14 +16,14 @@ export default function LoginPage(props: LoginPageProps) {
       {/* TITLE */}
       <div className="flex flex-col items-center gap-1">
         <Typography
-          className="text-8xl text-yellow text-shadow-stroke-8xl"
+          className="text-8xl text-interface-yellow text-shadow-stroke-8xl"
           variant="h1"
         >
           CATAN
         </Typography>
 
         <Typography
-          className="flex items-center gap-1 text-4xl text-yellow text-shadow-stroke-6xl"
+          className="flex items-center gap-1 text-4xl text-interface-yellow text-shadow-stroke-6xl"
           variant="h2"
         >
           THE LEAGUE

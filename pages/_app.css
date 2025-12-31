@@ -2,10 +2,20 @@
 
 @theme {
   --color-*: initial;
+
   --color-black: #000000;
-  --color-yellow: #edbc40;
-  --color-red: #b42424;
   --color-white: #ffffff;
+  --color-gray-500: oklch(55.1% 0.027 264.364);
+
+  --color-interface-yellow: #edbc40;
+  --color-interface-red: #b42424;
+
+  --color-player-red: #bd1e2d;
+  --color-player-blue: #1c4a9a;
+  --color-player-white: #f2f2f2;
+  --color-player-orange: #f47920;
+  --color-player-green: #008b45;
+  --color-player-brown: #693f23;
 }
 
 @theme {
@@ -35,6 +45,10 @@
     1.5px 1.5px 0 #000;
 }
 
+@theme {
+  --background-image-noise-30: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.3 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
 @font-face {
   font-family: "Catan";
   src: url("/fonts/catan.woff2") format("woff2");
@@ -49,6 +63,6 @@
 }
 
 body {
-  @apply bg-black;
+  @apply bg-interface-red bg-noise-30;
   @apply antialiased;
 }
