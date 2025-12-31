@@ -1,9 +1,21 @@
+import { forwardRef } from "react";
+import { twMerge } from "tailwind-merge";
+
 import useImage from "./Image.hooks";
 import type ImageProps from "./Image.types";
 
-export default function Image(props: ImageProps) {
-  const { ...rest } = useImage(props);
+export default forwardRef<HTMLImageElement, ImageProps>(
+  function Image(props, ref) {
+    const { alt, className, ...rest } = useImage(props);
 
-  // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
-  return <img {...rest} />;
-}
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        {...rest}
+        ref={ref}
+        alt={alt}
+        className={twMerge("block size-full object-cover", className)}
+      />
+    );
+  },
+);
