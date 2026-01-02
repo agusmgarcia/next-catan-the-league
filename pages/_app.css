@@ -15,9 +15,22 @@
 
 @theme {
   --text-shadow-*: initial;
-  --text-shadow-stroke-md:
-    -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-  --text-shadow-stroke-lg:
+  --text-shadow-stroke-base:
+    -0.25px -0.25px 0 #000, 0.25px -0.25px 0 #000, -0.25px 0.25px 0 #000,
+    0.25px 0.25px 0 #000;
+  --text-shadow-stroke-xl:
+    -0.3125px -0.3125px 0 #000, 0.3125px -0.3125px 0 #000,
+    -0.3125px 0.3125px 0 #000, 0.3125px 0.3125px 0 #000;
+  --text-shadow-stroke-3xl:
+    -0.46875px -0.46875px 0 #000, 0.46875px -0.46875px 0 #000,
+    -0.46875px 0.46875px 0 #000, 0.46875px 0.46875px 0 #000;
+  --text-shadow-stroke-4xl:
+    -0.5625px -0.5625px 0 #000, 0.5625px -0.5625px 0 #000,
+    -0.5625px 0.5625px 0 #000, 0.5625px 0.5625px 0 #000;
+  --text-shadow-stroke-6xl:
+    -0.9375px -0.9375px 0 #000, 0.9375px -0.9375px 0 #000,
+    -0.9375px 0.9375px 0 #000, 0.9375px 0.9375px 0 #000;
+  --text-shadow-stroke-8xl:
     -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000,
     1.5px 1.5px 0 #000;
 }
