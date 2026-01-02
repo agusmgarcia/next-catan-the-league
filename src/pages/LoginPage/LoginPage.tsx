@@ -1,17 +1,18 @@
-import bannerBlur from "#public/assets/banner.blur.svg";
-import banner from "#public/assets/banner.webp";
-import { Button, Icon, Image, Typography } from "#src/components";
+import { twMerge } from "tailwind-merge";
+
+import { Banner, Button, Icon, Typography } from "#src/components";
 
 import useLoginPage from "./LoginPage.hooks";
 import type LoginPageProps from "./LoginPage.types";
 
 export default function LoginPage(props: LoginPageProps) {
-  const { ...rest } = useLoginPage(props);
+  const { loginDisabled, loginLoading, loginOnClick, ...rest } =
+    useLoginPage(props);
 
   return (
     <div
       {...rest}
-      className="relative z-0 flex size-full flex-col items-center justify-evenly"
+      className="relative z-0 flex size-full flex-col items-center justify-around"
     >
       {/* TITLE */}
       <div className="flex flex-col items-center gap-1">
@@ -30,25 +31,42 @@ export default function LoginPage(props: LoginPageProps) {
         </Typography>
       </div>
 
-      <div>
+      {/* LOGIN METHODS */}
+      <div className="flex flex-col gap-2">
+        {/* GOOGLE */}
         <Button
-          className="hidden items-center gap-1 rounded-lg border-2 border-white bg-[#DB4437] text-white shadow-md shadow-[#DB4437]"
+          className={twMerge(
+            "flex w-50 items-center justify-center gap-1 rounded-lg border-2 border-white bg-google-600 text-white shadow-md shadow-google-600",
+            "hover:bg-google-500",
+            "disabled:shadow-none",
+          )}
+          disabled={loginDisabled}
+          onClick={loginOnClick}
           variant="raw"
         >
-          <Icon variant="google" />
-          Login with Google
+          {loginLoading ? (
+            <Icon className="animate-spin" variant="spinner" />
+          ) : (
+            <>
+              <Icon variant="google" />
+              Login with Google
+            </>
+          )}
         </Button>
       </div>
 
+      {/* BANNER */}
       <div className="absolute inset-0 -z-1">
-        <Image
-          alt="banner"
-          blurSrc={bannerBlur.src}
-          className="h-full max-w-max min-w-full -translate-x-[calc(50%-min(50vw,720px))] mask-b-from-black mask-b-from-50% mask-b-to-transparent object-cover blur-[0px] will-change-transform"
-          loading="lazy"
-          src={banner.src}
+        <Banner
+          className="mask-b-from-black mask-b-from-50% mask-b-to-transparent"
+          speed={5}
         />
       </div>
+
+      {/* VERSION */}
+      <Typography className="absolute right-4 bottom-4 text-white">
+        v{process.env.APP_VERSION || "0.0.0"}
+      </Typography>
     </div>
   );
 }
