@@ -5,6 +5,13 @@ export default function Icon(props: IconProps) {
   const { variant, ...rest } = useIcon(props);
 
   switch (variant) {
+    case "crown":
+      return (
+        <svg {...rest}>
+          <path d="M2.00488 19H22.0049v2H2.00488v-2Zm0 -14 5 3.5L12.0049 2l5 6.5 5 -3.5v12H2.00488V5Zm2 3.84131V15H20.0049V8.84131l-3.4195 2.39359 -4.5805 -5.95466 -4.58055 5.95466 -3.41947 -2.39359Z" />
+        </svg>
+      );
+
     case "google":
       return (
         <svg {...rest}>
