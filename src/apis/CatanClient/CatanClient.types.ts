@@ -7,6 +7,24 @@ export type GetLeaguesResponse = {
   id: string;
 }[];
 
+export type GetLeagueRequest = {
+  id: string;
+};
+
+export type GetLeagueResponse =
+  | {
+      completedAt: number | undefined;
+      name: string;
+      players: {
+        color: "blue" | "brown" | "green" | "orange" | "red" | "white";
+        id: string;
+        name: string;
+        photoURL: string;
+        victoryPoints: number;
+      }[];
+    }
+  | undefined;
+
 export type GetUserRequest = {};
 
 export type GetUserResponse =

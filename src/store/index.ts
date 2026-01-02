@@ -1,19 +1,38 @@
 import { createReactStore } from "@agusmgarcia/react-essentials-store";
 
+import { LeagueIdSlice } from "./LeagueIdSlice";
+import { LeagueSlice, type LeagueSliceTypes } from "./LeagueSlice";
 import { LeaguesSlice, type LeaguesSliceTypes } from "./LeaguesSlice";
 import { UserSlice, type UserSliceTypes } from "./UserSlice";
 
 export type User = NonNullable<UserSliceTypes.Response>;
+export type League = NonNullable<LeagueSliceTypes.Response>;
 export type Leagues = NonNullable<LeaguesSliceTypes.Response>;
 
 const { useSelector, ...reactStore } = createReactStore({
   slices: {
+    league: LeagueSlice,
+    leagueId: LeagueIdSlice,
     leagues: LeaguesSlice,
     user: UserSlice,
   },
 });
 
 export const StoreProvider = reactStore.StoreProvider;
+
+export function useLeague() {
+  const { leaguesError, leaguesLoading } = useLeagues();
+
+  return {
+    league: useSelector((state) => state.league.response),
+    leagueError:
+      useSelector((state) => state.leagueId.error || state.league.error) ||
+      leaguesError,
+    leagueLoading:
+      useSelector((state) => state.leagueId.loading || state.league.loading) ||
+      leaguesLoading,
+  };
+}
 
 export function useLeagues() {
   const { userError, userLoading } = useUser();

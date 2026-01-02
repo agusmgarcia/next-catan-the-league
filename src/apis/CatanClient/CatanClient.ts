@@ -1,3 +1,4 @@
+import { delay } from "@agusmgarcia/react-essentials-utils";
 import { type FirebaseApp, initializeApp } from "firebase/app";
 import {
   type Auth as FirebaseAuth,
@@ -10,6 +11,8 @@ import {
 import unknown from "#public/assets/unknown.webp";
 
 import {
+  type GetLeagueRequest,
+  type GetLeagueResponse,
   type GetLeaguesRequest,
   type GetLeaguesResponse,
   type GetUserRequest,
@@ -48,13 +51,72 @@ export default class CatanClient {
     if (!userId) return [];
 
     // TODO: fetch from the database.
-    await delay(2000);
+    await delay(200);
     return [
       {
         completedAt: undefined,
         id: "league-2026",
       },
     ];
+  }
+
+  async getLeague(
+    { id }: GetLeagueRequest,
+    _: AbortSignal,
+  ): Promise<GetLeagueResponse> {
+    // TODO: fetch from the database.
+    await delay(100);
+
+    if (id !== "league-2026") return undefined;
+
+    return {
+      completedAt: undefined,
+      name: "Catan League 2026",
+      players: [
+        {
+          color: "red",
+          id: "user1",
+          name: "Ricardo Fort",
+          photoURL: unknown.src,
+          victoryPoints: 60,
+        },
+        {
+          color: "white",
+          id: "user2",
+          name: "Flavio Mendoza",
+          photoURL: unknown.src,
+          victoryPoints: 32,
+        },
+        {
+          color: "blue",
+          id: "user3",
+          name: "Angela Torres",
+          photoURL: unknown.src,
+          victoryPoints: 16,
+        },
+        {
+          color: "orange",
+          id: "user4",
+          name: "Carla Peterson",
+          photoURL: unknown.src,
+          victoryPoints: 8,
+        },
+        {
+          color: "green",
+          id: "user5",
+          name: "Diego Peretti",
+          photoURL: unknown.src,
+          victoryPoints: 3,
+        },
+        {
+          color: "brown",
+          id: "user6",
+          name: "Emilia Attias",
+          photoURL: unknown.src,
+          victoryPoints: 1,
+        },
+      ],
+    };
   }
 
   async getUser(
