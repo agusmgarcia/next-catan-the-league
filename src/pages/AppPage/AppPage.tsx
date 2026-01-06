@@ -13,18 +13,19 @@ export default function AppPage(props: AppPageProps) {
 
   return (
     <main {...rest} className="h-dvh w-screen overflow-hidden bg-black">
-      <div className="mx-auto h-full max-w-360 overflow-hidden">
+      <div className="mx-auto h-full max-w-3xl overflow-hidden">
         {/* UNAUTHENTICATED LAYOUT */}
         {!userLoading && !userError && !user && children}
 
         {/* AUTHENTICATED LAYOUT */}
         {(userLoading || !!userError || !!user) && (
-          <div className="flex size-full flex-col overflow-hidden">
+          <div className="relative z-0 flex size-full flex-col overflow-hidden">
             {/* HEADER */}
             <Header />
 
             {/* BODY */}
-            <div className="relative z-0 flex flex-1 flex-col items-center justify-center overflow-hidden p-4">
+            <div className="flex flex-1 flex-col items-center justify-center overflow-hidden p-4">
+              {/* PAPYRUS */}
               <div className="absolute inset-0 -z-1">
                 <Image
                   alt="papyrus"

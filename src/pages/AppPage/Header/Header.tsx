@@ -9,22 +9,15 @@ export default function Header(props: HeaderProps) {
   return (
     <div
       {...rest}
-      className="flex h-32 w-full flex-col items-center justify-center gap-1 border-b-4 bg-interface-red noise-30"
+      className="flex h-16 w-full items-center gap-4 border-b bg-interface-red noise-5 p-4 shadow-2xl"
     >
-      {/* CROWN */}
-      <Icon className="size-9 text-interface-yellow" variant="crown" />
-
       {leagueLoading && (
-        <Icon
-          className="h-9 w-9 animate-spin text-interface-yellow"
-          variant="spinner"
-        />
+        <Icon className="size-9 animate-spin text-white" variant="spinner" />
       )}
 
-      {/* LEAGUE NAME */}
       {!leagueLoading && (
-        <Typography className="text-interface-yellow" variant="h1">
-          {!leagueError ? league?.name || "-" : "-"}
+        <Typography className="line-clamp-1 break-all text-white" variant="h1">
+          {!leagueError && !!league ? league.name : "-"}
         </Typography>
       )}
     </div>
