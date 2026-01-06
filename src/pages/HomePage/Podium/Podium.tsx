@@ -105,7 +105,7 @@ export default function Podium(props: PodiumProps) {
               )}
             >
               <div className="flex">
-                <Typography className="text-4xl text-shadow-stroke-4xl">
+                <Typography className="text-4xl">
                   {index === 0 ? "2" : index === 1 ? "1" : "3"}
                 </Typography>
 

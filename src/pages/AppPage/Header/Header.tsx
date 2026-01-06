@@ -23,10 +23,7 @@ export default function Header(props: HeaderProps) {
 
       {/* LEAGUE NAME */}
       {!leagueLoading && (
-        <Typography
-          className="text-interface-yellow text-shadow-stroke-4xl"
-          variant="h1"
-        >
+        <Typography className="text-interface-yellow" variant="h1">
           {!leagueError ? league?.name || "-" : "-"}
         </Typography>
       )}

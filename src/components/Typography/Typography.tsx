@@ -13,10 +13,10 @@ export default function Typography(props: TypographyProps) {
       ...rest,
       className: twMerge(
         variant === "h1"
-          ? "text-3xl text-shadow-stroke-3xl"
+          ? "text-3xl"
           : variant === "h2"
-            ? "text-xl text-shadow-stroke-xl"
-            : "text-base text-shadow-stroke-base",
+            ? "text-xl"
+            : "text-base",
         className,
       ),
     },
