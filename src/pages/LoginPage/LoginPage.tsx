@@ -1,6 +1,7 @@
 import { twMerge } from "tailwind-merge";
 
 import { Banner, Button, Icon, Typography } from "#src/components";
+import { Title } from "#src/fragments";
 
 import useLoginPage from "./LoginPage.hooks";
 import type LoginPageProps from "./LoginPage.types";
@@ -14,6 +15,9 @@ export default function LoginPage(props: LoginPageProps) {
       {...rest}
       className="relative z-0 flex size-full flex-col items-center justify-around"
     >
+      {/* TITLE */}
+      <Title>Login</Title>
+
       {/* TITLE */}
       <div className="flex flex-col items-center gap-1">
         <Typography
