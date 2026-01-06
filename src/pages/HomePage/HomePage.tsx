@@ -1,4 +1,5 @@
 import { Alert, Icon } from "#src/components";
+import { Title } from "#src/fragments";
 
 import useHomePage from "./HomePage.hooks";
 import type HomePageProps from "./HomePage.types";
@@ -13,6 +14,9 @@ export default function HomePage(props: HomePageProps) {
       {...rest}
       className="flex size-full flex-col items-center justify-evenly gap-4"
     >
+      {/* TITLE */}
+      <Title>Home</Title>
+
       {/* LOADING */}
       {leagueLoading && (
         <Icon
