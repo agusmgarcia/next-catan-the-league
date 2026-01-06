@@ -27,7 +27,7 @@ export default function LeagueSummaryCard(props: LeagueSummaryCardProps) {
     <div
       {...rest}
       className={twMerge(
-        "h-71.5 w-full max-w-150 rounded-lg border-4 bg-interface-yellow bg-noise-30! p-4",
+        "h-71.5 w-full max-w-150 rounded-lg border-4 bg-interface-yellow noise-30 p-4",
         "flex flex-col gap-4",
 
         "rotate-y-90 transition-transform delay-500 duration-500 will-change-transform",

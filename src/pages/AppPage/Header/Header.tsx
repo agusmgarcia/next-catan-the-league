@@ -9,7 +9,7 @@ export default function Header(props: HeaderProps) {
   return (
     <div
       {...rest}
-      className="flex h-32 w-full flex-col items-center justify-center gap-1 border-b-4 bg-interface-red bg-noise-30"
+      className="flex h-32 w-full flex-col items-center justify-center gap-1 border-b-4 bg-interface-red noise-30"
     >
       {/* CROWN */}
       <Icon className="size-9 text-interface-yellow" variant="crown" />

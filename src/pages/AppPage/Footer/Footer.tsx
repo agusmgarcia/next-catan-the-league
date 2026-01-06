@@ -7,7 +7,7 @@ export default function Footer(props: FooterProps) {
   return (
     <div
       {...rest}
-      className="hidden h-16 w-full border-t-4 bg-interface-red bg-noise-30"
+      className="hidden h-16 w-full border-t-4 bg-interface-red noise-30"
     ></div>
   );
 }
