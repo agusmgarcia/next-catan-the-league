@@ -36,8 +36,7 @@ export default function LoginPage(props: LoginPageProps) {
         {/* GOOGLE */}
         <Button
           className={twMerge(
-            "flex w-50 items-center justify-center gap-1 rounded-lg border-2 border-white bg-google-600 text-white shadow-md shadow-google-600",
-            "hover:bg-google-500",
+            "flex w-50 items-center justify-center gap-1 rounded-lg border-2 border-white bg-google text-white shadow-md shadow-google",
             "disabled:shadow-none",
           )}
           disabled={loginDisabled}
