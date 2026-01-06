@@ -54,6 +54,13 @@ export default function Icon(props: IconProps) {
         </svg>
       );
 
+    case "profile":
+      return (
+        <svg {...rest}>
+          <path d="M4 22c0 -4.4183 3.58172 -8 8 -8 4.4183 0 8 3.5817 8 8h-2c0 -3.3137 -2.6863 -6 -6 -6 -3.31371 0 -6 2.6863 -6 6H4Zm8 -9c-3.315 0 -6 -2.685 -6 -6s2.685 -6 6 -6 6 2.685 6 6 -2.685 6 -6 6Zm0 -2c2.21 0 4 -1.79 4 -4s-1.79 -4 -4 -4 -4 1.79 -4 4 1.79 4 4 4Z" />
+        </svg>
+      );
+
     case "spinner":
       return (
         <svg {...rest}>
