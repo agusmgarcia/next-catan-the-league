@@ -41,11 +41,12 @@ export default function Podium(props: PodiumProps) {
               !player && "invisible",
             )}
           >
-            <div className="flex flex-col items-center">
+            <div className="relative flex flex-col items-center">
               {/* CROWN */}
               {leagueCompleted && index === 1 && (
                 <Icon
                   className={twMerge(
+                    "absolute -right-4 bottom-0",
                     "opacity-0 transition-opacity delay-600",
                     ready && "opacity-100",
 
@@ -56,7 +57,7 @@ export default function Podium(props: PodiumProps) {
                     player?.color === "green" && "text-player-green",
                     player?.color === "brown" && "text-player-brown",
                   )}
-                  variant="crown"
+                  variant="medal"
                 />
               )}
 
@@ -88,6 +89,7 @@ export default function Podium(props: PodiumProps) {
               className={twMerge(
                 "flex items-center justify-center",
                 "w-full rounded-t-lg border-4 border-black/40 noise-30",
+                "shadow-2xl",
 
                 "origin-bottom scale-y-0 transition-transform duration-500 will-change-transform",
                 ready && "scale-y-100",
@@ -116,7 +118,7 @@ export default function Podium(props: PodiumProps) {
             </div>
 
             {/* NAME */}
-            <Typography className="line-clamp-1 break-all">
+            <Typography className="line-clamp-1 font-semibold break-all">
               {player?.name || "-"}
             </Typography>
           </div>

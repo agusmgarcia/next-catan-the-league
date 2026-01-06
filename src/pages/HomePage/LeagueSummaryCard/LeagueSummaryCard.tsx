@@ -1,7 +1,14 @@
 import { twMerge } from "tailwind-merge";
 
 import victoryPoint from "#public/assets/victoryPoint.webp";
-import { Alert, Divider, Icon, Image, Typography } from "#src/components";
+import {
+  Alert,
+  Anchor,
+  Divider,
+  Icon,
+  Image,
+  Typography,
+} from "#src/components";
 
 import useLeagueSummaryCard from "./LeagueSummaryCard.hooks";
 import type LeagueSummaryCardProps from "./LeagueSummaryCard.types";
@@ -27,7 +34,7 @@ export default function LeagueSummaryCard(props: LeagueSummaryCardProps) {
     <div
       {...rest}
       className={twMerge(
-        "h-71.5 w-full max-w-150 rounded-lg border-4 bg-interface-yellow noise-30 p-4",
+        "h-71.5 w-full max-w-150 rounded-lg border-4 bg-interface-yellow noise-5 p-4 shadow-2xl",
         "flex flex-col gap-4",
 
         "rotate-y-90 transition-transform delay-500 duration-500 will-change-transform",
@@ -35,7 +42,19 @@ export default function LeagueSummaryCard(props: LeagueSummaryCardProps) {
       )}
     >
       {/* NAME */}
-      <Typography variant="h2">Victory Points</Typography>
+      <div className="flex items-center justify-between gap-1">
+        <Typography className="font-semibold" variant="h2">
+          Victory Points
+        </Typography>
+
+        <div className="flex items-center gap-1">
+          <Image
+            alt="victory points"
+            className="size-7"
+            src={victoryPoint.src}
+          />
+        </div>
+      </div>
 
       {/* DIVIDER */}
       <Divider />
@@ -47,7 +66,7 @@ export default function LeagueSummaryCard(props: LeagueSummaryCardProps) {
             {/* COLOR */}
             <div
               className={twMerge(
-                "size-4 rounded-xs border border-black",
+                "size-4 flex-none rounded-xs border border-black",
 
                 player.color === "red" && "bg-player-red",
                 player.color === "blue" && "bg-player-blue",
@@ -59,16 +78,16 @@ export default function LeagueSummaryCard(props: LeagueSummaryCardProps) {
             />
 
             {/* NAME */}
-            <Typography>{player.name}</Typography>
+            <Typography className="line-clamp-1 font-semibold break-all">
+              <Anchor href={`/profiles/${player.id}/view`}>
+                {player.name}
+              </Anchor>
+            </Typography>
 
-            <div className="ml-auto flex items-center gap-1">
-              <Typography>{player.victoryPoints}</Typography>
-              <Image
-                alt="victory points"
-                className="size-4"
-                src={victoryPoint.src}
-              />
-            </div>
+            {/* VICTORY POINTS */}
+            <Typography className="ml-auto min-w-7 text-center font-semibold">
+              {player.victoryPoints}
+            </Typography>
           </div>
         ))}
       </div>
