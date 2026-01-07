@@ -7,7 +7,7 @@ import { useLeague, useMatches } from "#src/store";
 import type ViewLeaguePageProps from "./ViewLeaguePage.types";
 
 export default function useViewLeaguePage(props: ViewLeaguePageProps) {
-  const { id: leagueId } = useParams();
+  const leagueId = useParams()?.id;
   const { replace } = useRouter();
 
   const { league, leagueError, leagueLoading, setLeagueId } = useLeague();
