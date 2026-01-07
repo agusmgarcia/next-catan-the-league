@@ -50,7 +50,7 @@ export default class LeagueIdSlice extends LocalStorageSlice<
     );
   }
 
-  set(id: string): void {
+  set(id: string | undefined): void {
     this.response = id;
   }
 }

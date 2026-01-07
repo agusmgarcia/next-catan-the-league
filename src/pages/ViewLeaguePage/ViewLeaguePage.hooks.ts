@@ -27,7 +27,7 @@ export default function useViewLeaguePage(props: ViewLeaguePageProps) {
     if (!!leagueError) return;
     if (league?.id === leagueId) return;
     if (Array.isArray(leagueId)) return;
-    setLeagueId(leagueId || "");
+    setLeagueId(leagueId);
     replace("/");
   }, [league?.id, leagueError, leagueId, leagueLoading, replace, setLeagueId]);
 
