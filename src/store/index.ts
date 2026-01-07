@@ -4,10 +4,12 @@ import { LeagueIdSlice } from "./LeagueIdSlice";
 import { LeagueSlice, type LeagueSliceTypes } from "./LeagueSlice";
 import { LeaguesSlice, type LeaguesSliceTypes } from "./LeaguesSlice";
 import { UserSlice, type UserSliceTypes } from "./UserSlice";
+import { UsersSlice, type UsersSliceTypes } from "./UsersSlice";
 
-export type User = NonNullable<UserSliceTypes.Response>;
 export type League = NonNullable<LeagueSliceTypes.Response>;
 export type Leagues = NonNullable<LeaguesSliceTypes.Response>;
+export type User = NonNullable<UserSliceTypes.Response>;
+export type Users = NonNullable<UsersSliceTypes.Response>;
 
 const { useSelector, ...reactStore } = createReactStore({
   slices: {
@@ -15,6 +17,7 @@ const { useSelector, ...reactStore } = createReactStore({
     leagueId: LeagueIdSlice,
     leagues: LeaguesSlice,
     user: UserSlice,
+    users: UsersSlice,
   },
 });
 
@@ -53,5 +56,15 @@ export function useUser() {
     user: useSelector((state) => state.user.response),
     userError: useSelector((state) => state.user.error),
     userLoading: useSelector((state) => state.user.loading),
+  };
+}
+
+export function useUsers() {
+  const { userError, userLoading } = useUser();
+
+  return {
+    users: useSelector((state) => state.users.response),
+    usersError: useSelector((state) => state.users.error) || userError,
+    usersLoading: useSelector((state) => state.users.loading) || userLoading,
   };
 }

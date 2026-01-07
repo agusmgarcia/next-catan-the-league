@@ -34,15 +34,32 @@ export type GetLeagueResponse =
     }
   | undefined;
 
+export type GetUsersRequest = {
+  userId: string;
+};
+
+export type GetUsersResponse = Pick<
+  NonNullable<GetUserResponse>,
+  | "createdAt"
+  | "defaultColor"
+  | "email"
+  | "id"
+  | "name"
+  | "photoURL"
+  | "updatedAt"
+>[];
+
 export type GetUserRequest = {};
 
 export type GetUserResponse =
   | {
-      color: PlayerColor;
+      createdAt: number;
+      defaultColor: PlayerColor;
       email: string | undefined;
       id: string;
       name: string;
       photoURL: string;
+      updatedAt: number;
     }
   | undefined;
 

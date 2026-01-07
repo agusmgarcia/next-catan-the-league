@@ -1,4 +1,4 @@
-import { delay } from "@agusmgarcia/react-essentials-utils";
+import { delay, filters } from "@agusmgarcia/react-essentials-utils";
 import { type FirebaseApp, initializeApp } from "firebase/app";
 import {
   type Auth as FirebaseAuth,
@@ -8,13 +8,20 @@ import {
   signOut,
 } from "firebase/auth";
 import {
+  collection,
   doc,
+  documentId,
   type Firestore,
+  getDocs,
   getFirestore,
+  query,
+  type QuerySnapshot,
   runTransaction,
+  where,
 } from "firebase/firestore";
 
 import unknown from "#public/assets/unknown.webp";
+import { splitArrays } from "#src/utils";
 
 import {
   type GetLeagueRequest,
@@ -23,6 +30,8 @@ import {
   type GetLeaguesResponse,
   type GetUserRequest,
   type GetUserResponse,
+  type GetUsersRequest,
+  type GetUsersResponse,
   type LoginRequest,
   type LoginResponse,
   type LogoutRequest,
@@ -31,6 +40,13 @@ import {
 
 export default class CatanClient {
   static readonly INSTANCE: CatanClient = new CatanClient();
+
+  private static readonly COLLECTIONS = {
+    leagues: "leagues",
+    users: "users",
+  };
+
+  private static readonly MAX_IN_ELEMENTS = 30;
 
   private readonly app: FirebaseApp;
   private readonly auth: FirebaseAuth;
@@ -128,6 +144,43 @@ export default class CatanClient {
     };
   }
 
+  async getUsers(
+    { userId }: GetUsersRequest,
+    signal: AbortSignal,
+  ): Promise<GetUsersResponse> {
+    const leaguesDocs = await getDocs(
+      query(
+        collection(this.db, CatanClient.COLLECTIONS.leagues),
+        where("deletedAt", "==", null),
+        where("players.ids", "array-contains", userId),
+      ),
+    );
+
+    signal.throwIfAborted();
+
+    const userDocs: QuerySnapshot[] = await Promise.all(
+      leaguesDocs.docs
+        .flatMap((d) => d.data().players?.ids || [])
+        .filter(filters.distinct)
+        .reduce(...splitArrays<string>(CatanClient.MAX_IN_ELEMENTS))
+        .map((userIds: string[]) =>
+          getDocs(
+            query(
+              collection(this.db, CatanClient.COLLECTIONS.users),
+              where(documentId(), "in", userIds),
+            ),
+          ),
+        ),
+    );
+
+    return userDocs.flatMap((doc) =>
+      doc.docs.map((d) => ({
+        ...CatanClient.transformUser(d.data()),
+        id: d.id,
+      })),
+    );
+  }
+
   async getUser(
     {}: GetUserRequest,
     signal: AbortSignal,
@@ -138,38 +191,56 @@ export default class CatanClient {
     const user = this.auth.currentUser;
     if (!user) return undefined;
 
-    const userRef = doc(this.db, "users", user.uid);
+    const userRef = doc(this.db, CatanClient.COLLECTIONS.users, user.uid);
 
     return await runTransaction(this.db, async (transaction) => {
       signal.throwIfAborted();
-      const userDoc = await transaction.get(userRef);
 
+      const userDoc = await transaction.get(userRef);
       signal.throwIfAborted();
+
       if (!!userDoc.exists()) {
         const data = userDoc.data();
-        return {
-          color: data.color || "blue",
-          email: data.email || undefined,
-          id: userDoc.id,
-          name: data.name || "Unknown",
-          photoURL: data.photoURL || unknown.src,
-        };
+
+        if (!!data.deletedAt) {
+          const now = Date.now();
+          transaction.update(userRef, { deletedAt: null, updatedAt: now });
+
+          return {
+            ...CatanClient.transformUser({ ...data, updatedAt: now }),
+            id: userDoc.id,
+          };
+        }
+
+        return { ...CatanClient.transformUser(data), id: userDoc.id };
       }
 
+      const now = Date.now();
       const newUser: Omit<NonNullable<GetUserResponse>, "id"> = {
-        color: "blue",
+        createdAt: now,
+        defaultColor: "blue",
         email: user.email || undefined,
         name: user.displayName || "Unknown",
         photoURL: user.photoURL || unknown.src,
+        updatedAt: now,
       };
 
-      transaction.set(userRef, {
-        ...newUser,
-        email: newUser.email || null,
-      });
-
-      return { id: user.uid, ...newUser };
+      transaction.set(userRef, { ...newUser, email: newUser.email || null });
+      return { ...newUser, id: user.uid };
     });
+  }
+
+  private static transformUser(
+    data: any,
+  ): Omit<NonNullable<GetUserResponse>, "id"> {
+    return {
+      createdAt: data?.createdAt || 0,
+      defaultColor: data?.defaultColor || "blue",
+      email: data?.email || undefined,
+      name: data?.name || "Unknown",
+      photoURL: data?.photoURL || unknown.src,
+      updatedAt: data?.updatedAt || 0,
+    };
   }
 
   async login({}: LoginRequest, _: AbortSignal): Promise<LoginResponse> {
