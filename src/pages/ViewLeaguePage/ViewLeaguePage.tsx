@@ -1,4 +1,4 @@
-import { Alert, Icon } from "#src/components";
+import { Alert, Icon, Typography } from "#src/components";
 import { Title } from "#src/fragments";
 
 import { LeagueSummaryCard } from "./LeagueSummaryCard";
@@ -27,7 +27,9 @@ export default function ViewLeaguePage(props: ViewLeaguePageProps) {
 
       {/* ERROR */}
       {!leagueLoading && !!leagueError && (
-        <Alert variant="error">{leagueError}</Alert>
+        <Alert variant="error">
+          <Typography>{leagueError}</Typography>
+        </Alert>
       )}
 
       {/* BODY */}

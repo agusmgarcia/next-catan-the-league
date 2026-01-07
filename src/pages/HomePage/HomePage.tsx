@@ -1,4 +1,4 @@
-import { Alert, Icon } from "#src/components";
+import { Alert, Icon, Typography } from "#src/components";
 import { Title } from "#src/fragments";
 
 import useHomePage from "./HomePage.hooks";
@@ -22,7 +22,9 @@ export default function HomePage(props: HomePageProps) {
 
       {/* ERROR */}
       {!leagueLoading && !!leagueError && (
-        <Alert variant="error">{leagueError}</Alert>
+        <Alert variant="error">
+          <Typography>{leagueError}</Typography>
+        </Alert>
       )}
     </div>
   );

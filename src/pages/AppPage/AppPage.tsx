@@ -1,6 +1,6 @@
 import papyrusBlur from "#public/assets/papyrus.blur.svg";
 import papyrus from "#public/assets/papyrus.webp";
-import { Icon, Image } from "#src/components";
+import { Icon, Image, Typography } from "#src/components";
 import { Alert } from "#src/components";
 
 import useAppPage from "./AppPage.hooks";
@@ -45,7 +45,9 @@ export default function AppPage(props: AppPageProps) {
 
               {/* ERROR */}
               {!userLoading && !!userError && (
-                <Alert variant="error">{userError}</Alert>
+                <Alert variant="error">
+                  <Typography>{userError}</Typography>
+                </Alert>
               )}
 
               {/* CHILDREN */}

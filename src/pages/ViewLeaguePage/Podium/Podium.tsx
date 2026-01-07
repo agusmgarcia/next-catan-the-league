@@ -27,7 +27,9 @@ export default function Podium(props: PodiumProps) {
 
       {/* ERROR */}
       {!playersLoading && !!playersError && (
-        <Alert variant="error">{playersError}</Alert>
+        <Alert variant="error">
+          <Typography>{playersError}</Typography>
+        </Alert>
       )}
 
       {/* BODY */}

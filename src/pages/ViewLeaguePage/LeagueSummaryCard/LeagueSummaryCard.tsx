@@ -28,7 +28,11 @@ export default function LeagueSummaryCard(props: LeagueSummaryCardProps) {
 
   // ERROR
   if (!leagueLoading && !!leagueError)
-    return <Alert variant="error">{leagueError}</Alert>;
+    return (
+      <Alert variant="error">
+        <Typography>{leagueError}</Typography>
+      </Alert>
+    );
 
   return (
     <div
