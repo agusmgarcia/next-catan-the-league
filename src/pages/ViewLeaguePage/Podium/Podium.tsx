@@ -121,7 +121,7 @@ export default function Podium(props: PodiumProps) {
 
             {/* NAME */}
             <Typography className="line-clamp-1 font-semibold break-all">
-              {player?.name || "-"}
+              {player?.name || ""}
             </Typography>
           </div>
         ))}

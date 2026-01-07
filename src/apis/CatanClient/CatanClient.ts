@@ -1,4 +1,4 @@
-import { delay, filters } from "@agusmgarcia/react-essentials-utils";
+import { filters } from "@agusmgarcia/react-essentials-utils";
 import { type FirebaseApp, initializeApp } from "firebase/app";
 import {
   type Auth as FirebaseAuth,
@@ -12,6 +12,7 @@ import {
   doc,
   documentId,
   type Firestore,
+  getDoc,
   getDocs,
   getFirestore,
   query,
@@ -87,69 +88,23 @@ export default class CatanClient {
 
   async getLeague(
     { id }: GetLeagueRequest,
-    _: AbortSignal,
+    signal: AbortSignal,
   ): Promise<GetLeagueResponse> {
-    // TODO: fetch from the database.
-    await delay(100);
+    if (!id) return undefined;
 
-    if (id !== "league-2026") return undefined;
+    const leagueDoc = await getDoc(
+      doc(this.db, CatanClient.COLLECTIONS.leagues, id),
+    );
+
+    signal.throwIfAborted();
+    if (!leagueDoc.exists()) return undefined;
+
+    const data = leagueDoc.data();
+    if (!!data.deletedAt) return undefined;
 
     return {
-      completedAt: undefined,
-      createdAt: Date.now(),
-      id: "league-2026",
-      name: "Catan League 2026",
-      players: [
-        {
-          admin: false,
-          color: "red",
-          id: "user1",
-          name: "Ricardo Fort",
-          photoURL: unknown.src,
-          victoryPoints: 60,
-        },
-        {
-          admin: false,
-          color: "white",
-          id: "user2",
-          name: "Flavio Mendoza",
-          photoURL: unknown.src,
-          victoryPoints: 32,
-        },
-        {
-          admin: true,
-          color: "blue",
-          id: "user3",
-          name: "Angela Torres",
-          photoURL: unknown.src,
-          victoryPoints: 16,
-        },
-        {
-          admin: false,
-          color: "orange",
-          id: "user4",
-          name: "Carla Peterson",
-          photoURL: unknown.src,
-          victoryPoints: 8,
-        },
-        {
-          admin: false,
-          color: "green",
-          id: "user5",
-          name: "Diego Peretti",
-          photoURL: unknown.src,
-          victoryPoints: 3,
-        },
-        {
-          admin: false,
-          color: "brown",
-          id: "user6",
-          name: "Emilia Attias",
-          photoURL: unknown.src,
-          victoryPoints: 1,
-        },
-      ],
-      updatedAt: Date.now(),
+      ...CatanClient.transformLeague(data),
+      id: leagueDoc.id,
     };
   }
 
@@ -165,9 +120,6 @@ export default class CatanClient {
           admin: !!data?.players?.admins?.at(index),
           color: data?.players?.colors?.at(index) || "blue",
           id: playerId,
-          name: "Unknown", // TODO: remove it.
-          photoURL: unknown.src, // TODO: remove it.
-          victoryPoints: 0, // TODO: remove it.
         })) || [],
       updatedAt: data?.updatedAt || 0,
     };

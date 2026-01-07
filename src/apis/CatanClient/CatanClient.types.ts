@@ -29,9 +29,6 @@ export type GetLeagueResponse =
         admin: boolean;
         color: PlayerColor;
         id: string;
-        name: string; // TODO: remove it
-        photoURL: string; // TODO: remove it
-        victoryPoints: number; // TODO: remove it
       }[];
       updatedAt: number;
     }

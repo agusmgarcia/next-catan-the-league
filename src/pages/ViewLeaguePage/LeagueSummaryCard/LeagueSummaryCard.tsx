@@ -14,11 +14,11 @@ import useLeagueSummaryCard from "./LeagueSummaryCard.hooks";
 import type LeagueSummaryCardProps from "./LeagueSummaryCard.types";
 
 export default function LeagueSummaryCard(props: LeagueSummaryCardProps) {
-  const { league, leagueError, leagueLoading, ready, ...rest } =
+  const { players, playersError, playersLoading, ready, ...rest } =
     useLeagueSummaryCard(props);
 
   // LOADING
-  if (leagueLoading)
+  if (playersLoading)
     return (
       <Icon
         className="size-16 animate-spin text-interface-red"
@@ -27,10 +27,10 @@ export default function LeagueSummaryCard(props: LeagueSummaryCardProps) {
     );
 
   // ERROR
-  if (!leagueLoading && !!leagueError)
+  if (!playersLoading && !!playersError)
     return (
       <Alert variant="error">
-        <Typography>{leagueError}</Typography>
+        <Typography>{playersError}</Typography>
       </Alert>
     );
 
@@ -65,7 +65,7 @@ export default function LeagueSummaryCard(props: LeagueSummaryCardProps) {
 
       {/* PLAYERS */}
       <div className="flex flex-col gap-2">
-        {league?.players.map((player) => (
+        {players.map((player) => (
           <div key={player.id} className="flex items-center gap-2">
             {/* COLOR */}
             <div
