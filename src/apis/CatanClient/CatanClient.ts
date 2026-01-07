@@ -7,6 +7,12 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
+import {
+  doc,
+  type Firestore,
+  getFirestore,
+  runTransaction,
+} from "firebase/firestore";
 
 import unknown from "#public/assets/unknown.webp";
 
@@ -29,6 +35,7 @@ export default class CatanClient {
   private readonly app: FirebaseApp;
   private readonly auth: FirebaseAuth;
   private readonly googleAuthProvider: GoogleAuthProvider;
+  private readonly db: Firestore;
 
   private constructor() {
     this.app = initializeApp({
@@ -42,6 +49,7 @@ export default class CatanClient {
 
     this.auth = getAuth(this.app);
     this.googleAuthProvider = new GoogleAuthProvider();
+    this.db = getFirestore(this.app);
   }
 
   async getLeagues(
@@ -130,12 +138,38 @@ export default class CatanClient {
     const user = this.auth.currentUser;
     if (!user) return undefined;
 
-    return {
-      email: user.email || "",
-      id: user.uid,
-      name: user.displayName || "Unknown",
-      photoURL: user.photoURL || unknown.src,
-    };
+    const userRef = doc(this.db, "users", user.uid);
+
+    return await runTransaction(this.db, async (transaction) => {
+      signal.throwIfAborted();
+      const userDoc = await transaction.get(userRef);
+
+      signal.throwIfAborted();
+      if (!!userDoc.exists()) {
+        const data = userDoc.data();
+        return {
+          color: data.color || "blue",
+          email: data.email || undefined,
+          id: userDoc.id,
+          name: data.name || "Unknown",
+          photoURL: data.photoURL || unknown.src,
+        };
+      }
+
+      const newUser: Omit<NonNullable<GetUserResponse>, "id"> = {
+        color: "blue",
+        email: user.email || undefined,
+        name: user.displayName || "Unknown",
+        photoURL: user.photoURL || unknown.src,
+      };
+
+      transaction.set(userRef, {
+        ...newUser,
+        email: newUser.email || null,
+      });
+
+      return { id: user.uid, ...newUser };
+    });
   }
 
   async login({}: LoginRequest, _: AbortSignal): Promise<LoginResponse> {

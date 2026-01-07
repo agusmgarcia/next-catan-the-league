@@ -1,3 +1,11 @@
+export type PlayerColor =
+  | "blue"
+  | "brown"
+  | "green"
+  | "orange"
+  | "red"
+  | "white";
+
 export type GetLeaguesRequest = {
   userId: string;
 };
@@ -17,7 +25,7 @@ export type GetLeagueResponse =
       id: string;
       name: string;
       players: {
-        color: "blue" | "brown" | "green" | "orange" | "red" | "white";
+        color: PlayerColor;
         id: string;
         name: string;
         photoURL: string;
@@ -30,7 +38,8 @@ export type GetUserRequest = {};
 
 export type GetUserResponse =
   | {
-      email: string;
+      color: PlayerColor;
+      email: string | undefined;
       id: string;
       name: string;
       photoURL: string;
