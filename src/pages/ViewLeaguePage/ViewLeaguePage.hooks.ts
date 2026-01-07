@@ -2,7 +2,7 @@ import { errors } from "@agusmgarcia/react-essentials-utils";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo } from "react";
 
-import { useLeague } from "#src/store";
+import { useLeague, useMatches } from "#src/store";
 
 import type ViewLeaguePageProps from "./ViewLeaguePage.types";
 
@@ -10,16 +10,17 @@ export default function useViewLeaguePage(props: ViewLeaguePageProps) {
   const { id: leagueId } = useParams();
   const { replace } = useRouter();
 
-  const {
-    league,
-    leagueError: leagueErrorFromStore,
-    leagueLoading,
-    setLeagueId,
-  } = useLeague();
+  const { league, leagueError, leagueLoading, setLeagueId } = useLeague();
+  const { matchesError, matchesLoading } = useMatches();
 
-  const leagueError = useMemo(
-    () => errors.getMessage(leagueErrorFromStore),
-    [leagueErrorFromStore],
+  const error = useMemo(
+    () => errors.getMessage(leagueError || matchesError),
+    [leagueError, matchesError],
+  );
+
+  const loading = useMemo(
+    () => leagueLoading || matchesLoading,
+    [leagueLoading, matchesLoading],
   );
 
   useEffect(() => {
@@ -31,5 +32,11 @@ export default function useViewLeaguePage(props: ViewLeaguePageProps) {
     replace("/");
   }, [league?.id, leagueError, leagueId, leagueLoading, replace, setLeagueId]);
 
-  return { ...props, league, leagueError, leagueLoading };
+  return {
+    ...props,
+    error,
+    heading: league?.name,
+    loading,
+    title: league?.name,
+  };
 }

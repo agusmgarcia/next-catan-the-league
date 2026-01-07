@@ -1,4 +1,4 @@
-import { errors, sorts } from "@agusmgarcia/react-essentials-utils";
+import { sorts } from "@agusmgarcia/react-essentials-utils";
 import { useEffect, useMemo, useState } from "react";
 
 import { useLeague, useMatches, type Users, useUsers } from "#src/store";
@@ -6,21 +6,11 @@ import { useLeague, useMatches, type Users, useUsers } from "#src/store";
 import type LeagueSummaryCardProps from "./LeagueSummaryCard.types";
 
 export default function useLeagueSummaryCard(props: LeagueSummaryCardProps) {
-  const { league, leagueError, leagueLoading } = useLeague();
-  const { users, usersError, usersLoading } = useUsers();
-  const { matches, matchesError, matchesLoading } = useMatches();
+  const { league } = useLeague();
+  const { users } = useUsers();
+  const { matches } = useMatches();
 
   const [ready, setReady] = useState(false);
-
-  const playersError = useMemo(
-    () => errors.getMessage(matchesError || leagueError || usersError),
-    [leagueError, matchesError, usersError],
-  );
-
-  const playersLoading = useMemo(
-    () => matchesLoading || leagueLoading || usersLoading,
-    [leagueLoading, matchesLoading, usersLoading],
-  );
 
   const players = useMemo(() => {
     const recordOfUsers = users.reduce(
@@ -47,14 +37,8 @@ export default function useLeagueSummaryCard(props: LeagueSummaryCardProps) {
   }, [league?.id, league?.players, matches, users]);
 
   useEffect(() => {
-    setReady(!playersLoading && !playersError);
-  }, [playersLoading, playersError]);
+    setReady(true);
+  }, []);
 
-  return {
-    ...props,
-    players,
-    playersError,
-    playersLoading,
-    ready,
-  };
+  return { ...props, players, ready };
 }

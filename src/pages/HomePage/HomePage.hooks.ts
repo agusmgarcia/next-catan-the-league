@@ -9,23 +9,16 @@ import type HomePageProps from "./HomePage.types";
 export default function useHomePage(props: HomePageProps) {
   const { replace } = useRouter();
 
-  const {
-    league,
-    leagueError: leagueErrorFromStore,
-    leagueLoading,
-  } = useLeague();
+  const { league, leagueError, leagueLoading: loading } = useLeague();
 
-  const leagueError = useMemo(
-    () => errors.getMessage(leagueErrorFromStore),
-    [leagueErrorFromStore],
-  );
+  const error = useMemo(() => errors.getMessage(leagueError), [leagueError]);
 
   useEffect(() => {
-    if (leagueLoading) return;
-    if (!!leagueError) return;
+    if (loading) return;
+    if (!!error) return;
     if (!league) replace("/leagues/create");
     else replace(`/leagues/${league.id}/view`);
-  }, [league, leagueError, leagueLoading, replace]);
+  }, [league, error, loading, replace]);
 
-  return { ...props, leagueError, leagueLoading };
+  return { ...props, error, loading, title: "Home" };
 }

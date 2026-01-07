@@ -23,5 +23,5 @@ export default function useAppPage(props: AppPageProps) {
     else if (!!user && pathname === "/login") replace("/");
   }, [pathname, replace, user, userError, userLoading]);
 
-  return { ...props, user, userError, userLoading };
+  return { ...props };
 }

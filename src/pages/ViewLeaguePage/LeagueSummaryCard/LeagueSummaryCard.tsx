@@ -1,38 +1,13 @@
 import { twMerge } from "tailwind-merge";
 
 import victoryPoint from "#public/assets/victoryPoint.webp";
-import {
-  Alert,
-  Anchor,
-  Divider,
-  Icon,
-  Image,
-  Typography,
-} from "#src/components";
+import { Anchor, Divider, Image, Typography } from "#src/components";
 
 import useLeagueSummaryCard from "./LeagueSummaryCard.hooks";
 import type LeagueSummaryCardProps from "./LeagueSummaryCard.types";
 
 export default function LeagueSummaryCard(props: LeagueSummaryCardProps) {
-  const { players, playersError, playersLoading, ready, ...rest } =
-    useLeagueSummaryCard(props);
-
-  // LOADING
-  if (playersLoading)
-    return (
-      <Icon
-        className="size-16 animate-spin text-interface-red"
-        variant="spinner"
-      />
-    );
-
-  // ERROR
-  if (!playersLoading && !!playersError)
-    return (
-      <Alert variant="error">
-        <Typography>{playersError}</Typography>
-      </Alert>
-    );
+  const { players, ready, ...rest } = useLeagueSummaryCard(props);
 
   return (
     <div

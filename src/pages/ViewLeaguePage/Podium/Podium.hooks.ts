@@ -1,4 +1,4 @@
-import { errors, sorts } from "@agusmgarcia/react-essentials-utils";
+import { sorts } from "@agusmgarcia/react-essentials-utils";
 import { useEffect, useMemo, useState } from "react";
 
 import unknown from "#public/assets/unknown.webp";
@@ -7,21 +7,11 @@ import { useLeague, useMatches, type Users, useUsers } from "#src/store";
 import type PodiumProps from "./Podium.types";
 
 export default function usePodium(props: PodiumProps) {
-  const { league, leagueError, leagueLoading } = useLeague();
-  const { users, usersError, usersLoading } = useUsers();
-  const { matches, matchesError, matchesLoading } = useMatches();
+  const { league } = useLeague();
+  const { users } = useUsers();
+  const { matches } = useMatches();
 
   const [ready, setReady] = useState(false);
-
-  const playersError = useMemo(
-    () => errors.getMessage(matchesError || leagueError || usersError),
-    [leagueError, matchesError, usersError],
-  );
-
-  const playersLoading = useMemo(
-    () => matchesLoading || leagueLoading || usersLoading,
-    [leagueLoading, matchesLoading, usersLoading],
-  );
 
   const players = useMemo(() => {
     const recordOfUsers = users.reduce(
@@ -52,15 +42,8 @@ export default function usePodium(props: PodiumProps) {
   );
 
   useEffect(() => {
-    setReady(!playersLoading && !playersError);
-  }, [playersError, playersLoading]);
+    setReady(true);
+  }, []);
 
-  return {
-    ...props,
-    leagueCompleted,
-    players,
-    playersError,
-    playersLoading,
-    ready,
-  };
+  return { ...props, leagueCompleted, players, ready };
 }
