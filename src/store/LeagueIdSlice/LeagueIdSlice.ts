@@ -28,10 +28,15 @@ export default class LeagueIdSlice extends LocalStorageSlice<
           return;
 
         this.response =
-          this.slices.leagues.response.find((l) => !l.completedAt)?.id ||
+          this.slices.leagues.response
+            .filter((l) => !l.completedAt)
+            .sort((l1, l2) => sorts.byNumberDesc(l1.updatedAt, l2.updatedAt))
+            .find(finds.first)?.id ||
           this.slices.leagues.response
             .filter((l) => !!l.completedAt)
-            .sort((a, b) => sorts.byNumberDesc(a.completedAt!, b.completedAt!))
+            .sort((l1, l2) =>
+              sorts.byNumberDesc(l1.completedAt!, l2.completedAt!),
+            )
             .find(finds.first)?.id;
       },
       equals.shallow,
@@ -42,10 +47,15 @@ export default class LeagueIdSlice extends LocalStorageSlice<
       (leagues) =>
         (this.response =
           leagues.find((l) => l.id === this.response)?.id ||
-          leagues.find((l) => !l.completedAt)?.id ||
+          leagues
+            .filter((l) => !l.completedAt)
+            .sort((l1, l2) => sorts.byNumberDesc(l1.updatedAt, l2.updatedAt))
+            .find(finds.first)?.id ||
           leagues
             .filter((l) => !!l.completedAt)
-            .sort((a, b) => sorts.byNumberDesc(a.completedAt!, b.completedAt!))
+            .sort((l1, l2) =>
+              sorts.byNumberDesc(l1.completedAt!, l2.completedAt!),
+            )
             .find(finds.first)?.id),
     );
   }

@@ -10,10 +10,10 @@ export type GetLeaguesRequest = {
   userId: string;
 };
 
-export type GetLeaguesResponse = {
-  completedAt: number | undefined;
-  id: string;
-}[];
+export type GetLeaguesResponse = Pick<
+  NonNullable<GetLeagueResponse>,
+  "completedAt" | "createdAt" | "id" | "name" | "players" | "updatedAt"
+>[];
 
 export type GetLeagueRequest = {
   id: string;
@@ -22,15 +22,18 @@ export type GetLeagueRequest = {
 export type GetLeagueResponse =
   | {
       completedAt: number | undefined;
+      createdAt: number;
       id: string;
       name: string;
       players: {
+        admin: boolean;
         color: PlayerColor;
         id: string;
-        name: string;
-        photoURL: string;
-        victoryPoints: number;
+        name: string; // TODO: remove it
+        photoURL: string; // TODO: remove it
+        victoryPoints: number; // TODO: remove it
       }[];
+      updatedAt: number;
     }
   | undefined;
 

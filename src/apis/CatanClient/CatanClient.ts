@@ -15,7 +15,6 @@ import {
   getDocs,
   getFirestore,
   query,
-  type QuerySnapshot,
   runTransaction,
   where,
 } from "firebase/firestore";
@@ -72,16 +71,18 @@ export default class CatanClient {
     { userId }: GetLeaguesRequest,
     _: AbortSignal,
   ): Promise<GetLeaguesResponse> {
-    if (!userId) return [];
-
-    // TODO: fetch from the database.
-    await delay(200);
-    return [
-      {
-        completedAt: undefined,
-        id: "league-2026",
-      },
-    ];
+    return getDocs(
+      query(
+        collection(this.db, CatanClient.COLLECTIONS.leagues),
+        where("deletedAt", "==", null),
+        where("players.ids", "array-contains", userId),
+      ),
+    ).then((result) =>
+      result.docs.map((d) => ({
+        ...CatanClient.transformLeague(d.data()),
+        id: d.id,
+      })),
+    );
   }
 
   async getLeague(
@@ -95,10 +96,12 @@ export default class CatanClient {
 
     return {
       completedAt: undefined,
+      createdAt: Date.now(),
       id: "league-2026",
       name: "Catan League 2026",
       players: [
         {
+          admin: false,
           color: "red",
           id: "user1",
           name: "Ricardo Fort",
@@ -106,6 +109,7 @@ export default class CatanClient {
           victoryPoints: 60,
         },
         {
+          admin: false,
           color: "white",
           id: "user2",
           name: "Flavio Mendoza",
@@ -113,6 +117,7 @@ export default class CatanClient {
           victoryPoints: 32,
         },
         {
+          admin: true,
           color: "blue",
           id: "user3",
           name: "Angela Torres",
@@ -120,6 +125,7 @@ export default class CatanClient {
           victoryPoints: 16,
         },
         {
+          admin: false,
           color: "orange",
           id: "user4",
           name: "Carla Peterson",
@@ -127,6 +133,7 @@ export default class CatanClient {
           victoryPoints: 8,
         },
         {
+          admin: false,
           color: "green",
           id: "user5",
           name: "Diego Peretti",
@@ -134,6 +141,7 @@ export default class CatanClient {
           victoryPoints: 3,
         },
         {
+          admin: false,
           color: "brown",
           id: "user6",
           name: "Emilia Attias",
@@ -141,6 +149,27 @@ export default class CatanClient {
           victoryPoints: 1,
         },
       ],
+      updatedAt: Date.now(),
+    };
+  }
+
+  private static transformLeague(
+    data: any,
+  ): Omit<NonNullable<GetLeagueResponse>, "id"> {
+    return {
+      completedAt: data?.completedAt || undefined,
+      createdAt: data?.createdAt || 0,
+      name: data?.name || "Unnamed",
+      players:
+        data?.players?.ids?.map((playerId: string, index: number) => ({
+          admin: !!data?.players?.admins?.at(index),
+          color: data?.players?.colors?.at(index) || "blue",
+          id: playerId,
+          name: "Unknown", // TODO: remove it.
+          photoURL: unknown.src, // TODO: remove it.
+          victoryPoints: 0, // TODO: remove it.
+        })) || [],
+      updatedAt: data?.updatedAt || 0,
     };
   }
 
@@ -148,22 +177,14 @@ export default class CatanClient {
     { userId }: GetUsersRequest,
     signal: AbortSignal,
   ): Promise<GetUsersResponse> {
-    const leaguesDocs = await getDocs(
-      query(
-        collection(this.db, CatanClient.COLLECTIONS.leagues),
-        where("deletedAt", "==", null),
-        where("players.ids", "array-contains", userId),
-      ),
-    );
-
-    signal.throwIfAborted();
-
-    const userDocs: QuerySnapshot[] = await Promise.all(
-      leaguesDocs.docs
-        .flatMap((d) => d.data().players?.ids || [])
-        .filter(filters.distinct)
-        .reduce(...splitArrays<string>(CatanClient.MAX_IN_ELEMENTS))
-        .map((userIds: string[]) =>
+    return await this.getLeagues({ userId }, signal)
+      .then((leagues) => leagues.flatMap((l) => l.players.map((p) => p.id)))
+      .then((userIds) => userIds.filter(filters.distinct))
+      .then((userIds) =>
+        userIds.reduce(...splitArrays<string>(CatanClient.MAX_IN_ELEMENTS)),
+      )
+      .then((groupsOfUserIds) =>
+        groupsOfUserIds.map((userIds) =>
           getDocs(
             query(
               collection(this.db, CatanClient.COLLECTIONS.users),
@@ -171,14 +192,15 @@ export default class CatanClient {
             ),
           ),
         ),
-    );
-
-    return userDocs.flatMap((doc) =>
-      doc.docs.map((d) => ({
-        ...CatanClient.transformUser(d.data()),
-        id: d.id,
-      })),
-    );
+      )
+      .then((groupOfUsersDocPromises) => Promise.all(groupOfUsersDocPromises))
+      .then((groupOfUsersDoc) => groupOfUsersDoc.flatMap((doc) => doc.docs))
+      .then((userDocs) =>
+        userDocs.map((userDoc) => ({
+          ...CatanClient.transformUser(userDoc.data()),
+          id: userDoc.id,
+        })),
+      );
   }
 
   async getUser(
