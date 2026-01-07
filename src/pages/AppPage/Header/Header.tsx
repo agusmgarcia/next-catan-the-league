@@ -9,7 +9,7 @@ export default function Header(props: HeaderProps) {
   return (
     <div
       {...rest}
-      className="flex h-16 w-full items-center gap-4 border-b bg-interface-red noise-5 p-4 shadow-2xl"
+      className="flex h-16 w-full items-center gap-4 border-b bg-interface-red custom-noise-5 p-4 shadow-2xl"
     >
       {leagueLoading && (
         <Icon className="size-9 animate-spin text-white" variant="spinner" />

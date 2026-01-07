@@ -88,7 +88,7 @@ export default function Podium(props: PodiumProps) {
             <div
               className={twMerge(
                 "flex items-center justify-center",
-                "w-full rounded-t-lg border-4 border-black/40 noise-30",
+                "w-full rounded-t-lg border-4 border-black/40 custom-noise-30",
                 "shadow-2xl",
 
                 "origin-bottom scale-y-0 transition-transform duration-500 will-change-transform",

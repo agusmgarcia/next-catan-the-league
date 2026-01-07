@@ -11,7 +11,7 @@ export default function Footer(props: FooterProps) {
   return (
     <div
       {...rest}
-      className="relative flex h-14 w-full items-center border-t bg-interface-red noise-5 custom-shadow-top-2xl"
+      className="relative flex h-14 w-full items-center border-t bg-interface-red custom-noise-5 custom-shadow-top-2xl"
     >
       {links.map((link) => (
         <Anchor
@@ -28,7 +28,7 @@ export default function Footer(props: FooterProps) {
       ))}
 
       <Anchor
-        className="absolute -top-5 left-1/2 size-fit -translate-x-1/2 rounded-full bg-interface-red noise-5 text-white"
+        className="absolute -top-5 left-1/2 size-fit -translate-x-1/2 rounded-full bg-interface-red custom-noise-5 text-white"
         href={`#`}
       >
         <Icon className="size-18" variant="add" />
