@@ -31,6 +31,7 @@ export function useLeague() {
     leagueLoading:
       useSelector((state) => state.leagueId.loading || state.league.loading) ||
       leaguesLoading,
+    setLeagueId: useSelector((state) => state.leagueId.set),
   };
 }
 

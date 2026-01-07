@@ -71,6 +71,7 @@ export default class CatanClient {
 
     return {
       completedAt: undefined,
+      id: "league-2026",
       name: "Catan League 2026",
       players: [
         {

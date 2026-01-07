@@ -49,4 +49,8 @@ export default class LeagueIdSlice extends LocalStorageSlice<
             .find(finds.first)?.id),
     );
   }
+
+  set(id: string): void {
+    this.response = id;
+  }
 }

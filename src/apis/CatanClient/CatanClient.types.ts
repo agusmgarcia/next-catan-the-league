@@ -14,6 +14,7 @@ export type GetLeagueRequest = {
 export type GetLeagueResponse =
   | {
       completedAt: number | undefined;
+      id: string;
       name: string;
       players: {
         color: "blue" | "brown" | "green" | "orange" | "red" | "white";

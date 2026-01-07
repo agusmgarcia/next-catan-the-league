@@ -3,17 +3,12 @@ import { Title } from "#src/fragments";
 
 import useHomePage from "./HomePage.hooks";
 import type HomePageProps from "./HomePage.types";
-import { LeagueSummaryCard } from "./LeagueSummaryCard";
-import { Podium } from "./Podium";
 
 export default function HomePage(props: HomePageProps) {
   const { leagueError, leagueLoading, ...rest } = useHomePage(props);
 
   return (
-    <div
-      {...rest}
-      className="flex size-full flex-col items-center justify-evenly gap-4"
-    >
+    <div {...rest} className="flex size-full items-center justify-center">
       {/* TITLE */}
       <Title>Home</Title>
 
@@ -28,17 +23,6 @@ export default function HomePage(props: HomePageProps) {
       {/* ERROR */}
       {!leagueLoading && !!leagueError && (
         <Alert variant="error">{leagueError}</Alert>
-      )}
-
-      {/* BODY */}
-      {!leagueLoading && !leagueError && (
-        <>
-          {/* PODIUM */}
-          <Podium />
-
-          {/* LEAGUE SUMMARY CARD */}
-          <LeagueSummaryCard />
-        </>
       )}
     </div>
   );
