@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v0.3.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.3.0)
+
+> January 7, 2026
+
+### Features ✅
+
+- **AppPage**: add footer
+- **ViewLeaguePage**: add page
+- **HomePage**: start using title
+- **LoginPage**: start using title
+- **Title**: add fragment
+- **HomePage**: adjust styles
+- **AppPage**: adjust styles
+- **LoginPage**: remove hover status
+- **Anchor**: add component
+- **Icon**: add profile variant
+- **Icon**: add checkboxes variant
+- **Icon**: add list variant
+- **Icon**: add home variant
+- **Icon**: add add variant
+- **Icon**: add medal variant
+- **Typography**: stop using text-stroke
+- rename bg-noise-30 to noise-30
+
 ## [v0.2.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.2.0)
 
 > January 4, 2026
