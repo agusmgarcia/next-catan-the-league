@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v0.5.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.5.0)
+
+> January 7, 2026
+
+### Features ✅
+
+- add missing pages
+- **MatchesSlice**: add slice
+
+### Fixes 🎯
+
+- **ViewLeaguePage**: adjust params logic
+
+### Chores ⚙️
+
+- **Layout**: add fragment
+
 ## [v0.4.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.4.0)
 
 > January 7, 2026
