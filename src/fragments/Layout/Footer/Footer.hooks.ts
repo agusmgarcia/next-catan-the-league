@@ -39,10 +39,10 @@ export default function useFooter(props: FooterProps) {
         selected: pathname === "/leagues/approve",
       },
       {
-        href: `/profile/${user?.id || ""}/view`,
+        href: `/profiles/${user?.id || ""}/view`,
         icon: "profile" as const,
         invisible: false,
-        selected: pathname === `/profile/${user?.id || ""}/view`,
+        selected: pathname === `/profiles/${user?.id || ""}/view`,
       },
     ],
     [pathname, user?.id],
