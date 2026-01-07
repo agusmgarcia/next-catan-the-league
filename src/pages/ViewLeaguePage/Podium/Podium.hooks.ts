@@ -1,25 +1,26 @@
-import { errors } from "@agusmgarcia/react-essentials-utils";
+import { errors, sorts } from "@agusmgarcia/react-essentials-utils";
 import { useEffect, useMemo, useState } from "react";
 
 import unknown from "#public/assets/unknown.webp";
-import { useLeague, type Users, useUsers } from "#src/store";
+import { useLeague, useMatches, type Users, useUsers } from "#src/store";
 
 import type PodiumProps from "./Podium.types";
 
 export default function usePodium(props: PodiumProps) {
   const { league, leagueError, leagueLoading } = useLeague();
   const { users, usersError, usersLoading } = useUsers();
+  const { matches, matchesError, matchesLoading } = useMatches();
 
   const [ready, setReady] = useState(false);
 
   const playersError = useMemo(
-    () => errors.getMessage(leagueError || usersError),
-    [leagueError, usersError],
+    () => errors.getMessage(matchesError || leagueError || usersError),
+    [leagueError, matchesError, usersError],
   );
 
   const playersLoading = useMemo(
-    () => leagueLoading || usersLoading,
-    [leagueLoading, usersLoading],
+    () => matchesLoading || leagueLoading || usersLoading,
+    [leagueLoading, matchesLoading, usersLoading],
   );
 
   const players = useMemo(() => {
@@ -31,22 +32,19 @@ export default function usePodium(props: PodiumProps) {
       {} as Record<string, Users[number]>,
     );
 
-    // TODO: sort players by victory points.
+    const match = matches.find((m) => m.leagueId === league?.id);
 
-    return [
-      league?.players?.at(1),
-      league?.players?.at(0),
-      league?.players?.at(2),
-    ].map((player) =>
-      !!player
-        ? {
-            ...player,
-            name: recordOfUsers[player.id]?.name || "Unknown",
-            photoURL: recordOfUsers[player.id]?.photoURL || unknown.src,
-          }
-        : undefined,
-    );
-  }, [league?.players, users]);
+    const players = league?.players
+      .map((player, index) => ({
+        ...player,
+        name: recordOfUsers[player.id]?.name || "Unknown",
+        photoURL: recordOfUsers[player.id]?.photoURL || unknown.src,
+        victoryPoints: match?.players.at(index)?.victoryPoints || 0,
+      }))
+      .sort((p1, p2) => sorts.byNumberDesc(p1.victoryPoints, p2.victoryPoints));
+
+    return [players?.at(1), players?.at(0), players?.at(2)];
+  }, [league?.id, league?.players, matches, users]);
 
   const leagueCompleted = useMemo(
     () => !!league?.completedAt,

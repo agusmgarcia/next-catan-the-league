@@ -34,6 +34,21 @@ export type GetLeagueResponse =
     }
   | undefined;
 
+export type GetMatchesRequest = {
+  leagueId: string;
+};
+
+export type GetMatchesResponse = {
+  createdAt: number;
+  id: string;
+  leagueId: string;
+  players: {
+    approval: boolean;
+    victoryPoints: number;
+  }[];
+  updatedAt: number;
+}[];
+
 export type GetUsersRequest = {
   userId: string;
 };

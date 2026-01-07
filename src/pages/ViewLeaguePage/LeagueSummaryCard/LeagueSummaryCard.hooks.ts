@@ -1,24 +1,25 @@
-import { errors } from "@agusmgarcia/react-essentials-utils";
+import { errors, sorts } from "@agusmgarcia/react-essentials-utils";
 import { useEffect, useMemo, useState } from "react";
 
-import { useLeague, type Users, useUsers } from "#src/store";
+import { useLeague, useMatches, type Users, useUsers } from "#src/store";
 
 import type LeagueSummaryCardProps from "./LeagueSummaryCard.types";
 
 export default function useLeagueSummaryCard(props: LeagueSummaryCardProps) {
   const { league, leagueError, leagueLoading } = useLeague();
   const { users, usersError, usersLoading } = useUsers();
+  const { matches, matchesError, matchesLoading } = useMatches();
 
   const [ready, setReady] = useState(false);
 
   const playersError = useMemo(
-    () => errors.getMessage(leagueError || usersError),
-    [leagueError, usersError],
+    () => errors.getMessage(matchesError || leagueError || usersError),
+    [leagueError, matchesError, usersError],
   );
 
   const playersLoading = useMemo(
-    () => leagueLoading || usersLoading,
-    [leagueLoading, usersLoading],
+    () => matchesLoading || leagueLoading || usersLoading,
+    [leagueLoading, matchesLoading, usersLoading],
   );
 
   const players = useMemo(() => {
@@ -30,16 +31,20 @@ export default function useLeagueSummaryCard(props: LeagueSummaryCardProps) {
       {} as Record<string, Users[number]>,
     );
 
-    // TODO: sort players by victory points.
+    const match = matches.find((m) => m.leagueId === league?.id);
 
     return (
-      league?.players.map((player) => ({
-        ...player,
-        name: recordOfUsers[player.id]?.name || "Unknown",
-        victoryPoints: 0, // TODO: get points
-      })) || []
+      league?.players
+        .map((player, index) => ({
+          ...player,
+          name: recordOfUsers[player.id]?.name || "Unknown",
+          victoryPoints: match?.players.at(index)?.victoryPoints || 0,
+        }))
+        .sort((p1, p2) =>
+          sorts.byNumberDesc(p1.victoryPoints, p2.victoryPoints),
+        ) || []
     );
-  }, [league?.players, users]);
+  }, [league?.id, league?.players, matches, users]);
 
   useEffect(() => {
     setReady(!playersLoading && !playersError);

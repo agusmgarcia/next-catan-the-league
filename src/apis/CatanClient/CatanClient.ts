@@ -28,6 +28,8 @@ import {
   type GetLeagueResponse,
   type GetLeaguesRequest,
   type GetLeaguesResponse,
+  type GetMatchesRequest,
+  type GetMatchesResponse,
   type GetUserRequest,
   type GetUserResponse,
   type GetUsersRequest,
@@ -43,6 +45,7 @@ export default class CatanClient {
 
   private static readonly COLLECTIONS = {
     leagues: "leagues",
+    matches: "matches",
     users: "users",
   };
 
@@ -122,6 +125,39 @@ export default class CatanClient {
           id: playerId,
         })) || [],
       updatedAt: data?.updatedAt || 0,
+    };
+  }
+
+  async getMatches(
+    { leagueId }: GetMatchesRequest,
+    _: AbortSignal,
+  ): Promise<GetMatchesResponse> {
+    return await getDocs(
+      query(
+        collection(this.db, CatanClient.COLLECTIONS.matches),
+        where("deletedAt", "==", null),
+        where("leagueId", "==", leagueId),
+      ),
+    ).then((docs) =>
+      docs.docs.map((d) => ({
+        ...CatanClient.transformMatch(d.data()),
+        id: d.id,
+      })),
+    );
+  }
+
+  private static transformMatch(
+    data: any,
+  ): Omit<GetMatchesResponse[number], "id"> {
+    return {
+      createdAt: data?.createdAt || 0,
+      leagueId: data?.leagueId || "",
+      players:
+        data?.players?.approvals?.map((approval: boolean, index: number) => ({
+          approval,
+          victoryPoints: data?.players?.victoryPoints?.at(index) || 0,
+        })) || [],
+      updatedAt: data?.updatedAt || "",
     };
   }
 

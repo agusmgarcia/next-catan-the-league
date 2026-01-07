@@ -3,11 +3,13 @@ import { createReactStore } from "@agusmgarcia/react-essentials-store";
 import { LeagueIdSlice } from "./LeagueIdSlice";
 import { LeagueSlice, type LeagueSliceTypes } from "./LeagueSlice";
 import { LeaguesSlice, type LeaguesSliceTypes } from "./LeaguesSlice";
+import { MatchesSlice, type MatchesSliceTypes } from "./MatchesSlice";
 import { UserSlice, type UserSliceTypes } from "./UserSlice";
 import { UsersSlice, type UsersSliceTypes } from "./UsersSlice";
 
 export type League = NonNullable<LeagueSliceTypes.Response>;
 export type Leagues = NonNullable<LeaguesSliceTypes.Response>;
+export type Matches = NonNullable<MatchesSliceTypes.Response>;
 export type User = NonNullable<UserSliceTypes.Response>;
 export type Users = NonNullable<UsersSliceTypes.Response>;
 
@@ -16,6 +18,7 @@ const { useSelector, ...reactStore } = createReactStore({
     league: LeagueSlice,
     leagueId: LeagueIdSlice,
     leagues: LeaguesSlice,
+    matches: MatchesSlice,
     user: UserSlice,
     users: UsersSlice,
   },
@@ -46,6 +49,18 @@ export function useLeagues() {
     leaguesError: useSelector((state) => state.leagues.error) || userError,
     leaguesLoading:
       useSelector((state) => state.leagues.loading) || userLoading,
+  };
+}
+
+export function useMatches() {
+  return {
+    matches: useSelector((state) => state.matches.response),
+    matchesError: useSelector(
+      (state) => state.leagueId.error || state.matches.error,
+    ),
+    matchesLoading: useSelector(
+      (state) => state.leagueId.loading || state.matches.loading,
+    ),
   };
 }
 
