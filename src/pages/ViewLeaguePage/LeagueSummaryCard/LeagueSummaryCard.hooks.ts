@@ -11,6 +11,7 @@ export default function useLeagueSummaryCard(props: LeagueSummaryCardProps) {
   const { matches } = useMatches();
 
   const [ready, setReady] = useState(false);
+  const [transitions, setTransitions] = useState(false);
 
   const players = useMemo(() => {
     const recordOfUsers = users.reduce(
@@ -37,8 +38,14 @@ export default function useLeagueSummaryCard(props: LeagueSummaryCardProps) {
   }, [league?.id, league?.players, matches, users]);
 
   useEffect(() => {
-    setReady(true);
+    if (!window.__VIEW_LEAGUE_PAGE__LEAGUE_SUMMARY_CARD__RENDERED__) {
+      window.__VIEW_LEAGUE_PAGE__LEAGUE_SUMMARY_CARD__RENDERED__ = true;
+      setTransitions(true);
+    }
+
+    const handler = setTimeout(() => setReady(true), 100);
+    return () => clearTimeout(handler);
   }, []);
 
-  return { ...props, players, ready };
+  return { ...props, players, ready, transitions };
 }

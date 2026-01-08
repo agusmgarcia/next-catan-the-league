@@ -7,7 +7,7 @@ import useLeagueSummaryCard from "./LeagueSummaryCard.hooks";
 import type LeagueSummaryCardProps from "./LeagueSummaryCard.types";
 
 export default function LeagueSummaryCard(props: LeagueSummaryCardProps) {
-  const { players, ready, ...rest } = useLeagueSummaryCard(props);
+  const { players, ready, transitions, ...rest } = useLeagueSummaryCard(props);
 
   return (
     <div
@@ -16,7 +16,9 @@ export default function LeagueSummaryCard(props: LeagueSummaryCardProps) {
         "h-71.5 w-full max-w-150 rounded-lg border-4 bg-interface-yellow custom-noise-5 p-4 shadow-2xl",
         "flex flex-col gap-4",
 
-        "rotate-y-90 transition-transform delay-500 duration-500 will-change-transform",
+        "rotate-y-90",
+        transitions &&
+          "transition-transform delay-500 duration-500 will-change-transform",
         ready && "rotate-y-0",
       )}
     >

@@ -6,7 +6,8 @@ import usePodium from "./Podium.hooks";
 import type PodiumProps from "./Podium.types";
 
 export default function Podium(props: PodiumProps) {
-  const { leagueCompleted, players, ready, ...rest } = usePodium(props);
+  const { leagueCompleted, players, ready, transitions, ...rest } =
+    usePodium(props);
 
   return (
     <div {...rest} className="flex w-full items-end justify-center">
@@ -25,7 +26,8 @@ export default function Podium(props: PodiumProps) {
               <Icon
                 className={twMerge(
                   "absolute -right-4 bottom-0",
-                  "opacity-0 transition-opacity delay-600",
+                  "opacity-0",
+                  transitions && "transition-opacity delay-600",
                   ready && "opacity-100",
 
                   player?.color === "red" && "text-player-red",
@@ -45,11 +47,12 @@ export default function Podium(props: PodiumProps) {
               className={twMerge(
                 "h-14 w-14 rounded-full border-4",
 
-                "opacity-0 transition-opacity",
+                "opacity-0",
+                transitions && "transition-opacity",
+                transitions && index === 0 && "delay-750",
+                transitions && index === 1 && "delay-600",
+                transitions && index === 2 && "delay-900",
                 ready && "opacity-100",
-                index === 0 && "delay-750",
-                index === 1 && "delay-600",
-                index === 2 && "delay-900",
 
                 player?.color === "red" && "border-player-red",
                 player?.color === "blue" && "border-player-blue",
@@ -69,7 +72,9 @@ export default function Podium(props: PodiumProps) {
               "w-full rounded-t-lg border-4 border-black/40 custom-noise-30",
               "shadow-2xl",
 
-              "origin-bottom scale-y-0 transition-transform duration-500 will-change-transform",
+              "scale-y-0",
+              transitions &&
+                "origin-bottom transition-transform duration-500 will-change-transform",
               ready && "scale-y-100",
 
               index === 0 && "h-25",
