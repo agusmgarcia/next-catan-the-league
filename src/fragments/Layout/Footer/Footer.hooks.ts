@@ -1,18 +1,24 @@
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 
-import { useUser } from "#src/store";
+import { useLeague, useUser } from "#src/store";
 
 import type FooterProps from "./Footer.types";
 
 export default function useFooter(props: FooterProps) {
   const pathname = usePathname();
-  const { user } = useUser();
+
+  const { user, userLoading } = useUser();
+  const { league, leagueLoading } = useLeague();
 
   const links = useMemo(
     () => [
       {
-        href: "/",
+        href: !leagueLoading
+          ? !!league?.id
+            ? `/leagues/${league.id}/view`
+            : "/leagues/create"
+          : "/",
         icon: "home" as const,
         invisible: false,
         selected:
@@ -28,7 +34,7 @@ export default function useFooter(props: FooterProps) {
       },
       {
         href: "#",
-        icon: "add" as const,
+        icon: "plus" as const,
         invisible: true,
         selected: false,
       },
@@ -39,14 +45,14 @@ export default function useFooter(props: FooterProps) {
         selected: pathname === "/leagues/approve",
       },
       {
-        href: `/profiles/${user?.id || ""}/view`,
+        href: !userLoading && !!user?.id ? `/profiles/${user.id}/view` : "#",
         icon: "profile" as const,
         invisible: false,
-        selected: pathname === `/profiles/${user?.id || ""}/view`,
+        selected: !!user?.id && pathname === `/profiles/${user.id}/view`,
       },
     ],
-    [pathname, user?.id],
+    [league?.id, leagueLoading, pathname, user?.id, userLoading],
   );
 
-  return { ...props, links };
+  return { ...props, league, leagueLoading, links };
 }

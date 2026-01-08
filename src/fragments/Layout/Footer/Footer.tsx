@@ -6,7 +6,7 @@ import useFooter from "./Footer.hooks";
 import type FooterProps from "./Footer.types";
 
 export default function Footer(props: FooterProps) {
-  const { links, ...rest } = useFooter(props);
+  const { league, leagueLoading, links, ...rest } = useFooter(props);
 
   return (
     <div
@@ -28,10 +28,16 @@ export default function Footer(props: FooterProps) {
       ))}
 
       <Anchor
-        className="absolute -top-5 left-1/2 size-fit -translate-x-1/2 rounded-full bg-interface-red custom-noise-5 text-white"
-        href={`#`}
+        className="absolute -top-5 left-1/2 size-fit -translate-x-1/2 rounded-full border-2 border-black bg-interface-red custom-noise-5 text-white shadow-2xl"
+        href={
+          !leagueLoading
+            ? !!league?.id
+              ? `/leagues/${league.id}/matches/create`
+              : "/leagues/create"
+            : "#"
+        }
       >
-        <Icon className="size-18" variant="add" />
+        <Icon className="size-18 p-4" variant="plus" />
       </Anchor>
     </div>
   );
