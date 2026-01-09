@@ -1,24 +1,22 @@
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 
-import { useLeague, useUser } from "#src/store";
+import { useLeague, useMatches, useUser } from "#src/store";
 
 import type FooterProps from "./Footer.types";
 
 export default function useFooter(props: FooterProps) {
   const pathname = usePathname();
 
-  const { user, userLoading } = useUser();
-  const { league, leagueLoading } = useLeague();
+  const { user } = useUser();
+  const { league } = useLeague();
+  const { matches } = useMatches();
 
   const links = useMemo(
     () => [
       {
-        href: !leagueLoading
-          ? !!league?.id
-            ? `/leagues/${league.id}/view`
-            : "/leagues/create"
-          : "/",
+        alert: undefined,
+        href: !!league?.id ? `/leagues/${league.id}/view` : "/leagues/create",
         icon: "home" as const,
         invisible: false,
         selected:
@@ -27,32 +25,43 @@ export default function useFooter(props: FooterProps) {
           /^\/leagues\/(.*)\/view$/.test(pathname),
       },
       {
+        alert: undefined,
         href: "/leagues/view",
         icon: "list" as const,
         invisible: false,
         selected: pathname === "/leagues/view",
       },
       {
+        alert: undefined,
         href: "#",
         icon: "plus" as const,
         invisible: true,
         selected: false,
       },
       {
+        alert:
+          !!user?.id && !!matches
+            ? matches.filter(
+                (m) =>
+                  typeof m.players.find((p) => p.id === user.id)?.approval ===
+                  "undefined",
+              ).length
+            : undefined,
         href: "/leagues/approve",
         icon: "checkboxes" as const,
         invisible: false,
         selected: pathname === "/leagues/approve",
       },
       {
-        href: !userLoading && !!user?.id ? `/profiles/${user.id}/view` : "#",
+        alert: undefined,
+        href: !!user?.id ? `/profiles/${user.id}/view` : "#",
         icon: "profile" as const,
         invisible: false,
         selected: !!user?.id && pathname === `/profiles/${user.id}/view`,
       },
     ],
-    [league?.id, leagueLoading, pathname, user?.id, userLoading],
+    [league?.id, matches, pathname, user?.id],
   );
 
-  return { ...props, league, leagueLoading, links };
+  return { ...props, league, links };
 }
