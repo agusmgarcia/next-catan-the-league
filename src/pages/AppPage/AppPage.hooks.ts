@@ -1,6 +1,5 @@
-import { errors } from "@agusmgarcia/react-essentials-utils";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 
 import { useUser } from "#src/store";
 
@@ -10,12 +9,7 @@ export default function useAppPage(props: AppPageProps) {
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  const { user, userError: userErrorFromStore, userLoading } = useUser();
-
-  const userError = useMemo(
-    () => errors.getMessage(userErrorFromStore),
-    [userErrorFromStore],
-  );
+  const { user, userError, userLoading } = useUser();
 
   useEffect(() => {
     if (userLoading || !!userError) return;
