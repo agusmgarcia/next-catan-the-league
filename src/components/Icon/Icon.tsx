@@ -5,6 +5,13 @@ export default function Icon(props: IconProps) {
   const { variant, ...rest } = useIcon(props);
 
   switch (variant) {
+    case "check":
+      return (
+        <svg {...rest}>
+          <path d="m9.9997 15.1709 9.1924 -9.19238 1.4142 1.41421L9.9997 17.9993l-6.36396 -6.3639 1.41422 -1.4142 4.94974 4.9497Z" />
+        </svg>
+      );
+
     case "check-fill":
       return (
         <svg {...rest}>
