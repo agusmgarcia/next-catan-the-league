@@ -17,6 +17,7 @@ import {
   getFirestore,
   query,
   runTransaction,
+  updateDoc,
   where,
 } from "firebase/firestore";
 
@@ -24,12 +25,12 @@ import unknown from "#public/assets/unknown.webp";
 import { splitArrays } from "#src/utils";
 
 import {
+  type ApproveMatchRequest,
+  type ApproveMatchResponse,
   type GetLeagueRequest,
   type GetLeagueResponse,
   type GetLeaguesRequest,
   type GetLeaguesResponse,
-  type GetMatchesForApprovalRequest,
-  type GetMatchesForApprovalResponse,
   type GetMatchesRequest,
   type GetMatchesResponse,
   type GetUserRequest,
@@ -40,6 +41,8 @@ import {
   type LoginResponse,
   type LogoutRequest,
   type LogoutResponse,
+  type RejectMatchRequest,
+  type RejectMatchResponse,
 } from "./CatanClient.types";
 
 export default class CatanClient {
@@ -131,31 +134,9 @@ export default class CatanClient {
   }
 
   async getMatches(
-    { leagueId }: GetMatchesRequest,
-    _: AbortSignal,
-  ): Promise<GetMatchesResponse> {
-    return await getDocs(
-      query(
-        collection(this.db, CatanClient.COLLECTIONS.matches),
-        where("deletedAt", "==", null),
-        where("leagueId", "==", leagueId),
-      ),
-    )
-      .then((docs) =>
-        docs.docs.map((d) => ({
-          ...CatanClient.transformMatch(d.data()),
-          id: d.id,
-        })),
-      )
-      .then((matches) =>
-        matches.filter((m) => m.players.every((p) => p.approval)),
-      );
-  }
-
-  async getMatchesForApproval(
-    { userId }: GetMatchesForApprovalRequest,
+    { userId }: GetMatchesRequest,
     signal: AbortSignal,
-  ): Promise<GetMatchesForApprovalResponse> {
+  ): Promise<GetMatchesResponse> {
     if (!userId) return [];
 
     return await this.getLeagues({ userId }, signal)
@@ -166,8 +147,8 @@ export default class CatanClient {
           getDocs(
             query(
               collection(this.db, CatanClient.COLLECTIONS.matches),
+              where("deletedAt", "==", null),
               where("leagueId", "in", leagueIds),
-              where(`players.${userId}.approval`, "==", false),
             ),
           ),
         ),
@@ -182,6 +163,28 @@ export default class CatanClient {
       );
   }
 
+  async approveMatch(
+    { id, userId }: ApproveMatchRequest,
+    _: AbortSignal,
+  ): Promise<ApproveMatchResponse> {
+    if (!userId) return;
+
+    await updateDoc(doc(this.db, CatanClient.COLLECTIONS.matches, id), {
+      [`players.${userId}.approval`]: true,
+    });
+  }
+
+  async rejectMatch(
+    { id, userId }: RejectMatchRequest,
+    _: AbortSignal,
+  ): Promise<RejectMatchResponse> {
+    if (!userId) return;
+
+    await updateDoc(doc(this.db, CatanClient.COLLECTIONS.matches, id), {
+      [`players.${userId}.approval`]: false,
+    });
+  }
+
   private static transformMatch(
     data: any,
   ): Omit<GetMatchesResponse[number], "id"> {
@@ -192,7 +195,10 @@ export default class CatanClient {
       photoURL: data?.photoURL || undefined,
       players:
         Object.keys(data?.players || {}).map((playerId: string) => ({
-          approval: !!data.players[playerId].approval,
+          approval:
+            typeof data.players[playerId].approval === "boolean"
+              ? data.players[playerId].approval
+              : undefined,
           id: playerId,
           points: data?.players[playerId].points || 0,
         })) || [],
@@ -214,6 +220,7 @@ export default class CatanClient {
           getDocs(
             query(
               collection(this.db, CatanClient.COLLECTIONS.users),
+              where("deletedAt", "==", null),
               where(documentId(), "in", userIds),
             ),
           ),

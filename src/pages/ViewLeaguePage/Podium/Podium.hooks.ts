@@ -23,19 +23,24 @@ export default function usePodium(props: PodiumProps) {
       {} as Record<string, Users[number]>,
     );
 
+    const approvedMatches = matches.filter((m) =>
+      m.players.every((p) => !!p.approval),
+    );
+
     const players = league?.players
       .map((player) => ({
         ...player,
         name: recordOfUsers[player.id]?.name || "Unknown",
         photoURL: recordOfUsers[player.id]?.photoURL || unknown.src,
-        points: matches
+        points: approvedMatches
           .flatMap((m) => m.players)
           .filter((p) => p.id === player.id)
           .reduce((result, player) => {
             result += player.points;
             return result;
           }, 0),
-        victoryCounts: matches.filter((m) => m.winnerId === player.id).length,
+        victoryCounts: approvedMatches.filter((m) => m.winnerId === player.id)
+          .length,
       }))
       .sort((p1, p2) => sorts.byNumberDesc(p1.points, p2.points))
       .sort((p1, p2) => sorts.byNumberDesc(p1.victoryCounts, p2.victoryCounts));

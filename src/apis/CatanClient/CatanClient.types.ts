@@ -35,7 +35,7 @@ export type GetLeagueResponse =
   | undefined;
 
 export type GetMatchesRequest = {
-  leagueId: string;
+  userId: string;
 };
 
 export type GetMatchesResponse = {
@@ -45,7 +45,7 @@ export type GetMatchesResponse = {
   observations: string | undefined;
   photoURL: string | undefined;
   players: {
-    approval: boolean;
+    approval: boolean | undefined;
     id: string;
     points: number;
   }[];
@@ -53,21 +53,19 @@ export type GetMatchesResponse = {
   winnerId: string;
 }[];
 
-export type GetMatchesForApprovalRequest = {
+export type ApproveMatchRequest = {
+  id: string;
   userId: string;
 };
 
-export type GetMatchesForApprovalResponse = Pick<
-  GetMatchesResponse[number],
-  | "createdAt"
-  | "id"
-  | "leagueId"
-  | "observations"
-  | "photoURL"
-  | "players"
-  | "updatedAt"
-  | "winnerId"
->[];
+export type ApproveMatchResponse = void;
+
+export type RejectMatchRequest = {
+  id: string;
+  userId: string;
+};
+
+export type RejectMatchResponse = void;
 
 export type GetUsersRequest = {
   userId: string;

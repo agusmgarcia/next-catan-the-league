@@ -3,10 +3,6 @@ import { createReactStore } from "@agusmgarcia/react-essentials-store";
 import { LeagueIdSlice } from "./LeagueIdSlice";
 import { LeagueSlice, type LeagueSliceTypes } from "./LeagueSlice";
 import { LeaguesSlice, type LeaguesSliceTypes } from "./LeaguesSlice";
-import {
-  MatchesForApprovalSlice,
-  type MatchesForApprovalSliceTypes,
-} from "./MatchesForApprovalSlice";
 import { MatchesSlice, type MatchesSliceTypes } from "./MatchesSlice";
 import { UserSlice, type UserSliceTypes } from "./UserSlice";
 import { UsersSlice, type UsersSliceTypes } from "./UsersSlice";
@@ -14,8 +10,6 @@ import { UsersSlice, type UsersSliceTypes } from "./UsersSlice";
 export type League = NonNullable<LeagueSliceTypes.Response>;
 export type Leagues = NonNullable<LeaguesSliceTypes.Response>;
 export type Matches = NonNullable<MatchesSliceTypes.Response>;
-export type MatchesForApproval =
-  NonNullable<MatchesForApprovalSliceTypes.Response>;
 export type User = NonNullable<UserSliceTypes.Response>;
 export type Users = NonNullable<UsersSliceTypes.Response>;
 
@@ -25,7 +19,6 @@ const { useSelector, ...reactStore } = createReactStore({
     leagueId: LeagueIdSlice,
     leagues: LeaguesSlice,
     matches: MatchesSlice,
-    matchesForApproval: MatchesForApprovalSlice,
     user: UserSlice,
     users: UsersSlice,
   },
@@ -60,28 +53,15 @@ export function useLeagues() {
 }
 
 export function useMatches() {
-  return {
-    matches: useSelector((state) => state.matches.response),
-    matchesError: useSelector(
-      (state) => state.leagueId.error || state.matches.error,
-    ),
-    matchesLoading: useSelector(
-      (state) => state.leagueId.loading || state.matches.loading,
-    ),
-  };
-}
-
-export function useMatchesForApproval() {
   const { userError, userLoading } = useUser();
 
   return {
-    matchesForApproval: useSelector(
-      (state) => state.matchesForApproval.response,
-    ),
-    matchesForApprovalError:
-      useSelector((state) => state.matchesForApproval.error) || userError,
-    matchesForApprovalLoading:
-      useSelector((state) => state.matchesForApproval.loading) || userLoading,
+    approveMatch: useSelector((state) => state.matches.approveMatch),
+    matches: useSelector((state) => state.matches.response),
+    matchesError: useSelector((state) => state.matches.error) || userError,
+    matchesLoading:
+      useSelector((state) => state.matches.loading) || userLoading,
+    rejectMatch: useSelector((state) => state.matches.rejectMatch),
   };
 }
 
