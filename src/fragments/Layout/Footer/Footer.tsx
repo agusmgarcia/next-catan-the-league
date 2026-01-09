@@ -13,9 +13,9 @@ export default function Footer(props: FooterProps) {
       {...rest}
       className="relative flex h-14 w-full items-center border-t bg-interface-red custom-noise-5 custom-shadow-top-2xl"
     >
-      {links.map((link) => (
+      {links.map((link, index) => (
         <Anchor
-          key={link.href}
+          key={index}
           className={twMerge(
             "flex h-14 w-full items-center justify-center border-y-4 border-y-transparent text-white",
             link.invisible && "invisible",
