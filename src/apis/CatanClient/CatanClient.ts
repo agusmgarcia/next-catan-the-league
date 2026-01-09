@@ -188,6 +188,8 @@ export default class CatanClient {
     return {
       createdAt: data?.createdAt || 0,
       leagueId: data?.leagueId || "",
+      observations: data?.observations || undefined,
+      photoURL: data?.photoURL || undefined,
       players:
         Object.keys(data?.players || {}).map((playerId: string) => ({
           approval: !!data.players[playerId].approval,
@@ -195,6 +197,7 @@ export default class CatanClient {
           points: data?.players[playerId].points || 0,
         })) || [],
       updatedAt: data?.updatedAt || 0,
+      winnerId: data?.winnerId || "",
     };
   }
 

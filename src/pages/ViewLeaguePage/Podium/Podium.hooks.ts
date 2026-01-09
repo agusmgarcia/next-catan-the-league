@@ -23,19 +23,25 @@ export default function usePodium(props: PodiumProps) {
       {} as Record<string, Users[number]>,
     );
 
-    const match = matches.find((m) => m.leagueId === league?.id);
-
     const players = league?.players
       .map((player) => ({
         ...player,
         name: recordOfUsers[player.id]?.name || "Unknown",
         photoURL: recordOfUsers[player.id]?.photoURL || unknown.src,
-        points: match?.players.find((p) => p.id === player.id)?.points || 0,
+        points: matches
+          .flatMap((m) => m.players)
+          .filter((p) => p.id === player.id)
+          .reduce((result, player) => {
+            result += player.points;
+            return result;
+          }, 0),
+        victoryCounts: matches.filter((m) => m.winnerId === player.id).length,
       }))
-      .sort((p1, p2) => sorts.byNumberDesc(p1.points, p2.points));
+      .sort((p1, p2) => sorts.byNumberDesc(p1.points, p2.points))
+      .sort((p1, p2) => sorts.byNumberDesc(p1.victoryCounts, p2.victoryCounts));
 
     return [players?.at(1), players?.at(0), players?.at(2)];
-  }, [league?.id, league?.players, matches, users]);
+  }, [league?.players, matches, users]);
 
   const leagueCompleted = useMemo(
     () => !!league?.completedAt,

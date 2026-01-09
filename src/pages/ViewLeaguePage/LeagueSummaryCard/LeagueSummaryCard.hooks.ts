@@ -22,18 +22,22 @@ export default function useLeagueSummaryCard(props: LeagueSummaryCardProps) {
       {} as Record<string, Users[number]>,
     );
 
-    const match = matches.find((m) => m.leagueId === league?.id);
-
-    return (
-      league?.players
-        .map((player) => ({
-          ...player,
-          name: recordOfUsers[player.id]?.name || "Unknown",
-          points: match?.players.find((p) => p.id === player.id)?.points || 0,
-        }))
-        .sort((p1, p2) => sorts.byNumberDesc(p1.points, p2.points)) || []
-    );
-  }, [league?.id, league?.players, matches, users]);
+    return league?.players
+      .map((player) => ({
+        ...player,
+        name: recordOfUsers[player.id]?.name || "Unknown",
+        points: matches
+          .flatMap((m) => m.players)
+          .filter((p) => p.id === player.id)
+          .reduce((result, player) => {
+            result += player.points;
+            return result;
+          }, 0),
+        victoryCounts: matches.filter((m) => m.winnerId === player.id).length,
+      }))
+      .sort((p1, p2) => sorts.byNumberDesc(p1.points, p2.points))
+      .sort((p1, p2) => sorts.byNumberDesc(p1.victoryCounts, p2.victoryCounts));
+  }, [league?.players, matches, users]);
 
   useEffect(() => {
     if (!window.__VIEW_LEAGUE_PAGE__LEAGUE_SUMMARY_CARD__RENDERED__) {

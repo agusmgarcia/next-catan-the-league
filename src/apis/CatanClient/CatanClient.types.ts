@@ -42,12 +42,15 @@ export type GetMatchesResponse = {
   createdAt: number;
   id: string;
   leagueId: string;
+  observations: string | undefined;
+  photoURL: string | undefined;
   players: {
     approval: boolean;
     id: string;
     points: number;
   }[];
   updatedAt: number;
+  winnerId: string;
 }[];
 
 export type GetMatchesForApprovalRequest = {
@@ -56,7 +59,14 @@ export type GetMatchesForApprovalRequest = {
 
 export type GetMatchesForApprovalResponse = Pick<
   GetMatchesResponse[number],
-  "createdAt" | "id" | "leagueId" | "players" | "updatedAt"
+  | "createdAt"
+  | "id"
+  | "leagueId"
+  | "observations"
+  | "photoURL"
+  | "players"
+  | "updatedAt"
+  | "winnerId"
 >[];
 
 export type GetUsersRequest = {
