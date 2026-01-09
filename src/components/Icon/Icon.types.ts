@@ -3,6 +3,7 @@ type IconProps = Pick<React.SVGProps<SVGSVGElement>, "className"> & {
     | "check"
     | "check-fill"
     | "checkboxes"
+    | "cross"
     | "cross-fill"
     | "crown"
     | "google"
