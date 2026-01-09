@@ -1,8 +1,3 @@
-import { type Func } from "@agusmgarcia/react-essentials-utils";
+export type Input<TArrayItem> = [array: TArrayItem[], maxItem: number];
 
-export type Input = [maxItem: number];
-
-export type Output<TArrayItem> = [
-  Func<TArrayItem[][], [result: TArrayItem[][], item: TArrayItem]>,
-  TArrayItem[][],
-];
+export type Output<TArrayItem> = TArrayItem[][];

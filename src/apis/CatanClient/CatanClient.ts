@@ -169,9 +169,7 @@ export default class CatanClient {
     return await this.getLeagues({ userId }, signal)
       .then((leagues) => leagues.flatMap((l) => l.players.map((p) => p.id)))
       .then((userIds) => userIds.filter(filters.distinct))
-      .then((userIds) =>
-        userIds.reduce(...splitArrays<string>(CatanClient.MAX_IN_ELEMENTS)),
-      )
+      .then((userIds) => splitArrays(userIds, CatanClient.MAX_IN_ELEMENTS))
       .then((groupsOfUserIds) =>
         groupsOfUserIds.map((userIds) =>
           getDocs(
