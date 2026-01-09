@@ -140,12 +140,16 @@ export default class CatanClient {
         where("deletedAt", "==", null),
         where("leagueId", "==", leagueId),
       ),
-    ).then((docs) =>
-      docs.docs.map((d) => ({
-        ...CatanClient.transformMatch(d.data()),
-        id: d.id,
-      })),
-    );
+    )
+      .then((docs) =>
+        docs.docs.map((d) => ({
+          ...CatanClient.transformMatch(d.data()),
+          id: d.id,
+        })),
+      )
+      .then((matches) =>
+        matches.filter((m) => m.players.every((p) => p.approval)),
+      );
   }
 
   async getMatchesForApproval(
