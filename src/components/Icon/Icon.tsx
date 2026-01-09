@@ -5,6 +5,13 @@ export default function Icon(props: IconProps) {
   const { variant, ...rest } = useIcon(props);
 
   switch (variant) {
+    case "check-fill":
+      return (
+        <svg {...rest}>
+          <path d="M12 22C6.47715 22 2 17.5228 2 12 2 6.47715 6.47715 2 12 2c5.5228 0 10 4.47715 10 10 0 5.5228 -4.4772 10 -10 10Zm-0.9974 -6 7.0711 -7.07107 -1.4142 -1.41421 -5.6569 5.65688 -2.82839 -2.8285 -1.41422 1.4143L11.0026 16Z" />
+        </svg>
+      );
+
     case "checkboxes":
       return (
         <svg {...rest}>
