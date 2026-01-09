@@ -9,9 +9,11 @@ import type HomePageProps from "./HomePage.types";
 export default function useHomePage(props: HomePageProps) {
   const { replace } = useRouter();
 
-  const { league, leagueError, leagueLoading: loading } = useLeague();
+  const { league, leagueError, leagueLoading } = useLeague();
 
   const error = useMemo(() => errors.getMessage(leagueError), [leagueError]);
+
+  const loading = useMemo(() => leagueLoading, [leagueLoading]);
 
   useEffect(() => {
     if (loading) return;
