@@ -50,6 +50,15 @@ export type GetMatchesResponse = {
   updatedAt: number;
 }[];
 
+export type GetMatchesForApprovalRequest = {
+  userId: string;
+};
+
+export type GetMatchesForApprovalResponse = Pick<
+  GetMatchesResponse[number],
+  "createdAt" | "id" | "leagueId" | "players" | "updatedAt"
+>[];
+
 export type GetUsersRequest = {
   userId: string;
 };

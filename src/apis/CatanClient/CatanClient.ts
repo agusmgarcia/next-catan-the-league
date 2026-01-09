@@ -28,6 +28,8 @@ import {
   type GetLeagueResponse,
   type GetLeaguesRequest,
   type GetLeaguesResponse,
+  type GetMatchesForApprovalRequest,
+  type GetMatchesForApprovalResponse,
   type GetMatchesRequest,
   type GetMatchesResponse,
   type GetUserRequest,
@@ -146,6 +148,36 @@ export default class CatanClient {
     );
   }
 
+  async getMatchesForApproval(
+    { userId }: GetMatchesForApprovalRequest,
+    signal: AbortSignal,
+  ): Promise<GetMatchesForApprovalResponse> {
+    if (!userId) return [];
+
+    return await this.getLeagues({ userId }, signal)
+      .then((leagues) => leagues.map((l) => l.id))
+      .then((leagueIds) => splitArrays(leagueIds, CatanClient.MAX_IN_ELEMENTS))
+      .then((groupsOfLeagueIds) =>
+        groupsOfLeagueIds.map((leagueIds) =>
+          getDocs(
+            query(
+              collection(this.db, CatanClient.COLLECTIONS.matches),
+              where("leagueId", "in", leagueIds),
+              where(`players.${userId}.approval`, "==", false),
+            ),
+          ),
+        ),
+      )
+      .then((promises) => Promise.all(promises))
+      .then((groupOfSnapshots) => groupOfSnapshots.flatMap((doc) => doc.docs))
+      .then((matchDoc) =>
+        matchDoc.map((d) => ({
+          ...CatanClient.transformMatch(d.data()),
+          id: d.id,
+        })),
+      );
+  }
+
   private static transformMatch(
     data: any,
   ): Omit<GetMatchesResponse[number], "id"> {
@@ -158,7 +190,7 @@ export default class CatanClient {
           id: playerId,
           points: data?.players[playerId].points || 0,
         })) || [],
-      updatedAt: data?.updatedAt || "",
+      updatedAt: data?.updatedAt || 0,
     };
   }
 
