@@ -26,14 +26,12 @@ export default function useLeagueSummaryCard(props: LeagueSummaryCardProps) {
 
     return (
       league?.players
-        .map((player, index) => ({
+        .map((player) => ({
           ...player,
           name: recordOfUsers[player.id]?.name || "Unknown",
-          victoryPoints: match?.players.at(index)?.victoryPoints || 0,
+          points: match?.players.find((p) => p.id === player.id)?.points || 0,
         }))
-        .sort((p1, p2) =>
-          sorts.byNumberDesc(p1.victoryPoints, p2.victoryPoints),
-        ) || []
+        .sort((p1, p2) => sorts.byNumberDesc(p1.points, p2.points)) || []
     );
   }, [league?.id, league?.players, matches, users]);
 

@@ -65,9 +65,9 @@ export default function LeagueSummaryCard(props: LeagueSummaryCardProps) {
               </Anchor>
             </Typography>
 
-            {/* VICTORY POINTS */}
+            {/* POINTS */}
             <Typography className="ml-auto min-w-7 text-center font-semibold">
-              {player.victoryPoints}
+              {player.points}
             </Typography>
           </div>
         ))}

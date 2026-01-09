@@ -26,13 +26,13 @@ export default function usePodium(props: PodiumProps) {
     const match = matches.find((m) => m.leagueId === league?.id);
 
     const players = league?.players
-      .map((player, index) => ({
+      .map((player) => ({
         ...player,
         name: recordOfUsers[player.id]?.name || "Unknown",
         photoURL: recordOfUsers[player.id]?.photoURL || unknown.src,
-        victoryPoints: match?.players.at(index)?.victoryPoints || 0,
+        points: match?.players.find((p) => p.id === player.id)?.points || 0,
       }))
-      .sort((p1, p2) => sorts.byNumberDesc(p1.victoryPoints, p2.victoryPoints));
+      .sort((p1, p2) => sorts.byNumberDesc(p1.points, p2.points));
 
     return [players?.at(1), players?.at(0), players?.at(2)];
   }, [league?.id, league?.players, matches, users]);

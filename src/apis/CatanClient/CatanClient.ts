@@ -79,7 +79,7 @@ export default class CatanClient {
       query(
         collection(this.db, CatanClient.COLLECTIONS.leagues),
         where("deletedAt", "==", null),
-        where("players.ids", "array-contains", userId),
+        where("playerIds", "array-contains", userId),
       ),
     ).then((result) =>
       result.docs.map((d) => ({
@@ -119,9 +119,9 @@ export default class CatanClient {
       createdAt: data?.createdAt || 0,
       name: data?.name || "Unnamed",
       players:
-        data?.players?.ids?.map((playerId: string, index: number) => ({
-          admin: !!data?.players?.admins?.at(index),
-          color: data?.players?.colors?.at(index) || "blue",
+        data?.playerIds?.map((playerId: string) => ({
+          admin: !!data?.players[playerId]?.admin,
+          color: data?.players[playerId]?.color || "blue",
           id: playerId,
         })) || [],
       updatedAt: data?.updatedAt || 0,
@@ -153,9 +153,10 @@ export default class CatanClient {
       createdAt: data?.createdAt || 0,
       leagueId: data?.leagueId || "",
       players:
-        data?.players?.approvals?.map((approval: boolean, index: number) => ({
-          approval,
-          victoryPoints: data?.players?.victoryPoints?.at(index) || 0,
+        Object.keys(data?.players || {}).map((playerId: string) => ({
+          approval: !!data.players[playerId].approval,
+          id: playerId,
+          points: data?.players[playerId].points || 0,
         })) || [],
       updatedAt: data?.updatedAt || "",
     };

@@ -44,7 +44,8 @@ export type GetMatchesResponse = {
   leagueId: string;
   players: {
     approval: boolean;
-    victoryPoints: number;
+    id: string;
+    points: number;
   }[];
   updatedAt: number;
 }[];
