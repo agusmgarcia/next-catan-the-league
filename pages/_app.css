@@ -5,7 +5,8 @@
 
   --color-black: #000000;
   --color-white: #ffffff;
-  --color-gray-500: oklch(55.1% 0.027 264.364);
+  --color-gray-300: #d1d5dc;
+  --color-gray-500: #6a7282;
 
   --color-interface-yellow: #edbc40;
   --color-interface-red: #b42424;
