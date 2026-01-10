@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v0.7.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.7.0)
+
+> January 10, 2026
+
+### Features ✅
+
+- **ViewPastMatches**: add page
+- **ApproveMatchesPage**: add link to view past matches
+- **Alert**: add success variant
+
+### Fixes 🎯
+
+- **CatanClient**: update updatedAt when approve/reject matches
+- **Layout**: make error to be bold
+- **ViewLeaguePage**: replace medal icon by crown
+
+### Chores ⚙️
+
+- **Title**: rename prop inside hook
+- **ApproveMatchesPage**: adjust URL
+- **CatanClient**: rename approval by approved
+
 ## [v0.6.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.6.0)
 
 > January 10, 2026
