@@ -1,4 +1,3 @@
-import { filters } from "@agusmgarcia/react-essentials-utils";
 import { type FirebaseApp, initializeApp } from "firebase/app";
 import {
   type Auth as FirebaseAuth,
@@ -10,7 +9,6 @@ import {
 import {
   collection,
   doc,
-  documentId,
   type Firestore,
   getDoc,
   getDocs,
@@ -211,31 +209,21 @@ export default class CatanClient {
 
   async getUsers(
     { userId }: GetUsersRequest,
-    signal: AbortSignal,
+    _: AbortSignal,
   ): Promise<GetUsersResponse> {
-    return await this.getLeagues({ userId }, signal)
-      .then((leagues) => leagues.flatMap((l) => l.players.map((p) => p.id)))
-      .then((userIds) => userIds.filter(filters.distinct))
-      .then((userIds) => splitArrays(userIds, CatanClient.MAX_IN_ELEMENTS))
-      .then((groupsOfUserIds) =>
-        groupsOfUserIds.map((userIds) =>
-          getDocs(
-            query(
-              collection(this.db, CatanClient.COLLECTIONS.users),
-              where("deletedAt", "==", null),
-              where(documentId(), "in", userIds),
-            ),
-          ),
-        ),
-      )
-      .then((groupOfUsersDocPromises) => Promise.all(groupOfUsersDocPromises))
-      .then((groupOfUsersDoc) => groupOfUsersDoc.flatMap((doc) => doc.docs))
-      .then((userDocs) =>
-        userDocs.map((userDoc) => ({
-          ...CatanClient.transformUser(userDoc.data()),
-          id: userDoc.id,
-        })),
-      );
+    if (!userId) return [];
+
+    return await getDocs(
+      query(
+        collection(this.db, CatanClient.COLLECTIONS.users),
+        where("deletedAt", "==", null),
+      ),
+    ).then((userDocs) =>
+      userDocs.docs.map((userDoc) => ({
+        ...CatanClient.transformUser(userDoc.data()),
+        id: userDoc.id,
+      })),
+    );
   }
 
   async getUser(
@@ -248,9 +236,23 @@ export default class CatanClient {
     const user = this.auth.currentUser;
     if (!user) return undefined;
 
+    const userDoc = await getDoc(
+      doc(this.db, CatanClient.COLLECTIONS.users, user.uid),
+    );
+    if (!userDoc.exists()) return undefined;
+
+    const data = userDoc.data();
+    if (!!data.deletedAt) return undefined;
+
+    return { ...CatanClient.transformUser(data), id: userDoc.id };
+  }
+
+  async login({}: LoginRequest, signal: AbortSignal): Promise<LoginResponse> {
+    const { user } = await signInWithPopup(this.auth, this.googleAuthProvider);
+
     const userRef = doc(this.db, CatanClient.COLLECTIONS.users, user.uid);
 
-    return await runTransaction(this.db, async (transaction) => {
+    await runTransaction(this.db, async (transaction) => {
       signal.throwIfAborted();
 
       const userDoc = await transaction.get(userRef);
@@ -272,19 +274,25 @@ export default class CatanClient {
         return { ...CatanClient.transformUser(data), id: userDoc.id };
       }
 
+      if (!user.email) throw new Error("User without email is not valid");
+
       const now = Date.now();
       const newUser: Omit<NonNullable<GetUserResponse>, "id"> = {
         createdAt: now,
         defaultColor: "blue",
-        email: user.email || undefined,
+        email: user.email,
         name: user.displayName || "Unknown",
         photoURL: user.photoURL || unknown.src,
         updatedAt: now,
       };
 
-      transaction.set(userRef, { ...newUser, email: newUser.email || null });
+      transaction.set(userRef, { ...newUser, deletedAt: null });
       return { ...newUser, id: user.uid };
     });
+  }
+
+  async logout({}: LogoutRequest, _: AbortSignal): Promise<LogoutResponse> {
+    await signOut(this.auth);
   }
 
   private static transformUser(
@@ -293,18 +301,10 @@ export default class CatanClient {
     return {
       createdAt: data?.createdAt || 0,
       defaultColor: data?.defaultColor || "blue",
-      email: data?.email || undefined,
-      name: data?.name || "Unknown",
-      photoURL: data?.photoURL || unknown.src,
+      email: data?.email || "",
+      name: data?.name || "",
+      photoURL: data?.photoURL || "",
       updatedAt: data?.updatedAt || 0,
     };
-  }
-
-  async login({}: LoginRequest, _: AbortSignal): Promise<LoginResponse> {
-    await signInWithPopup(this.auth, this.googleAuthProvider);
-  }
-
-  async logout({}: LogoutRequest, _: AbortSignal): Promise<LogoutResponse> {
-    await signOut(this.auth);
   }
 }

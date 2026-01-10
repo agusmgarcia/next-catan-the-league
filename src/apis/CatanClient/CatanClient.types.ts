@@ -88,7 +88,7 @@ export type GetUserResponse =
   | {
       createdAt: number;
       defaultColor: PlayerColor;
-      email: string | undefined;
+      email: string;
       id: string;
       name: string;
       photoURL: string;
