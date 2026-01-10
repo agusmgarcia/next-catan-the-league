@@ -125,7 +125,7 @@ export default function useApproveMatchesPage({
             setState({ matchId: m.id, type: "approve" });
             approveMatch(m.id).finally(() => setState(undefined));
           },
-          approveDisabled: state?.matchId === m.id,
+          approveDisabled: !!state?.matchId,
           approveLoading: state?.matchId === m.id && state.type === "approve",
           approveVisible: !m.players.find((p) => p.id === user?.id)?.approved,
           createdAt: dates.toDateString(dates.toString(m.createdAt), "en-US", {
@@ -141,7 +141,7 @@ export default function useApproveMatchesPage({
             setState({ matchId: m.id, type: "reject" });
             rejectMatch(m.id).finally(() => setState(undefined));
           },
-          rejectDisabled: state?.matchId === m.id,
+          rejectDisabled: !!state?.matchId,
           rejectLoading: state?.matchId === m.id && state.type === "reject",
           rejectVisible:
             m.players.find((p) => p.id === user?.id)?.approved !== false,
