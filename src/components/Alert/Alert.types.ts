@@ -1,6 +1,6 @@
 type AlertProps = {
   children?: React.ReactNode;
-  variant: "error";
+  variant: "error" | "success";
 };
 
 export default AlertProps;
