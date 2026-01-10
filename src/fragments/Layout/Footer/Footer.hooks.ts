@@ -47,10 +47,10 @@ export default function useFooter(props: FooterProps) {
                   "undefined",
               ).length
             : undefined,
-        href: "/leagues/approve",
+        href: "/leagues/matches/approve",
         icon: "checkboxes" as const,
         invisible: false,
-        selected: pathname === "/leagues/approve",
+        selected: pathname === "/leagues/matches/approve",
       },
       {
         alert: undefined,
