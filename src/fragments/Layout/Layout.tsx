@@ -54,7 +54,7 @@ export default function Layout(props: LayoutProps) {
         {!loading && !!error && (
           <Alert variant="error">
             {typeof error === "string" ? (
-              <Typography>{error}</Typography>
+              <Typography className="font-semibold">{error}</Typography>
             ) : (
               <>{error}</>
             )}
