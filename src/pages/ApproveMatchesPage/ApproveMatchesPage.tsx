@@ -1,6 +1,14 @@
 import { twMerge } from "tailwind-merge";
 
-import { Button, Divider, Icon, Image, Typography } from "#src/components";
+import {
+  Alert,
+  Anchor,
+  Button,
+  Divider,
+  Icon,
+  Image,
+  Typography,
+} from "#src/components";
 import { Layout } from "#src/fragments";
 
 import useApproveMatchesPage from "./ApproveMatchesPage.hooks";
@@ -12,6 +20,20 @@ export default function ApproveMatchesPage(props: ApproveMatchesPageProps) {
   return (
     <Layout {...rest}>
       <div className="flex size-full flex-col gap-4 overflow-auto">
+        {!leagues.length && (
+          <div className="flex flex-col gap-4">
+            <Alert variant="success">
+              <Typography className="font-semibold">
+                There are no pending matches to be approved.
+              </Typography>
+            </Alert>
+
+            <Typography className="text-right font-semibold">
+              <Anchor href="/leagues/matches/past">View past matches</Anchor>
+            </Typography>
+          </div>
+        )}
+
         {leagues.map((league) => (
           <div key={league.id} className="flex flex-col gap-4 shadow-2xl">
             <div className="flex items-center justify-between gap-1">
