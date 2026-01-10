@@ -171,6 +171,7 @@ export default class CatanClient {
 
     await updateDoc(doc(this.db, CatanClient.COLLECTIONS.matches, id), {
       [`players.${userId}.approved`]: true,
+      updatedAt: Date.now(),
     });
   }
 
@@ -182,6 +183,7 @@ export default class CatanClient {
 
     await updateDoc(doc(this.db, CatanClient.COLLECTIONS.matches, id), {
       [`players.${userId}.approved`]: false,
+      updatedAt: Date.now(),
     });
   }
 
