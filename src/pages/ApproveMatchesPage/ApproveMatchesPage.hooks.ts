@@ -20,7 +20,10 @@ import { groupByArrays } from "#src/utils";
 
 import type ApproveMatchesPageProps from "./ApproveMatchesPage.types";
 
-export default function useApproveMatchesPage(props: ApproveMatchesPageProps) {
+export default function useApproveMatchesPage({
+  past: pastFromProps,
+  ...rest
+}: ApproveMatchesPageProps) {
   const { league, leagueError, leagueLoading } = useLeague();
   const { leagues, leaguesError, leaguesLoading } = useLeagues();
   const { approveMatch, matches, matchesError, matchesLoading, rejectMatch } =
@@ -71,7 +74,7 @@ export default function useApproveMatchesPage(props: ApproveMatchesPageProps) {
             .filter(
               (m) =>
                 typeof m.players.find((p) => p.id === user.id)?.approved ===
-                "undefined",
+                (!pastFromProps ? "undefined" : "boolean"),
             )
             .map((m) => {
               const league = recordOfLeagues[m.leagueId];
@@ -124,6 +127,7 @@ export default function useApproveMatchesPage(props: ApproveMatchesPageProps) {
           },
           approveDisabled: state?.matchId === m.id,
           approveLoading: state?.matchId === m.id && state.type === "approve",
+          approveVisible: !m.players.find((p) => p.id === user?.id)?.approved,
           createdAt: dates.toDateString(dates.toString(m.createdAt), "en-US", {
             day: "numeric",
             month: "short",
@@ -139,6 +143,8 @@ export default function useApproveMatchesPage(props: ApproveMatchesPageProps) {
           },
           rejectDisabled: state?.matchId === m.id,
           rejectLoading: state?.matchId === m.id && state.type === "reject",
+          rejectVisible:
+            m.players.find((p) => p.id === user?.id)?.approved !== false,
         })),
         name: group.values[0].league.name,
       }));
@@ -147,6 +153,7 @@ export default function useApproveMatchesPage(props: ApproveMatchesPageProps) {
     league?.id,
     leagues,
     matches,
+    pastFromProps,
     rejectMatch,
     state?.matchId,
     state?.type,
@@ -155,12 +162,13 @@ export default function useApproveMatchesPage(props: ApproveMatchesPageProps) {
   ]);
 
   return {
-    ...props,
+    ...rest,
     error,
-    heading: "Approve matches",
+    heading: !pastFromProps ? "Approve matches" : "View past matches",
     leagues: groupOfMatches,
     loading,
-    title: ["Leagues", "Approve"],
+    past: pastFromProps,
+    title: ["Leagues", "View past"],
   };
 }
 

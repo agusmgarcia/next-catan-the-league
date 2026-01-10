@@ -1,3 +1,5 @@
-type ApproveMatchesPageProps = {};
+type ApproveMatchesPageProps = {
+  past?: boolean;
+};
 
 export default ApproveMatchesPageProps;

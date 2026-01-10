@@ -15,7 +15,7 @@ import useApproveMatchesPage from "./ApproveMatchesPage.hooks";
 import type ApproveMatchesPageProps from "./ApproveMatchesPage.types";
 
 export default function ApproveMatchesPage(props: ApproveMatchesPageProps) {
-  const { leagues, ...rest } = useApproveMatchesPage(props);
+  const { leagues, past, ...rest } = useApproveMatchesPage(props);
 
   return (
     <Layout {...rest}>
@@ -24,18 +24,28 @@ export default function ApproveMatchesPage(props: ApproveMatchesPageProps) {
           <div className="flex flex-col gap-4">
             <Alert variant="success">
               <Typography className="font-semibold">
-                There are no pending matches to be approved.
+                {!past
+                  ? "There are no pending matches to be approved."
+                  : "There are no past matches to display."}
               </Typography>
             </Alert>
 
+            <Divider />
+
             <Typography className="text-right font-semibold">
-              <Anchor href="/leagues/matches/past">View past matches</Anchor>
+              {!past ? (
+                <Anchor href="/leagues/matches/past">View past matches</Anchor>
+              ) : (
+                <Anchor href="/leagues/matches/approve">
+                  View pending matches
+                </Anchor>
+              )}
             </Typography>
           </div>
         )}
 
         {leagues.map((league) => (
-          <div key={league.id} className="flex flex-col gap-4 shadow-2xl">
+          <div key={league.id} className="flex flex-col gap-4">
             <div className="flex items-center justify-between gap-1">
               <Typography className="font-semibold" variant="h2">
                 {league.name}
@@ -51,11 +61,31 @@ export default function ApproveMatchesPage(props: ApproveMatchesPageProps) {
             {league.matches.map((match) => (
               <div
                 key={match.id}
-                className="flex flex-col gap-4 rounded-lg border-4 bg-white/60 custom-noise-5 p-4"
+                className={twMerge(
+                  "flex flex-col gap-4 rounded-lg border-4 bg-white/60 custom-noise-5 p-4 shadow-2xl",
+                  match.approveVisible && match.rejectVisible
+                    ? "border-black"
+                    : match.approveVisible
+                      ? "border-interface-red"
+                      : "border-interface-green",
+                )}
               >
-                <Typography className="font-semibold underline">
-                  {match.createdAt}
-                </Typography>
+                <div className="flex items-center justify-between">
+                  <Typography className="font-semibold underline">
+                    {match.createdAt}
+                  </Typography>
+
+                  {match.approveVisible && !match.rejectVisible && (
+                    <Icon className="text-interface-red" variant="cross-fill" />
+                  )}
+
+                  {!match.approveVisible && match.rejectVisible && (
+                    <Icon
+                      className="text-interface-green"
+                      variant="check-fill"
+                    />
+                  )}
+                </div>
 
                 <div className="flex justify-start gap-4">
                   {match.players.map((player) => (
@@ -115,37 +145,41 @@ export default function ApproveMatchesPage(props: ApproveMatchesPageProps) {
                 )}
 
                 <div className="flex gap-2">
-                  <Button
-                    className="flex items-center justify-center gap-1"
-                    disabled={match.approveDisabled}
-                    onClick={match.approve}
-                    variant="primary"
-                  >
-                    {match.approveLoading ? (
-                      <Icon className="animate-spin" variant="spinner" />
-                    ) : (
-                      <>
-                        <Icon variant="check" />
-                        Approve
-                      </>
-                    )}
-                  </Button>
+                  {match.approveVisible && (
+                    <Button
+                      className="flex items-center justify-center gap-1"
+                      disabled={match.approveDisabled}
+                      onClick={match.approve}
+                      variant="primary"
+                    >
+                      {match.approveLoading ? (
+                        <Icon className="animate-spin" variant="spinner" />
+                      ) : (
+                        <>
+                          <Icon variant="check" />
+                          Approve
+                        </>
+                      )}
+                    </Button>
+                  )}
 
-                  <Button
-                    className="flex items-center justify-center gap-1"
-                    disabled={match.rejectDisabled}
-                    onClick={match.reject}
-                    variant="secondary"
-                  >
-                    {match.rejectLoading ? (
-                      <Icon className="animate-spin" variant="spinner" />
-                    ) : (
-                      <>
-                        <Icon variant="cross" />
-                        Reject
-                      </>
-                    )}
-                  </Button>
+                  {match.rejectVisible && (
+                    <Button
+                      className="flex items-center justify-center gap-1"
+                      disabled={match.rejectDisabled}
+                      onClick={match.reject}
+                      variant="secondary"
+                    >
+                      {match.rejectLoading ? (
+                        <Icon className="animate-spin" variant="spinner" />
+                      ) : (
+                        <>
+                          <Icon variant="cross" />
+                          Reject
+                        </>
+                      )}
+                    </Button>
+                  )}
                 </div>
               </div>
             ))}
