@@ -2,6 +2,42 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v0.6.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.6.0)
+
+> January 10, 2026
+
+### Features ✅
+
+- **ApproveMatchesPage**: implement page
+- **Button**: add primary and secondary variant
+- **groupByArrays**: add utility
+- **Icon**: add cross variant
+- **Icon**: add check variant
+- **Icon**: add cross-fill variant
+- **Icon**: add check-fill variant
+- **ViewLeaguePage**: adjust card color
+- **CatanClient**: start handling winner per match
+- **Footer**: add matches for approval counter
+- **Typography**: add span variant
+- **MatchesForApprovalSlice**: add slice
+- **CatanClient**: add playerId to the matches
+- **Icon**: replace add by plus
+- **CreateMatchPage**: add page
+
+### Fixes 🎯
+
+- **AppPage**: adjust error handling logic
+- **CatanClient**: retrieve matches where all players have approve
+- **Footer**: adjust key property
+- **Footer**: adjust links
+- **ViewLeaguePage**: make transitions to appears once
+- **Anchor**: use the NextJS component
+
+### Chores ⚙️
+
+- **HomePage**: adjust hook
+- **splitArrays**: simplify usage
+
 ## [v0.5.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.5.0)
 
 > January 7, 2026
