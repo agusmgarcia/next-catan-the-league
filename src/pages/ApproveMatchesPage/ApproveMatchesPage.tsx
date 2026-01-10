@@ -55,16 +55,16 @@ export default function ApproveMatchesPage(props: ApproveMatchesPageProps) {
                         src={player.photoURL}
                       />
 
-                      {typeof player.approval === "boolean" && (
+                      {typeof player.approved === "boolean" && (
                         <Icon
                           className={twMerge(
                             "absolute top-8 -right-2",
-                            player.approval
+                            player.approved
                               ? "text-interface-green"
                               : "text-interface-red",
                           )}
                           variant={
-                            player.approval ? "check-fill" : "cross-fill"
+                            player.approved ? "check-fill" : "cross-fill"
                           }
                         />
                       )}

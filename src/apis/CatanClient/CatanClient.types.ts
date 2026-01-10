@@ -45,7 +45,7 @@ export type GetMatchesResponse = {
   observations: string | undefined;
   photoURL: string | undefined;
   players: {
-    approval: boolean | undefined;
+    approved: boolean | undefined;
     id: string;
     points: number;
   }[];

@@ -23,7 +23,7 @@ export default function useLeagueSummaryCard(props: LeagueSummaryCardProps) {
     );
 
     const approvedMatches = matches.filter((m) =>
-      m.players.every((p) => !!p.approval),
+      m.players.every((p) => !!p.approved),
     );
 
     return (

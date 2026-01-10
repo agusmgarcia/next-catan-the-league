@@ -70,7 +70,7 @@ export default function useApproveMatchesPage(props: ApproveMatchesPageProps) {
         ? matches
             .filter(
               (m) =>
-                typeof m.players.find((p) => p.id === user.id)?.approval ===
+                typeof m.players.find((p) => p.id === user.id)?.approved ===
                 "undefined",
             )
             .map((m) => {
@@ -87,7 +87,7 @@ export default function useApproveMatchesPage(props: ApproveMatchesPageProps) {
                 photoURL: m.photoURL,
                 players: m.players
                   .map((p1) => ({
-                    approval: p1.approval,
+                    approved: p1.approved,
                     color:
                       league.players.find((p2) => p2.id === p1.id)?.color ||
                       "blue",

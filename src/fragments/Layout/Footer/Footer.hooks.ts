@@ -43,7 +43,7 @@ export default function useFooter(props: FooterProps) {
           !!user?.id && !!matches
             ? matches.filter(
                 (m) =>
-                  typeof m.players.find((p) => p.id === user.id)?.approval ===
+                  typeof m.players.find((p) => p.id === user.id)?.approved ===
                   "undefined",
               ).length
             : undefined,

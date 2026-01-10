@@ -24,7 +24,7 @@ export default function usePodium(props: PodiumProps) {
     );
 
     const approvedMatches = matches.filter((m) =>
-      m.players.every((p) => !!p.approval),
+      m.players.every((p) => !!p.approved),
     );
 
     const players = league?.players

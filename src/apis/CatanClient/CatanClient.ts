@@ -170,7 +170,7 @@ export default class CatanClient {
     if (!userId) return;
 
     await updateDoc(doc(this.db, CatanClient.COLLECTIONS.matches, id), {
-      [`players.${userId}.approval`]: true,
+      [`players.${userId}.approved`]: true,
     });
   }
 
@@ -181,7 +181,7 @@ export default class CatanClient {
     if (!userId) return;
 
     await updateDoc(doc(this.db, CatanClient.COLLECTIONS.matches, id), {
-      [`players.${userId}.approval`]: false,
+      [`players.${userId}.approved`]: false,
     });
   }
 
@@ -195,9 +195,9 @@ export default class CatanClient {
       photoURL: data?.photoURL || undefined,
       players:
         Object.keys(data?.players || {}).map((playerId: string) => ({
-          approval:
-            typeof data.players[playerId].approval === "boolean"
-              ? data.players[playerId].approval
+          approved:
+            typeof data.players[playerId].approved === "boolean"
+              ? data.players[playerId].approved
               : undefined,
           id: playerId,
           points: data?.players[playerId].points || 0,
