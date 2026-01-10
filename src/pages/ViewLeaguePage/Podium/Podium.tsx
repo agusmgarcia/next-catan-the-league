@@ -25,19 +25,13 @@ export default function Podium(props: PodiumProps) {
             {leagueCompleted && index === 1 && (
               <Icon
                 className={twMerge(
-                  "absolute -right-4 bottom-0",
+                  "stroke-black text-interface-yellow",
+                  "absolute -top-6",
                   "opacity-0",
                   transitions && "transition-opacity delay-600",
                   ready && "opacity-100",
-
-                  player?.color === "red" && "text-player-red",
-                  player?.color === "blue" && "text-player-blue",
-                  player?.color === "white" && "text-black/50",
-                  player?.color === "orange" && "text-player-orange",
-                  player?.color === "green" && "text-player-green",
-                  player?.color === "brown" && "text-player-brown",
                 )}
-                variant="medal"
+                variant="crown"
               />
             )}
 

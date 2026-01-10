@@ -48,10 +48,7 @@ export default function usePodium(props: PodiumProps) {
     return [players?.at(1), players?.at(0), players?.at(2)];
   }, [league?.players, matches, users]);
 
-  const leagueCompleted = useMemo(
-    () => !!league?.completedAt,
-    [league?.completedAt],
-  );
+  const leagueCompleted = useMemo(() => false, []); // TODO:
 
   useEffect(() => {
     if (!window.__VIEW_LEAGUE_PAGE__PODIUM__RENDERED__) {
