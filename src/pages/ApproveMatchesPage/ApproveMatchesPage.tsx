@@ -21,27 +21,13 @@ export default function ApproveMatchesPage(props: ApproveMatchesPageProps) {
     <Layout {...rest}>
       <div className="flex size-full flex-col gap-4 overflow-auto">
         {!leagues.length && (
-          <div className="flex flex-col gap-4">
-            <Alert variant="success">
-              <Typography className="font-semibold">
-                {!past
-                  ? "There are no pending matches to be approved."
-                  : "There are no past matches to display."}
-              </Typography>
-            </Alert>
-
-            <Divider />
-
-            <Typography className="text-right font-semibold">
-              {!past ? (
-                <Anchor href="/leagues/matches/past">View past matches</Anchor>
-              ) : (
-                <Anchor href="/leagues/matches/approve">
-                  View pending matches
-                </Anchor>
-              )}
+          <Alert variant="success">
+            <Typography className="font-semibold">
+              {!past
+                ? "There are no pending matches to be approved."
+                : "There are no past matches to display."}
             </Typography>
-          </div>
+          </Alert>
         )}
 
         {leagues.map((league) => (
@@ -185,6 +171,18 @@ export default function ApproveMatchesPage(props: ApproveMatchesPageProps) {
             ))}
           </div>
         ))}
+
+        <Divider />
+
+        <Typography className="font-semibold">
+          {!past ? (
+            <Anchor href="/leagues/matches/past">View past matches</Anchor>
+          ) : (
+            <Anchor href="/leagues/matches/approve">
+              View pending matches
+            </Anchor>
+          )}
+        </Typography>
       </div>
     </Layout>
   );
