@@ -9,7 +9,7 @@ export default function Divider(props: DividerProps) {
   return (
     <div
       {...rest}
-      className={twMerge("h-0.5 rounded-lg bg-black", className)}
+      className={twMerge("h-0.5 flex-none rounded-lg bg-black", className)}
     />
   );
 }
