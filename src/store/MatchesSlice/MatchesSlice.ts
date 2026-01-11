@@ -1,6 +1,6 @@
 import { ServerSlice } from "@agusmgarcia/react-essentials-store";
 
-import { CatanClient } from "#src/apis";
+import { CatanClient, type CatanClientTypes } from "#src/apis";
 
 import { type UserSlice } from "../UserSlice";
 import { type Request, type Response } from "./MatchesSlice.types";
@@ -23,6 +23,14 @@ export default class MatchesSlice extends ServerSlice<
     signal: AbortSignal,
   ): Promise<Response> {
     return CatanClient.INSTANCE.getMatches(request, signal);
+  }
+
+  async createMatch(
+    request: CatanClientTypes.CreateMatchRequest,
+    signal: AbortSignal,
+  ): Promise<void> {
+    await CatanClient.INSTANCE.createMatch(request, signal);
+    await this.reload(signal);
   }
 
   async approveMatch(id: string, signal: AbortSignal): Promise<void> {

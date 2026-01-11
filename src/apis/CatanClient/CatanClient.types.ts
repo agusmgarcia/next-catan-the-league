@@ -42,7 +42,7 @@ export type GetMatchesResponse = {
   createdAt: number;
   id: string;
   leagueId: string;
-  observations: string | undefined;
+  observations: string;
   photoURL: string | undefined;
   players: {
     approved: boolean | undefined;
@@ -52,6 +52,13 @@ export type GetMatchesResponse = {
   updatedAt: number;
   winnerId: string;
 }[];
+
+export type CreateMatchRequest = Pick<
+  GetMatchesResponse[number],
+  "leagueId" | "observations" | "players" | "winnerId"
+>;
+
+export type CreateMatchResponse = void;
 
 export type ApproveMatchRequest = {
   id: string;

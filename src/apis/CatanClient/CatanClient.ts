@@ -7,6 +7,7 @@ import {
   signOut,
 } from "firebase/auth";
 import {
+  addDoc,
   collection,
   doc,
   type Firestore,
@@ -24,6 +25,8 @@ import unknown from "#public/assets/unknown.webp";
 import {
   type ApproveMatchRequest,
   type ApproveMatchResponse,
+  type CreateMatchRequest,
+  type CreateMatchResponse,
   type GetLeagueRequest,
   type GetLeagueResponse,
   type GetLeaguesRequest,
@@ -152,6 +155,34 @@ export default class CatanClient {
     );
   }
 
+  async createMatch(
+    { leagueId, observations, players, winnerId }: CreateMatchRequest,
+    _: AbortSignal,
+  ): Promise<CreateMatchResponse> {
+    const now = Date.now();
+
+    await addDoc(collection(this.db, CatanClient.COLLECTIONS.matches), {
+      createdAt: now,
+      deletedAt: null,
+      leagueId,
+      observations,
+      photoURL: null, //TODO:
+      playerIds: players.map((p) => p.id),
+      players: players.reduce(
+        (result, p) => {
+          result[p.id] = {
+            approved: p.approved || null,
+            points: p.points,
+          };
+          return result;
+        },
+        {} as Record<string, { approved: boolean | null; points: number }>,
+      ),
+      updatedAt: now,
+      winnerId,
+    });
+  }
+
   async approveMatch(
     { id, userId }: ApproveMatchRequest,
     _: AbortSignal,
@@ -182,7 +213,7 @@ export default class CatanClient {
     return {
       createdAt: data?.createdAt || 0,
       leagueId: data?.leagueId || "",
-      observations: data?.observations || undefined,
+      observations: data?.observations || "",
       photoURL: data?.photoURL || undefined,
       players:
         Object.keys(data?.players || {}).map((playerId: string) => ({

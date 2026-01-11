@@ -57,6 +57,7 @@ export function useMatches() {
 
   return {
     approveMatch: useSelector((state) => state.matches.approveMatch),
+    createMatch: useSelector((state) => state.matches.createMatch),
     matches: useSelector((state) => state.matches.response),
     matchesError: useSelector((state) => state.matches.error) || userError,
     matchesLoading:
