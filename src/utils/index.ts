@@ -1,1 +1,1 @@
-export * from "./groupByArrays";
+export * from "./arrays";

@@ -1,9 +1,8 @@
-import { type Input, type Output } from "./groupByArrays.types";
+import { type GroupByInput, type GroupByOutput } from "./arrays.types";
 
-export default function groupByArrays<
-  TArrayItem,
-  TGroup extends string | number,
->(...[array, groupBy]: Input<TArrayItem, TGroup>): Output<TArrayItem, TGroup> {
+export function groupBy<TArrayItem, TGroup extends string | number>(
+  ...[array, groupBy]: GroupByInput<TArrayItem, TGroup>
+): GroupByOutput<TArrayItem, TGroup> {
   const result = new Map<TGroup, TArrayItem[]>();
 
   for (const item of array) {
