@@ -78,14 +78,16 @@ export default class CatanClient {
     { userId }: GetLeaguesRequest,
     _: AbortSignal,
   ): Promise<GetLeaguesResponse> {
+    if (!userId) return [];
+
     return getDocs(
       query(
         collection(this.db, CatanClient.COLLECTIONS.leagues),
         where("deletedAt", "==", null),
         where("playerIds", "array-contains", userId),
       ),
-    ).then((result) =>
-      result.docs.map((d) => ({
+    ).then((leaguesDoc) =>
+      leaguesDoc.docs.map((d) => ({
         ...CatanClient.transformLeague(d.data()),
         id: d.id,
       })),
@@ -120,7 +122,7 @@ export default class CatanClient {
     return {
       completedAt: data?.completedAt || undefined,
       createdAt: data?.createdAt || 0,
-      name: data?.name || "Unnamed",
+      name: data?.name || "",
       players:
         data?.playerIds?.map((playerId: string) => ({
           admin: !!data?.players[playerId]?.admin,
