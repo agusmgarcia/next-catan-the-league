@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v0.8.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.8.0)
+
+> January 11, 2026
+
+### Features ✅
+
+- **CatanClient**: start fetching all users info
+
+### Fixes 🎯
+
+- **ApproveMatchesPage**: make approval inmutable
+- **CatanClient**: fetch matches filtering by playerId
+- **CatanClient**: avoid fetching leagues if no user
+- **ApproveMatchesPage**: disable the rest of the buttons
+- **ApproveMatchesPage**: Add link even if there are elements
+- **Divider**: add flex-none class
+
+### Chores ⚙️
+
+- **arrays**: make groupBy part of the module
+
 ## [v0.7.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.7.0)
 
 > January 10, 2026
