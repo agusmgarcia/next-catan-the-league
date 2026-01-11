@@ -130,7 +130,6 @@ export default function useApproveMatchesPage({
           },
           approveDisabled: !!state?.matchId,
           approveLoading: state?.matchId === m.id && state.type === "approve",
-          approveVisible: !m.players.find((p) => p.id === user?.id)?.approved,
           createdAt: dates.toDateString(dates.toString(m.createdAt), "en-US", {
             day: "numeric",
             month: "short",
@@ -146,8 +145,11 @@ export default function useApproveMatchesPage({
           },
           rejectDisabled: !!state?.matchId,
           rejectLoading: state?.matchId === m.id && state.type === "reject",
-          rejectVisible:
-            m.players.find((p) => p.id === user?.id)?.approved !== false,
+          status: !!pastFromProps
+            ? !!m.players.find((p) => p.id === user?.id)?.approved
+              ? ("Approved" as const)
+              : ("Rejected" as const)
+            : undefined,
         })),
         name: group.values[0].league.name,
       }));

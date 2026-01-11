@@ -49,11 +49,11 @@ export default function ApproveMatchesPage(props: ApproveMatchesPageProps) {
                 key={match.id}
                 className={twMerge(
                   "flex flex-col gap-4 rounded-lg border-4 bg-white/60 custom-noise-5 p-4 shadow-2xl",
-                  match.approveVisible && match.rejectVisible
+                  !match.status
                     ? "border-black"
-                    : match.approveVisible
-                      ? "border-interface-red"
-                      : "border-interface-green",
+                    : match.status === "Approved"
+                      ? "border-interface-green"
+                      : "border-interface-red",
                 )}
               >
                 <div className="flex items-center justify-between">
@@ -61,15 +61,15 @@ export default function ApproveMatchesPage(props: ApproveMatchesPageProps) {
                     {match.createdAt}
                   </Typography>
 
-                  {match.approveVisible && !match.rejectVisible && (
-                    <Icon className="text-interface-red" variant="cross-fill" />
-                  )}
-
-                  {!match.approveVisible && match.rejectVisible && (
+                  {match.status === "Approved" && (
                     <Icon
                       className="text-interface-green"
                       variant="check-fill"
                     />
+                  )}
+
+                  {match.status === "Rejected" && (
+                    <Icon className="text-interface-red" variant="cross-fill" />
                   )}
                 </div>
 
@@ -130,8 +130,8 @@ export default function ApproveMatchesPage(props: ApproveMatchesPageProps) {
                   </div>
                 )}
 
-                <div className="flex gap-2">
-                  {match.approveVisible && (
+                {!match.status && (
+                  <div className="flex gap-2">
                     <Button
                       className="flex items-center justify-center gap-1"
                       disabled={match.approveDisabled}
@@ -147,9 +147,7 @@ export default function ApproveMatchesPage(props: ApproveMatchesPageProps) {
                         </>
                       )}
                     </Button>
-                  )}
 
-                  {match.rejectVisible && (
                     <Button
                       className="flex items-center justify-center gap-1"
                       disabled={match.rejectDisabled}
@@ -165,8 +163,8 @@ export default function ApproveMatchesPage(props: ApproveMatchesPageProps) {
                         </>
                       )}
                     </Button>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
             ))}
           </div>
