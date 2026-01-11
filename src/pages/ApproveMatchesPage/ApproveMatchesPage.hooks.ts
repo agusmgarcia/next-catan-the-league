@@ -78,6 +78,7 @@ export default function useApproveMatchesPage({
             )
             .map((m) => {
               const league = recordOfLeagues[m.leagueId];
+              if (!league) return undefined;
 
               return {
                 createdAt: m.createdAt,
@@ -104,6 +105,7 @@ export default function useApproveMatchesPage({
                   .sort((p1, p2) => sorts.byBooleanAsc(p1.winner, p2.winner)),
               };
             })
+            .filter((m) => !!m)
             .sort((m1, m2) => sorts.byNumberDesc(m1.createdAt, m2.createdAt))
         : [],
       (match) => match.league.id,

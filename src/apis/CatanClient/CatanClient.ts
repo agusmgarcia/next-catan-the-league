@@ -20,7 +20,6 @@ import {
 } from "firebase/firestore";
 
 import unknown from "#public/assets/unknown.webp";
-import { splitArrays } from "#src/utils";
 
 import {
   type ApproveMatchRequest,
@@ -135,32 +134,22 @@ export default class CatanClient {
 
   async getMatches(
     { userId }: GetMatchesRequest,
-    signal: AbortSignal,
+    _: AbortSignal,
   ): Promise<GetMatchesResponse> {
     if (!userId) return [];
 
-    return await this.getLeagues({ userId }, signal)
-      .then((leagues) => leagues.map((l) => l.id))
-      .then((leagueIds) => splitArrays(leagueIds, CatanClient.MAX_IN_ELEMENTS))
-      .then((groupsOfLeagueIds) =>
-        groupsOfLeagueIds.map((leagueIds) =>
-          getDocs(
-            query(
-              collection(this.db, CatanClient.COLLECTIONS.matches),
-              where("deletedAt", "==", null),
-              where("leagueId", "in", leagueIds),
-            ),
-          ),
-        ),
-      )
-      .then((promises) => Promise.all(promises))
-      .then((groupOfSnapshots) => groupOfSnapshots.flatMap((doc) => doc.docs))
-      .then((matchDoc) =>
-        matchDoc.map((d) => ({
-          ...CatanClient.transformMatch(d.data()),
-          id: d.id,
-        })),
-      );
+    return await getDocs(
+      query(
+        collection(this.db, CatanClient.COLLECTIONS.matches),
+        where("deletedAt", "==", null),
+        where("playerIds", "array-contains", userId),
+      ),
+    ).then((matchesDoc) =>
+      matchesDoc.docs.map((d) => ({
+        ...CatanClient.transformMatch(d.data()),
+        id: d.id,
+      })),
+    );
   }
 
   async approveMatch(
