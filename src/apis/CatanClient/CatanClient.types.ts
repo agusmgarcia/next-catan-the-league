@@ -42,7 +42,7 @@ export type GetMatchesResponse = {
   createdAt: number;
   id: string;
   leagueId: string;
-  observations: string;
+  observations: string | undefined;
   photoURL: string | undefined;
   players: {
     approved: boolean | undefined;

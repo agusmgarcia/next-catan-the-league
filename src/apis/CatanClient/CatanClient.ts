@@ -10,6 +10,7 @@ import {
   addDoc,
   collection,
   doc,
+  FieldPath,
   type Firestore,
   getDoc,
   getDocs,
@@ -128,8 +129,8 @@ export default class CatanClient {
       name: data?.name || "",
       players:
         data?.playerIds?.map((playerId: string) => ({
-          admin: !!data?.players[playerId]?.admin,
-          color: data?.players[playerId]?.color || "blue",
+          admin: !!data?.playerAdmins?.[playerId],
+          color: data?.playerColors?.[playerId] || "blue",
           id: playerId,
         })) || [],
       updatedAt: data?.updatedAt || 0,
@@ -161,23 +162,26 @@ export default class CatanClient {
     _: AbortSignal,
   ): Promise<CreateMatchResponse> {
     const now = Date.now();
-
     await addDoc(collection(this.db, CatanClient.COLLECTIONS.matches), {
       createdAt: now,
       deletedAt: null,
       leagueId,
-      observations,
-      photoURL: null, //TODO:
-      playerIds: players.map((p) => p.id),
-      players: players.reduce(
+      observations: observations || null,
+      photoURL: null, // TODO:
+      playerApproveds: players.reduce(
         (result, p) => {
-          result[p.id] = {
-            approved: p.approved || null,
-            points: p.points,
-          };
+          result[p.id] = p.approved || null;
           return result;
         },
-        {} as Record<string, { approved: boolean | null; points: number }>,
+        {} as Record<string, boolean | null>,
+      ),
+      playerIds: players.map((p) => p.id),
+      playerPoints: players.reduce(
+        (result, p) => {
+          result[p.id] = p.points;
+          return result;
+        },
+        {} as Record<string, number>,
       ),
       updatedAt: now,
       winnerId,
@@ -190,10 +194,13 @@ export default class CatanClient {
   ): Promise<ApproveMatchResponse> {
     if (!userId) return;
 
-    await updateDoc(doc(this.db, CatanClient.COLLECTIONS.matches, id), {
-      [`players.${userId}.approved`]: true,
-      updatedAt: Date.now(),
-    });
+    await updateDoc(
+      doc(this.db, CatanClient.COLLECTIONS.matches, id),
+      new FieldPath("playerApproveds", userId),
+      true,
+      new FieldPath("updatedAt"),
+      Date.now(),
+    );
   }
 
   async rejectMatch(
@@ -202,10 +209,13 @@ export default class CatanClient {
   ): Promise<RejectMatchResponse> {
     if (!userId) return;
 
-    await updateDoc(doc(this.db, CatanClient.COLLECTIONS.matches, id), {
-      [`players.${userId}.approved`]: false,
-      updatedAt: Date.now(),
-    });
+    await updateDoc(
+      doc(this.db, CatanClient.COLLECTIONS.matches, id),
+      new FieldPath("playerApproveds", userId),
+      false,
+      new FieldPath("updatedAt"),
+      Date.now(),
+    );
   }
 
   private static transformMatch(
@@ -214,16 +224,16 @@ export default class CatanClient {
     return {
       createdAt: data?.createdAt || 0,
       leagueId: data?.leagueId || "",
-      observations: data?.observations || "",
+      observations: data?.observations || undefined,
       photoURL: data?.photoURL || undefined,
       players:
-        Object.keys(data?.players || {}).map((playerId: string) => ({
+        data?.playerIds.map((playerId: string) => ({
           approved:
-            typeof data.players[playerId].approved === "boolean"
-              ? data.players[playerId].approved
+            typeof data.playerApproveds?.[playerId] === "boolean"
+              ? data.playerApproveds[playerId]
               : undefined,
           id: playerId,
-          points: data?.players[playerId].points || 0,
+          points: data?.playerPoints?.[playerId] || 0,
         })) || [],
       updatedAt: data?.updatedAt || 0,
       winnerId: data?.winnerId || "",
