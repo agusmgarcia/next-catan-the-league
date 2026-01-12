@@ -38,6 +38,7 @@ export default function useLeagueSummaryCard(props: LeagueSummaryCardProps) {
               result += player.points;
               return result;
             }, 0),
+          profileId: recordOfUsers[player.id]?.profileId || "",
           victoryCounts: approvedMatches.filter((m) => m.winnerId === player.id)
             .length,
         }))

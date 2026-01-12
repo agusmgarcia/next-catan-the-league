@@ -82,10 +82,10 @@ export type GetUsersResponse = Pick<
   NonNullable<GetUserResponse>,
   | "createdAt"
   | "defaultColor"
-  | "email"
   | "id"
   | "name"
   | "photoURL"
+  | "profileId"
   | "updatedAt"
 >[];
 
@@ -95,10 +95,10 @@ export type GetUserResponse =
   | {
       createdAt: number;
       defaultColor: PlayerColor;
-      email: string;
       id: string;
       name: string;
       photoURL: string;
+      profileId: string;
       updatedAt: number;
     }
   | undefined;

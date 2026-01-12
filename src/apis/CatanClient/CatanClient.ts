@@ -19,6 +19,7 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
+import { v4 as createUUID } from "uuid";
 
 import unknown from "#public/assets/unknown.webp";
 
@@ -256,10 +257,10 @@ export default class CatanClient {
     signal.throwIfAborted();
 
     const user = this.auth.currentUser;
-    if (!user) return undefined;
+    if (!user?.email) return undefined;
 
     const userDoc = await getDoc(
-      doc(this.db, CatanClient.COLLECTIONS.users, user.uid),
+      doc(this.db, CatanClient.COLLECTIONS.users, user.email),
     );
     if (!userDoc.exists()) return undefined;
 
@@ -271,8 +272,9 @@ export default class CatanClient {
 
   async login({}: LoginRequest, signal: AbortSignal): Promise<LoginResponse> {
     const { user } = await signInWithPopup(this.auth, this.googleAuthProvider);
+    if (!user.email) throw new Error("User without email is not valid");
 
-    const userRef = doc(this.db, CatanClient.COLLECTIONS.users, user.uid);
+    const userRef = doc(this.db, CatanClient.COLLECTIONS.users, user.email);
 
     await runTransaction(this.db, async (transaction) => {
       signal.throwIfAborted();
@@ -296,20 +298,18 @@ export default class CatanClient {
         return { ...CatanClient.transformUser(data), id: userDoc.id };
       }
 
-      if (!user.email) throw new Error("User without email is not valid");
-
       const now = Date.now();
       const newUser: Omit<NonNullable<GetUserResponse>, "id"> = {
         createdAt: now,
         defaultColor: "blue",
-        email: user.email,
         name: user.displayName || "Unknown",
         photoURL: user.photoURL || unknown.src,
+        profileId: createUUID(),
         updatedAt: now,
       };
 
       transaction.set(userRef, { ...newUser, deletedAt: null });
-      return { ...newUser, id: user.uid };
+      return { ...newUser, id: user.email };
     });
   }
 
@@ -323,9 +323,9 @@ export default class CatanClient {
     return {
       createdAt: data?.createdAt || 0,
       defaultColor: data?.defaultColor || "blue",
-      email: data?.email || "",
       name: data?.name || "",
       photoURL: data?.photoURL || "",
+      profileId: data?.profileId || "",
       updatedAt: data?.updatedAt || 0,
     };
   }

@@ -60,7 +60,7 @@ export default function LeagueSummaryCard(props: LeagueSummaryCardProps) {
 
             {/* NAME */}
             <Typography className="line-clamp-1 font-semibold break-all">
-              <Anchor href={`/profiles/${player.id}/view`}>
+              <Anchor href={`/profiles/${player.profileId}/view`}>
                 {player.name}
               </Anchor>
             </Typography>

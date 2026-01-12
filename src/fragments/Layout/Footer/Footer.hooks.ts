@@ -54,13 +54,14 @@ export default function useFooter(props: FooterProps) {
       },
       {
         alert: undefined,
-        href: !!user?.id ? `/profiles/${user.id}/view` : "#",
+        href: !!user?.profileId ? `/profiles/${user.profileId}/view` : "#",
         icon: "profile" as const,
         invisible: false,
-        selected: !!user?.id && pathname === `/profiles/${user.id}/view`,
+        selected:
+          !!user?.profileId && pathname === `/profiles/${user.profileId}/view`,
       },
     ],
-    [league?.id, matches, pathname, user?.id],
+    [league?.id, matches, pathname, user?.profileId, user?.id],
   );
 
   return { ...props, league, links };
