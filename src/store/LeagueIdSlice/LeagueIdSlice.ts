@@ -18,12 +18,10 @@ export default class LeagueIdSlice extends LocalStorageSlice<
     this.subscribe(
       (state) => state,
       (state) => {
-        if (state.loading) return;
-        if (!this.slices.leagues.response.length) return;
+        if (state.loading || this.slices.leagues.loading) return;
         if (
           !!state.response &&
-          this.slices.leagues.response.some((l) => l.id === state.response) &&
-          !state.error
+          this.slices.leagues.response.some((l) => l.id === state.response)
         )
           return;
 
