@@ -45,6 +45,7 @@ export function useLeagues() {
   const { userError, userLoading } = useUser();
 
   return {
+    createLeague: useSelector((state) => state.leagues.createLeague),
     leagues: useSelector((state) => state.leagues.response),
     leaguesError: useSelector((state) => state.leagues.error) || userError,
     leaguesLoading:

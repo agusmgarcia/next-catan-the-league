@@ -34,6 +34,13 @@ export type GetLeagueResponse =
     }
   | undefined;
 
+export type CreateLeagueRequest = Pick<
+  NonNullable<GetLeagueResponse>,
+  "name" | "players"
+>;
+
+export type CreateLeagueResponse = string;
+
 export type GetMatchesRequest = {
   userId: string;
 };

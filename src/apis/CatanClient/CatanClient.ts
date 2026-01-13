@@ -27,6 +27,8 @@ import unknown from "#public/assets/unknown.webp";
 import {
   type ApproveMatchRequest,
   type ApproveMatchResponse,
+  type CreateLeagueRequest,
+  type CreateLeagueResponse,
   type CreateMatchRequest,
   type CreateMatchResponse,
   type GetLeagueRequest,
@@ -43,6 +45,7 @@ import {
   type LoginResponse,
   type LogoutRequest,
   type LogoutResponse,
+  type PlayerColor,
   type RejectMatchRequest,
   type RejectMatchResponse,
 } from "./CatanClient.types";
@@ -55,8 +58,6 @@ export default class CatanClient {
     matches: "matches",
     users: "users",
   };
-
-  private static readonly MAX_IN_ELEMENTS = 30;
 
   private readonly app: FirebaseApp;
   private readonly auth: FirebaseAuth;
@@ -118,6 +119,41 @@ export default class CatanClient {
       ...CatanClient.transformLeague(data),
       id: leagueDoc.id,
     };
+  }
+
+  async createLeague(
+    { name, players }: CreateLeagueRequest,
+    _: AbortSignal,
+  ): Promise<CreateLeagueResponse> {
+    const now = Date.now();
+
+    const document = await addDoc(
+      collection(this.db, CatanClient.COLLECTIONS.leagues),
+      {
+        completedAt: null,
+        createdAt: now,
+        deletedAt: null,
+        name,
+        playerAdmins: players.reduce(
+          (result, player) => {
+            result[player.id] = player.admin;
+            return result;
+          },
+          {} as Record<string, boolean>,
+        ),
+        playerColors: players.reduce(
+          (result, player) => {
+            result[player.id] = player.color;
+            return result;
+          },
+          {} as Record<string, PlayerColor>,
+        ),
+        playerIds: players.map((p) => p.id),
+        updatedAt: now,
+      },
+    );
+
+    return document.id;
   }
 
   private static transformLeague(

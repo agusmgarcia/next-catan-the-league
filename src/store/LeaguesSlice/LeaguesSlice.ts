@@ -1,6 +1,6 @@
 import { ServerSlice } from "@agusmgarcia/react-essentials-store";
 
-import { CatanClient } from "#src/apis";
+import { CatanClient, type CatanClientTypes } from "#src/apis";
 
 import { type UserSlice } from "../UserSlice";
 import { type Request, type Response } from "./LeaguesSlice.types";
@@ -23,5 +23,13 @@ export default class LeaguesSlice extends ServerSlice<
     signal: AbortSignal,
   ): Promise<Response> {
     return CatanClient.INSTANCE.getLeagues(request, signal);
+  }
+
+  async createLeague(
+    request: CatanClientTypes.CreateLeagueRequest,
+    signal: AbortSignal,
+  ): Promise<void> {
+    await CatanClient.INSTANCE.createLeague(request, signal);
+    await this.reload(signal);
   }
 }
