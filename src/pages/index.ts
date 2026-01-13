@@ -7,3 +7,4 @@ export * from "./LoginPage";
 export * from "./ViewLeaguePage";
 export * from "./ViewLeaguesPage";
 export * from "./ViewProfilePage";
+export * from "./ViewRulesPage";
