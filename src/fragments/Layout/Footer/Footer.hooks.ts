@@ -16,24 +16,26 @@ export default function useFooter(props: FooterProps) {
     () => [
       {
         alert: undefined,
-        href: !!league?.id ? `/leagues/${league.id}/view` : "/leagues/create",
+        href: "/",
         icon: "home" as const,
         invisible: false,
         selected:
           pathname === "/" ||
-          pathname === "/leagues/create" ||
-          /^\/leagues\/(.*)\/view$/.test(pathname),
+          (!!league?.id
+            ? pathname === `/leagues/${league.id}/view` ||
+              pathname === "/leagues/view"
+            : "/leagues/create"),
       },
       {
         alert: undefined,
-        href: "/leagues/view",
-        icon: "list" as const,
+        href: !!league?.id ? `/leagues/${league.id}/rules` : "/#",
+        icon: "rules" as const,
         invisible: false,
-        selected: pathname === "/leagues/view",
+        selected: !!league?.id && pathname === `/leagues/${league.id}/rules`,
       },
       {
         alert: undefined,
-        href: "#",
+        href: "/#",
         icon: "plus" as const,
         invisible: true,
         selected: false,
@@ -54,7 +56,7 @@ export default function useFooter(props: FooterProps) {
       },
       {
         alert: undefined,
-        href: !!user?.profileId ? `/profiles/${user.profileId}/view` : "#",
+        href: !!user?.profileId ? `/profiles/${user.profileId}/view` : "/#",
         icon: "profile" as const,
         invisible: false,
         selected:
