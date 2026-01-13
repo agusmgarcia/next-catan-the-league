@@ -1,6 +1,6 @@
 import { twMerge } from "tailwind-merge";
 
-import { Icon, Image, Typography } from "#src/components";
+import { Icon, PlayerImage, Typography } from "#src/components";
 
 import usePodium from "./Podium.hooks";
 import type PodiumProps from "./Podium.types";
@@ -20,42 +20,30 @@ export default function Podium(props: PodiumProps) {
             !player && "invisible",
           )}
         >
-          <div className="relative flex flex-col items-center">
+          <div
+            className={twMerge(
+              "relative flex flex-col items-center",
+              "opacity-0",
+              transitions && "transition-opacity",
+              transitions && index === 0 && "delay-750",
+              transitions && index === 1 && "delay-600",
+              transitions && index === 2 && "delay-900",
+              ready && "opacity-100",
+            )}
+          >
             {/* CROWN */}
             {leagueCompleted && index === 1 && (
               <Icon
-                className={twMerge(
-                  "stroke-black text-interface-yellow",
-                  "absolute -top-6",
-                  "opacity-0",
-                  transitions && "transition-opacity delay-600",
-                  ready && "opacity-100",
-                )}
+                className="absolute -top-6 stroke-black text-interface-yellow"
                 variant="crown"
               />
             )}
 
             {/* PHOTO URL */}
-            <Image
-              alt="player's face"
-              className={twMerge(
-                "h-14 w-14 rounded-full border-4",
-
-                "opacity-0",
-                transitions && "transition-opacity",
-                transitions && index === 0 && "delay-750",
-                transitions && index === 1 && "delay-600",
-                transitions && index === 2 && "delay-900",
-                ready && "opacity-100",
-
-                player?.color === "red" && "border-player-red",
-                player?.color === "blue" && "border-player-blue",
-                player?.color === "white" && "border-black/50",
-                player?.color === "orange" && "border-player-orange",
-                player?.color === "green" && "border-player-green",
-                player?.color === "brown" && "border-player-brown",
-              )}
-              src={player?.photoURL || ""}
+            <PlayerImage
+              color={player?.color}
+              src={player?.photoURL}
+              variant="3.5rem"
             />
           </div>
 

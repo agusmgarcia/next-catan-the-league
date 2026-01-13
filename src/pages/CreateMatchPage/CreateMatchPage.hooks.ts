@@ -2,7 +2,6 @@ import { dates, errors } from "@agusmgarcia/react-essentials-utils";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-import unknown from "#public/assets/unknown.webp";
 import {
   useLeague,
   useMatches,
@@ -60,7 +59,7 @@ export default function useCreateMatchPage(props: CreateMatchPageProps) {
           color: p.color,
           id: p.id,
           name: recordOfUsers[p.id]?.name || "Unknown",
-          photoURL: recordOfUsers[p.id]?.photoURL || unknown.src,
+          photoURL: recordOfUsers[p.id]?.photoURL || undefined,
         })) || [],
     };
   }, [league?.players, users]);

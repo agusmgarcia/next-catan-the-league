@@ -1,5 +1,3 @@
-import { twMerge } from "tailwind-merge";
-
 import victoryPoint from "#public/assets/victoryPoint.webp";
 import {
   Button,
@@ -7,6 +5,7 @@ import {
   Icon,
   Image,
   Input,
+  PlayerImage,
   Typography,
 } from "#src/components";
 import { Layout } from "#src/fragments";
@@ -63,18 +62,10 @@ export default function CreateMatchPage(props: CreateMatchPageProps) {
               <div key={player.id} className="flex items-center gap-2">
                 <div className="relative">
                   {/* IMAGE */}
-                  <Image
-                    alt="player's face"
-                    className={twMerge(
-                      "size-12 rounded-full border-4",
-                      player.color === "red" && "border-player-red",
-                      player.color === "blue" && "border-player-blue",
-                      player.color === "white" && "border-black/50",
-                      player.color === "orange" && "border-player-orange",
-                      player.color === "green" && "border-player-green",
-                      player.color === "brown" && "border-player-brown",
-                    )}
+                  <PlayerImage
+                    color={player.color}
                     src={player.photoURL}
+                    variant="3rem"
                   />
 
                   {/* APPROVED */}

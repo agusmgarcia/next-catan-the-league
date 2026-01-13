@@ -1,7 +1,6 @@
 import { sorts } from "@agusmgarcia/react-essentials-utils";
 import { useEffect, useMemo, useState } from "react";
 
-import unknown from "#public/assets/unknown.webp";
 import { useLeague, useMatches, type Users, useUsers } from "#src/store";
 
 import type PodiumProps from "./Podium.types";
@@ -31,7 +30,7 @@ export default function usePodium(props: PodiumProps) {
       .map((player) => ({
         ...player,
         name: recordOfUsers[player.id]?.name || "Unknown",
-        photoURL: recordOfUsers[player.id]?.photoURL || unknown.src,
+        photoURL: recordOfUsers[player.id]?.photoURL || undefined,
         points: approvedMatches
           .flatMap((m) => m.players)
           .filter((p) => p.id === player.id)

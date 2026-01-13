@@ -6,7 +6,6 @@ import {
 } from "@agusmgarcia/react-essentials-utils";
 import { useMemo, useState } from "react";
 
-import unknown from "#public/assets/unknown.webp";
 import {
   type Leagues,
   useLeague,
@@ -95,10 +94,10 @@ export default function useApproveMatchesPage({
                       approved: p1.approved,
                       color:
                         league.players.find((p2) => p2.id === p1.id)?.color ||
-                        "blue",
+                        undefined,
                       id: p1.id,
                       name: recordOfUsers[p1.id]?.name || "Unknown",
-                      photoURL: recordOfUsers[p1.id]?.photoURL || unknown.src,
+                      photoURL: recordOfUsers[p1.id]?.photoURL || undefined,
                       points: p1.points,
                       winner: m.winnerId === p1.id,
                     }))
