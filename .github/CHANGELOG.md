@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v0.9.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.9.0)
+
+> January 13, 2026
+
+### Features ✅
+
+- **Footer**: display rules instead of leagues view
+- **ViewRulesPage**: add page
+- **Icon**: add rules variant
+- **CreateLeaguePage**: add page
+- **VictoryPointImage**: add component
+- **PlayerImage**: add component
+- **CreateMatchPage**: implement page
+- **Input**: add component
+
+### Fixes 🎯
+
+- **HomePage**: adjust matches locator
+- **Banner**: remove className
+- **ViewLeaguePage**: adjust min and max height of a color
+- **Divider**: adjust min and max height
+- **LeagueIdSlice**: adjust selection logic
+
+### Chores ⚙️
+
+- **CatanClient**: restructure database
+- start using email as id
+
 ## [v0.8.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.8.0)
 
 > January 11, 2026
