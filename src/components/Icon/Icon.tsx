@@ -82,6 +82,13 @@ export default function Icon(props: IconProps) {
         </svg>
       );
 
+    case "rules":
+      return (
+        <svg {...rest}>
+          <path d="M20 2c1.6569 0 3 1.34315 3 3v2h-2v12c0 1.6569 -1.3431 3 -3 3H4c-1.65685 0 -3 -1.3431 -3 -3v-2h16v2c0 0.5128 0.386 0.9355 0.8834 0.9933L18 20c0.5128 0 0.9355 -0.386 0.9933 -0.8834L19 19V4H6c-0.51284 0 -0.93551 0.38604 -0.99327 0.88338L5 5v10H3V5c0 -1.65685 1.34315 -3 3 -3h14Z" />
+        </svg>
+      );
+
     case "spinner":
       return (
         <svg {...rest}>
