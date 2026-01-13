@@ -1,12 +1,11 @@
-import victoryPoint from "#public/assets/victoryPoint.webp";
 import {
   Button,
   Divider,
   Icon,
-  Image,
   Input,
   PlayerImage,
   Typography,
+  VictoryPointImage,
 } from "#src/components";
 import { Layout } from "#src/fragments";
 
@@ -39,11 +38,7 @@ export default function CreateMatchPage(props: CreateMatchPageProps) {
 
             <div className="flex flex-[100px] grow-0 items-center justify-between pr-1 pl-2.5">
               {/* VICTORY POINTS IMAGE */}
-              <Image
-                alt="victory points"
-                className="size-7"
-                src={victoryPoint.src}
-              />
+              <VictoryPointImage />
 
               {/* CROWN */}
               <Icon

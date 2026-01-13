@@ -8,3 +8,4 @@ export * from "./Image";
 export * from "./Input";
 export * from "./PlayerImage";
 export * from "./Typography";
+export * from "./VictoryPointImage";

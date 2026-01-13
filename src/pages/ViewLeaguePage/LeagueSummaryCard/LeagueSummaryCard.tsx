@@ -1,7 +1,11 @@
 import { twMerge } from "tailwind-merge";
 
-import victoryPoint from "#public/assets/victoryPoint.webp";
-import { Anchor, Divider, Image, Typography } from "#src/components";
+import {
+  Anchor,
+  Divider,
+  Typography,
+  VictoryPointImage,
+} from "#src/components";
 
 import useLeagueSummaryCard from "./LeagueSummaryCard.hooks";
 import type LeagueSummaryCardProps from "./LeagueSummaryCard.types";
@@ -29,11 +33,7 @@ export default function LeagueSummaryCard(props: LeagueSummaryCardProps) {
         </Typography>
 
         <div className="flex items-center gap-1">
-          <Image
-            alt="victory points"
-            className="size-7"
-            src={victoryPoint.src}
-          />
+          <VictoryPointImage />
         </div>
       </div>
 
