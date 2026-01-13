@@ -1,5 +1,5 @@
-import { type ImageProps } from "../Image";
-
-type BannerProps = Pick<ImageProps, "className"> & { speed?: number };
+type BannerProps = {
+  speed?: number;
+};
 
 export default BannerProps;

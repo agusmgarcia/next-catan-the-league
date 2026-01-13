@@ -59,11 +59,8 @@ export default function LoginPage(props: LoginPageProps) {
       </div>
 
       {/* BANNER */}
-      <div className="absolute inset-0 -z-1">
-        <Banner
-          className="mask-b-from-black mask-b-from-50% mask-b-to-transparent"
-          speed={5}
-        />
+      <div className="absolute inset-0 -z-1 mask-b-from-black mask-b-from-50% mask-b-to-transparent">
+        <Banner speed={5} />
       </div>
 
       {/* VERSION */}

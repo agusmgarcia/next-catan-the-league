@@ -9,7 +9,7 @@ import styles from "./Banner.module.css";
 import type BannerProps from "./Banner.types";
 
 export default function Banner(props: BannerProps) {
-  const { className, ref, ...rest } = useBanner(props);
+  const { ref, ...rest } = useBanner(props);
 
   return (
     <Image
@@ -17,7 +17,7 @@ export default function Banner(props: BannerProps) {
       ref={ref}
       alt="banner"
       blurSrc={bannerBlur.src}
-      className={twMerge("min-w-max", styles.banner, className)}
+      className={twMerge("min-w-max", styles.banner)}
       loading="lazy"
       src={banner.src}
     />
