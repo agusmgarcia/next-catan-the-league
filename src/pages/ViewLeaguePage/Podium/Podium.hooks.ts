@@ -22,8 +22,8 @@ export default function usePodium(props: PodiumProps) {
       {} as Record<string, Users[number]>,
     );
 
-    const approvedMatches = matches.filter((m) =>
-      m.players.every((p) => !!p.approved),
+    const approvedMatches = matches.filter(
+      (m) => m.leagueId === league?.id && m.players.every((p) => !!p.approved),
     );
 
     const players = league?.players
@@ -45,7 +45,7 @@ export default function usePodium(props: PodiumProps) {
       .sort((p1, p2) => sorts.byNumberDesc(p1.victoryCounts, p2.victoryCounts));
 
     return [players?.at(1), players?.at(0), players?.at(2)];
-  }, [league?.players, matches, users]);
+  }, [league?.id, league?.players, matches, users]);
 
   const leagueCompleted = useMemo(() => false, []); // TODO:
 

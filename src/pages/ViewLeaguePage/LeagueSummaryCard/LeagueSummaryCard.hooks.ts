@@ -22,8 +22,8 @@ export default function useLeagueSummaryCard(props: LeagueSummaryCardProps) {
       {} as Record<string, Users[number]>,
     );
 
-    const approvedMatches = matches.filter((m) =>
-      m.players.every((p) => !!p.approved),
+    const approvedMatches = matches.filter(
+      (m) => m.leagueId === league?.id && m.players.every((p) => !!p.approved),
     );
 
     return (
@@ -47,7 +47,7 @@ export default function useLeagueSummaryCard(props: LeagueSummaryCardProps) {
           sorts.byNumberDesc(p1.victoryCounts, p2.victoryCounts),
         ) || []
     );
-  }, [league?.players, matches, users]);
+  }, [league?.id, league?.players, matches, users]);
 
   useEffect(() => {
     if (!window.__VIEW_LEAGUE_PAGE__LEAGUE_SUMMARY_CARD__RENDERED__) {
