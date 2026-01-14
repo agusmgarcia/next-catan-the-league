@@ -7,8 +7,8 @@ import type LeagueSummaryCardProps from "./LeagueSummaryCard.types";
 
 export default function useLeagueSummaryCard(props: LeagueSummaryCardProps) {
   const { league } = useLeague();
-  const { users } = useUsers();
   const { matches } = useMatches();
+  const { users } = useUsers();
 
   const [ready, setReady] = useState(false);
   const [transitions, setTransitions] = useState(false);

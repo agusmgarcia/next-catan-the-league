@@ -1,4 +1,4 @@
-import { dates, errors } from "@agusmgarcia/react-essentials-utils";
+import { dates } from "@agusmgarcia/react-essentials-utils";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
@@ -15,10 +15,10 @@ import type CreateMatchPageProps from "./CreateMatchPage.types";
 export default function useCreateMatchPage(props: CreateMatchPageProps) {
   const { push } = useRouter();
 
-  const { league, leagueError, leagueLoading } = useLeague();
-  const { user, userError, userLoading } = useUser();
-  const { users, usersError, usersLoading } = useUsers();
+  const { league } = useLeague();
   const { createMatch } = useMatches();
+  const { user } = useUser();
+  const { users } = useUsers();
 
   const [state, setState] = useState(getDefaultState);
   const [submitting, setSubmitting] = useState(false);
@@ -26,16 +26,6 @@ export default function useCreateMatchPage(props: CreateMatchPageProps) {
   const submitDisabled = useMemo(
     () => submitting || !league?.id || !state.winnerId || !user?.id,
     [league?.id, state.winnerId, submitting, user?.id],
-  );
-
-  const error = useMemo(
-    () => errors.getMessage(leagueError || usersError || userError),
-    [leagueError, userError, usersError],
-  );
-
-  const loading = useMemo(
-    () => leagueLoading || usersLoading || userLoading,
-    [leagueLoading, userLoading, usersLoading],
   );
 
   const match = useMemo(() => {
@@ -176,8 +166,6 @@ export default function useCreateMatchPage(props: CreateMatchPageProps) {
 
   return {
     ...props,
-    error,
-    loading,
     match,
     onChange,
     onSubmit,

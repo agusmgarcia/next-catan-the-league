@@ -1,4 +1,4 @@
-import { errors, filters } from "@agusmgarcia/react-essentials-utils";
+import { filters } from "@agusmgarcia/react-essentials-utils";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
@@ -10,9 +10,9 @@ import type CreateLeaguePageProps from "./CreateLeaguePage.types";
 export default function useCreateLeaguePage(props: CreateLeaguePageProps) {
   const { push } = useRouter();
 
-  const { user, userError, userLoading } = useUser();
-  const { users: usersFromStore, usersError, usersLoading } = useUsers();
   const { createLeague } = useLeagues();
+  const { user } = useUser();
+  const { users: usersFromStore } = useUsers();
 
   const [state, setState] = useState(getDefaultState);
   const [submitting, setSubmitting] = useState(false);
@@ -30,16 +30,6 @@ export default function useCreateLeaguePage(props: CreateLeaguePageProps) {
         .filter(filters.distinct).length !==
         state.players.filter((p) => !!p.id).length,
     [state.name, state.players, submitting],
-  );
-
-  const error = useMemo(
-    () => errors.getMessage(usersError || userError),
-    [userError, usersError],
-  );
-
-  const loading = useMemo(
-    () => usersLoading || userLoading,
-    [userLoading, usersLoading],
   );
 
   const users = useMemo(
@@ -118,8 +108,6 @@ export default function useCreateLeaguePage(props: CreateLeaguePageProps) {
 
   return {
     ...props,
-    error,
-    loading,
     onChange,
     onSubmit,
     state,

@@ -7,8 +7,8 @@ import type PodiumProps from "./Podium.types";
 
 export default function usePodium(props: PodiumProps) {
   const { league } = useLeague();
-  const { users } = useUsers();
   const { matches } = useMatches();
+  const { users } = useUsers();
 
   const [ready, setReady] = useState(false);
   const [transitions, setTransitions] = useState(false);

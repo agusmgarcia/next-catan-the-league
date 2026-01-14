@@ -1,9 +1,4 @@
-import {
-  dates,
-  errors,
-  sorts,
-  strings,
-} from "@agusmgarcia/react-essentials-utils";
+import { dates, sorts, strings } from "@agusmgarcia/react-essentials-utils";
 import { useMemo, useState } from "react";
 
 import {
@@ -23,32 +18,13 @@ export default function useApproveMatchesPage({
   past: pastFromProps,
   ...rest
 }: ApproveMatchesPageProps) {
-  const { league, leagueError, leagueLoading } = useLeague();
-  const { leagues, leaguesError, leaguesLoading } = useLeagues();
-  const { approveMatch, matches, matchesError, matchesLoading, rejectMatch } =
-    useMatches();
-  const { user, userError, userLoading } = useUser();
-  const { users, usersError, usersLoading } = useUsers();
+  const { league } = useLeague();
+  const { leagues } = useLeagues();
+  const { approveMatch, matches, rejectMatch } = useMatches();
+  const { user } = useUser();
+  const { users } = useUsers();
 
   const [state, setState] = useState<State>();
-
-  const error = useMemo(
-    () =>
-      errors.getMessage(
-        leagueError || leaguesError || matchesError || userError || usersError,
-      ),
-    [leagueError, leaguesError, matchesError, userError, usersError],
-  );
-
-  const loading = useMemo(
-    () =>
-      leagueLoading ||
-      leaguesLoading ||
-      matchesLoading ||
-      userLoading ||
-      usersLoading,
-    [leagueLoading, leaguesLoading, matchesLoading, userLoading, usersLoading],
-  );
 
   const groupOfMatches = useMemo(() => {
     const recordOfUsers = users.reduce(
@@ -167,9 +143,7 @@ export default function useApproveMatchesPage({
 
   return {
     ...rest,
-    error,
     leagues: groupOfMatches,
-    loading,
     past: pastFromProps,
   };
 }

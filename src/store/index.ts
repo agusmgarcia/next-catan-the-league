@@ -27,42 +27,34 @@ const { useSelector, ...reactStore } = createReactStore({
 export const StoreProvider = reactStore.StoreProvider;
 
 export function useLeague() {
-  const { leaguesError, leaguesLoading } = useLeagues();
-
   return {
     league: useSelector((state) => state.league.response),
-    leagueError:
-      useSelector((state) => state.leagueId.error || state.league.error) ||
-      leaguesError,
-    leagueLoading:
-      useSelector((state) => state.leagueId.loading || state.league.loading) ||
-      leaguesLoading,
+    leagueError: useSelector(
+      (state) => state.leagueId.error || state.league.error,
+    ),
+    leagueLoading: useSelector(
+      (state) => state.leagueId.loading || state.league.loading,
+    ),
     setLeagueId: useSelector((state) => state.leagueId.set),
   };
 }
 
 export function useLeagues() {
-  const { userError, userLoading } = useUser();
-
   return {
     createLeague: useSelector((state) => state.leagues.createLeague),
     leagues: useSelector((state) => state.leagues.response),
-    leaguesError: useSelector((state) => state.leagues.error) || userError,
-    leaguesLoading:
-      useSelector((state) => state.leagues.loading) || userLoading,
+    leaguesError: useSelector((state) => state.leagues.error),
+    leaguesLoading: useSelector((state) => state.leagues.loading),
   };
 }
 
 export function useMatches() {
-  const { userError, userLoading } = useUser();
-
   return {
     approveMatch: useSelector((state) => state.matches.approveMatch),
     createMatch: useSelector((state) => state.matches.createMatch),
     matches: useSelector((state) => state.matches.response),
-    matchesError: useSelector((state) => state.matches.error) || userError,
-    matchesLoading:
-      useSelector((state) => state.matches.loading) || userLoading,
+    matchesError: useSelector((state) => state.matches.error),
+    matchesLoading: useSelector((state) => state.matches.loading),
     rejectMatch: useSelector((state) => state.matches.rejectMatch),
   };
 }
@@ -78,11 +70,9 @@ export function useUser() {
 }
 
 export function useUsers() {
-  const { userError, userLoading } = useUser();
-
   return {
     users: useSelector((state) => state.users.response),
-    usersError: useSelector((state) => state.users.error) || userError,
-    usersLoading: useSelector((state) => state.users.loading) || userLoading,
+    usersError: useSelector((state) => state.users.error),
+    usersLoading: useSelector((state) => state.users.loading),
   };
 }
