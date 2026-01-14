@@ -13,6 +13,7 @@ export default function Input(props: InputProps) {
         className={twMerge(
           "h-9 w-full cursor-text appearance-none rounded-lg border bg-white text-black",
           "transition-colors",
+          "placeholder:italic",
           "disabled:cursor-default disabled:bg-gray-300 disabled:text-gray-500",
           className,
         )}
@@ -41,6 +42,7 @@ export default function Input(props: InputProps) {
         className={twMerge(
           "min-h-9 w-full cursor-text appearance-none rounded-lg border bg-white px-2 pt-1 text-black",
           "transition-colors",
+          "placeholder:italic",
           "disabled:cursor-default disabled:bg-gray-300 disabled:text-gray-500",
           className,
         )}
@@ -54,6 +56,7 @@ export default function Input(props: InputProps) {
         className={twMerge(
           "h-9 w-full cursor-text appearance-none rounded-lg border bg-white px-2 text-black",
           "transition-colors",
+          "placeholder:italic",
           "disabled:cursor-default disabled:bg-gray-300 disabled:text-gray-500",
           className,
         )}

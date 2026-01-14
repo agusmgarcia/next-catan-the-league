@@ -7,6 +7,7 @@ type InputProps = Pick<
     | {
         min?: number;
         onChange: React.ChangeEventHandler<HTMLInputElement>;
+        placeholder?: string;
         required?: boolean;
         type: "number";
         value: number;
@@ -19,6 +20,7 @@ type InputProps = Pick<
       }
     | {
         onChange: React.ChangeEventHandler<HTMLTextAreaElement>;
+        placeholder?: string;
         required?: boolean;
         rows?: number;
         type: "textarea";
@@ -26,12 +28,14 @@ type InputProps = Pick<
       }
     | {
         onChange: React.ChangeEventHandler<HTMLInputElement>;
+        placeholder?: string;
         required?: boolean;
         type: "text";
         value: string;
       }
     | {
         onChange: React.ChangeEventHandler<HTMLInputElement>;
+        placeholder?: string;
         required?: boolean;
         type: "email";
         value: string;
