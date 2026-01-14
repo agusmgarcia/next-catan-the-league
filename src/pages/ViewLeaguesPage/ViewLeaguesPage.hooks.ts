@@ -5,6 +5,5 @@ export default function useViewLeaguesPage(props: ViewLeaguesPageProps) {
     ...props,
     error: "Page not ready. Please come back later.",
     heading: "View leagues",
-    title: "Leagues",
   };
 }

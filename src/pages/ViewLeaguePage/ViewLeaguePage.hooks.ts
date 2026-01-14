@@ -38,6 +38,5 @@ export default function useViewLeaguePage(props: ViewLeaguePageProps) {
     error,
     heading: league?.name,
     loading,
-    title: league?.name,
   };
 }

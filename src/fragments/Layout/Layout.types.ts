@@ -1,4 +1,3 @@
-import { type TitleProps } from "../Title";
 import { type HeaderProps } from "./Header";
 
 type LayoutProps = {
@@ -6,7 +5,6 @@ type LayoutProps = {
   error?: unknown;
   heading?: HeaderProps["children"];
   loading?: boolean;
-  title?: TitleProps["children"];
 };
 
 export default LayoutProps;

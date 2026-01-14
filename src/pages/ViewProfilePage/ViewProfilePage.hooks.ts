@@ -5,6 +5,5 @@ export default function useViewProfilePage(props: ViewProfilePageProps) {
     ...props,
     error: "Page not ready. Please come back later.",
     heading: "Profile",
-    title: "Profile",
   };
 }

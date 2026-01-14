@@ -126,7 +126,6 @@ export default function useCreateLeaguePage(props: CreateLeaguePageProps) {
     state,
     submitDisabled,
     submitting,
-    title: ["Leagues", "Create"],
     users,
   };
 }

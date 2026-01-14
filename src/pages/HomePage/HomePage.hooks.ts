@@ -22,5 +22,5 @@ export default function useHomePage(props: HomePageProps) {
     else replace(`/leagues/${league.id}/view`);
   }, [league, error, loading, replace]);
 
-  return { ...props, error, loading, title: "Home" };
+  return { ...props, error, loading };
 }

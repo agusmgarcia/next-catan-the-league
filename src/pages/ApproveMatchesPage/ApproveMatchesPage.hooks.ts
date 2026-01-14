@@ -172,7 +172,6 @@ export default function useApproveMatchesPage({
     leagues: groupOfMatches,
     loading,
     past: pastFromProps,
-    title: ["Leagues", "View past"],
   };
 }
 

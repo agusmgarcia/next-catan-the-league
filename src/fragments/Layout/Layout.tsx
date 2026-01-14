@@ -1,18 +1,17 @@
+import Head from "next/head";
 import { twMerge } from "tailwind-merge";
 
 import papyrusBlur from "#public/assets/papyrus.blur.svg";
 import papyrus from "#public/assets/papyrus.webp";
 import { Alert, Icon, Image, Typography } from "#src/components";
 
-import { Title } from "../Title";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import useLayout from "./Layout.hooks";
 import type LayoutProps from "./Layout.types";
 
 export default function Layout(props: LayoutProps) {
-  const { children, error, heading, loading, title, ...rest } =
-    useLayout(props);
+  const { children, error, heading, loading, ...rest } = useLayout(props);
 
   return (
     <div
@@ -20,7 +19,9 @@ export default function Layout(props: LayoutProps) {
       className="relative z-0 flex size-full flex-col overflow-hidden"
     >
       {/* TITLE */}
-      <Title>{title}</Title>
+      <Head>
+        <title>Catan - The League</title>
+      </Head>
 
       {/* HEADER */}
       <Header>{heading}</Header>

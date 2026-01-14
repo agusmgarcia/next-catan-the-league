@@ -64,16 +64,6 @@ export default function useCreateMatchPage(props: CreateMatchPageProps) {
     };
   }, [league?.players, users]);
 
-  const heading = useMemo(() => {
-    if (!league?.name) return "Create match";
-    return `Create match for ${league.name}`;
-  }, [league?.name]);
-
-  const title = useMemo(() => {
-    if (!league?.name) return ["Matches", "Create"];
-    return [league.name, "Matches", "Create"];
-  }, [league?.name]);
-
   const onChange = useCallback<
     React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
   >((event) => {
@@ -187,7 +177,7 @@ export default function useCreateMatchPage(props: CreateMatchPageProps) {
   return {
     ...props,
     error,
-    heading,
+    heading: league?.name,
     loading,
     match,
     onChange,
@@ -195,7 +185,6 @@ export default function useCreateMatchPage(props: CreateMatchPageProps) {
     state,
     submitDisabled,
     submitting,
-    title,
   };
 }
 
