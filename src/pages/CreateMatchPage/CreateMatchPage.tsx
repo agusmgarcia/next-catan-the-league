@@ -116,6 +116,7 @@ export default function CreateMatchPage(props: CreateMatchPageProps) {
               disabled={submitting}
               name="observations"
               onChange={onChange}
+              placeholder="Insert an observation..."
               rows={4}
               type="textarea"
               value={state.observations}
