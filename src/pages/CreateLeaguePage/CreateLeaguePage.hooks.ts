@@ -119,7 +119,6 @@ export default function useCreateLeaguePage(props: CreateLeaguePageProps) {
   return {
     ...props,
     error,
-    heading: "Create league",
     loading,
     onChange,
     onSubmit,

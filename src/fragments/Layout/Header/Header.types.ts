@@ -1,5 +1,3 @@
-type HeaderProps = {
-  children?: string;
-};
+type HeaderProps = {};
 
 export default HeaderProps;

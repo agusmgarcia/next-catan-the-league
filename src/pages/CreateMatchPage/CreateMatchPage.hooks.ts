@@ -177,7 +177,6 @@ export default function useCreateMatchPage(props: CreateMatchPageProps) {
   return {
     ...props,
     error,
-    heading: league?.name,
     loading,
     match,
     onChange,

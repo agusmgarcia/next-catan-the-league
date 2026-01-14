@@ -11,7 +11,7 @@ import useLayout from "./Layout.hooks";
 import type LayoutProps from "./Layout.types";
 
 export default function Layout(props: LayoutProps) {
-  const { children, error, heading, loading, ...rest } = useLayout(props);
+  const { children, error, loading, ...rest } = useLayout(props);
 
   return (
     <div
@@ -24,7 +24,7 @@ export default function Layout(props: LayoutProps) {
       </Head>
 
       {/* HEADER */}
-      <Header>{heading}</Header>
+      <Header />
 
       {/* BODY */}
       <div

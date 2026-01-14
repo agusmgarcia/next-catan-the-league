@@ -168,7 +168,6 @@ export default function useApproveMatchesPage({
   return {
     ...rest,
     error,
-    heading: !pastFromProps ? "Approve matches" : "View past matches",
     leagues: groupOfMatches,
     loading,
     past: pastFromProps,
