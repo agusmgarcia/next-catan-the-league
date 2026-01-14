@@ -96,6 +96,13 @@ export default function Icon(props: IconProps) {
         </svg>
       );
 
+    case "switch":
+      return (
+        <svg {...rest}>
+          <path d="M16.0503 12.0498 21 16.9996l-4.9497 4.9497 -1.4143 -1.4142 2.536 -2.5363L4 17.9996v-2l13.172 -0.0008 -2.536 -2.5348 1.4143 -1.4142Zm-8.10055 -10 1.41421 1.41422L6.828 5.9988 20 5.99955v2L6.828 7.9988l2.53596 2.5363 -1.41421 1.4142L3 6.99955 7.94975 2.0498Z" />
+        </svg>
+      );
+
     default:
       throw new Error(`Variant ${variant} not found`);
   }
