@@ -28,9 +28,7 @@ export default function LeagueSummaryCard(props: LeagueSummaryCardProps) {
     >
       {/* NAME */}
       <div className="flex items-center justify-between gap-1">
-        <Typography className="font-semibold" variant="h2">
-          Victory Points
-        </Typography>
+        <Typography variant="h2">Victory Points</Typography>
 
         <div className="flex items-center gap-1">
           <VictoryPointImage />
@@ -59,7 +57,7 @@ export default function LeagueSummaryCard(props: LeagueSummaryCardProps) {
             />
 
             {/* NAME */}
-            <Typography className="line-clamp-1 font-semibold break-all">
+            <Typography className="line-clamp-1 break-all">
               {!!player.profileId ? (
                 <Anchor href={`/profiles/${player.profileId}/view`}>
                   {player.name}
@@ -70,7 +68,7 @@ export default function LeagueSummaryCard(props: LeagueSummaryCardProps) {
             </Typography>
 
             {/* POINTS */}
-            <Typography className="ml-auto min-w-7 text-center font-semibold">
+            <Typography className="ml-auto min-w-7 text-center">
               {player.points}
             </Typography>
           </div>

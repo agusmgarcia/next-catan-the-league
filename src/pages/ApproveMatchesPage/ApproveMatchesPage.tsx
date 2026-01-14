@@ -23,7 +23,7 @@ export default function ApproveMatchesPage(props: ApproveMatchesPageProps) {
       <div className="flex size-full flex-col gap-4 overflow-auto">
         {!leagues.length && (
           <Alert variant="success">
-            <Typography className="font-semibold">
+            <Typography>
               {!past
                 ? "There are no pending matches to be approved."
                 : "There are no past matches to display."}
@@ -34,11 +34,9 @@ export default function ApproveMatchesPage(props: ApproveMatchesPageProps) {
         {leagues.map((league) => (
           <div key={league.id} className="flex flex-col gap-4">
             <div className="flex items-center justify-between gap-1">
-              <Typography className="font-semibold" variant="h2">
-                {league.name}
-              </Typography>
+              <Typography variant="h2">{league.name}</Typography>
 
-              <Typography className="rounded-lg bg-interface-yellow px-2 font-semibold">
+              <Typography className="rounded-lg bg-interface-yellow px-2">
                 {league.count}
               </Typography>
             </div>
@@ -58,7 +56,7 @@ export default function ApproveMatchesPage(props: ApproveMatchesPageProps) {
                 )}
               >
                 <div className="flex items-center justify-between">
-                  <Typography className="font-semibold underline">
+                  <Typography className="underline">
                     {match.createdAt}
                   </Typography>
 
@@ -100,7 +98,7 @@ export default function ApproveMatchesPage(props: ApproveMatchesPageProps) {
                         />
                       )}
 
-                      <Typography className="line-clamp-1 font-semibold break-all">
+                      <Typography className="line-clamp-1 break-all">
                         {player.points}
                       </Typography>
                     </div>
@@ -117,7 +115,7 @@ export default function ApproveMatchesPage(props: ApproveMatchesPageProps) {
 
                 {!!match.observations && (
                   <div className="rounded-lg bg-interface-yellow/30 p-4">
-                    <Typography className="font-semibold italic">
+                    <Typography className="italic">
                       {match.observations}
                     </Typography>
                   </div>
@@ -165,7 +163,7 @@ export default function ApproveMatchesPage(props: ApproveMatchesPageProps) {
 
         <Divider />
 
-        <Typography className="font-semibold">
+        <Typography>
           {!past ? (
             <Anchor href="/leagues/matches/past">View past matches</Anchor>
           ) : (

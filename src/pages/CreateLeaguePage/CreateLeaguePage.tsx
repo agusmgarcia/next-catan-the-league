@@ -30,7 +30,7 @@ export default function CreateLeaguePage(props: CreateLeaguePageProps) {
           onSubmit={onSubmit}
         >
           <label className="flex flex-col gap-2">
-            <Typography className="font-semibold underline" variant="span">
+            <Typography className="underline" variant="span">
               Name:
             </Typography>
             <Input

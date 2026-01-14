@@ -32,9 +32,7 @@ export default function CreateMatchPage(props: CreateMatchPageProps) {
         >
           <div className="flex items-center justify-between">
             {/* CREATED AT */}
-            <Typography className="font-semibold underline">
-              {match.createdAt}
-            </Typography>
+            <Typography className="underline">{match.createdAt}</Typography>
 
             <div className="flex flex-[100px] grow-0 items-center justify-between pr-1 pl-2.5">
               {/* VICTORY POINTS IMAGE */}
@@ -73,7 +71,7 @@ export default function CreateMatchPage(props: CreateMatchPageProps) {
                 </div>
 
                 {/* NAME */}
-                <Typography className="font-semibold">{player.name}</Typography>
+                <Typography>{player.name}</Typography>
 
                 <div className="flex flex-1 items-center justify-end gap-4">
                   {/* VICTORY POINTS */}
@@ -109,7 +107,7 @@ export default function CreateMatchPage(props: CreateMatchPageProps) {
 
           {/* OBSERVATIONS */}
           <label className="flex flex-col gap-2">
-            <Typography className="font-semibold underline" variant="span">
+            <Typography className="underline" variant="span">
               Observations:
             </Typography>
             <Input

@@ -79,7 +79,11 @@
 }
 
 * {
-  @apply font-catan;
+  @apply font-catan font-semibold;
+}
+
+h1 {
+  @apply font-catan font-normal;
 }
 
 body {
