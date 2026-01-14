@@ -37,6 +37,7 @@ export default function CreateLeaguePage(props: CreateLeaguePageProps) {
               disabled={submitting}
               name="name"
               onChange={onChange}
+              placeholder="Insert a league name..."
               required={true}
               type="text"
               value={state.name}
@@ -68,6 +69,7 @@ export default function CreateLeaguePage(props: CreateLeaguePageProps) {
                   disabled={submitting}
                   name={`players.${index}.id`}
                   onChange={onChange}
+                  placeholder="Insert a user email..."
                   type="email"
                   value={p.id}
                 />
