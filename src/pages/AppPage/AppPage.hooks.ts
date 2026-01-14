@@ -1,5 +1,5 @@
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { useUser } from "#src/store";
 
@@ -11,11 +11,14 @@ export default function useAppPage(props: AppPageProps) {
 
   const { user, userError, userLoading } = useUser();
 
+  const [ready, setReady] = useState(false);
+
   useEffect(() => {
     if (userLoading || !!userError) return;
     if (!user && pathname !== "/login") replace("/login");
     else if (!!user && pathname === "/login") replace("/");
+    else setReady(true);
   }, [pathname, replace, user, userError, userLoading]);
 
-  return { ...props };
+  return { ...props, ready, user };
 }
