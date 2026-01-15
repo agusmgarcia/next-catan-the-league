@@ -2,7 +2,6 @@ import { twMerge } from "tailwind-merge";
 
 import {
   Alert,
-  Anchor,
   Button,
   Divider,
   Icon,
@@ -151,16 +150,6 @@ export default function ApproveMatchesPage(props: ApproveMatchesPageProps) {
           ))}
         </div>
       ))}
-
-      <Divider />
-
-      <Typography>
-        {!past ? (
-          <Anchor href="/leagues/matches/past">View past matches</Anchor>
-        ) : (
-          <Anchor href="/leagues/matches/approve">View pending matches</Anchor>
-        )}
-      </Typography>
     </div>
   );
 }
