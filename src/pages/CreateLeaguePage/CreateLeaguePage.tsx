@@ -27,10 +27,12 @@ export default function CreateLeaguePage(props: CreateLeaguePageProps) {
         className="flex w-full flex-col gap-4 rounded-lg border-4 bg-white/60 custom-noise-5 p-4 shadow-2xl"
         onSubmit={onSubmit}
       >
+        {/* NAME */}
         <label className="flex flex-col gap-2">
           <Typography className="underline" variant="span">
             Name:
           </Typography>
+
           <Input
             disabled={submitting}
             name="name"
@@ -42,11 +44,14 @@ export default function CreateLeaguePage(props: CreateLeaguePageProps) {
           />
         </label>
 
+        {/* DIVIDER */}
         <Divider />
 
+        {/* PLAYERS SELECTION */}
         <div className="flex flex-col gap-4">
           {state.players.map((p, index) => (
             <div key={p.color} className="flex items-center gap-4">
+              {/* PLAYER IMAGE */}
               <div className="relative">
                 <PlayerImage color={p.color} src={users[p.id]} variant="3rem" />
 
@@ -58,6 +63,7 @@ export default function CreateLeaguePage(props: CreateLeaguePageProps) {
                 )}
               </div>
 
+              {/* PLAYER EMAIL */}
               <Input
                 aria-label={`Player ${index + 1} email`}
                 disabled={submitting}
@@ -68,6 +74,7 @@ export default function CreateLeaguePage(props: CreateLeaguePageProps) {
                 value={p.id}
               />
 
+              {/* PLAYER ADMIN */}
               <Input
                 aria-label={`Player ${index + 1} admin`}
                 checked={p.admin}
@@ -80,6 +87,7 @@ export default function CreateLeaguePage(props: CreateLeaguePageProps) {
           ))}
         </div>
 
+        {/* CTA */}
         <Button
           className="flex justify-center"
           disabled={submitDisabled}
