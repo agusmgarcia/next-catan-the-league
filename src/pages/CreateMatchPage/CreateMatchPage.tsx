@@ -30,7 +30,7 @@ export default function CreateMatchPage(props: CreateMatchPageProps) {
       >
         <div className="flex items-center justify-between">
           {/* CREATED AT */}
-          <Typography className="underline">{match.createdAt}</Typography>
+          <Typography>{match.createdAt}</Typography>
 
           <div className="flex flex-[100px] grow-0 items-center justify-between pr-1 pl-2.5">
             {/* VICTORY POINTS IMAGE */}
