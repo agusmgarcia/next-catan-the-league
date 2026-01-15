@@ -11,11 +11,13 @@ export default function Header(props: HeaderProps) {
       {...rest}
       className="flex h-16 w-full items-center justify-between gap-4 border-b bg-interface-red custom-noise-5 p-4 shadow-2xl"
     >
-      <Typography className="line-clamp-1 break-all text-white" variant="h1">
-        {header}
-      </Typography>
+      {!!header && (
+        <Typography className="line-clamp-1 break-all text-white" variant="h1">
+          {header}
+        </Typography>
+      )}
 
-      {swtichLeagueVisible && (
+      {!!header && swtichLeagueVisible && (
         <Anchor href="/leagues/view">
           <Icon className="size-8 text-white" variant="switch" />
         </Anchor>
