@@ -31,19 +31,19 @@ export default function Footer(props: FooterProps) {
               {link.alert}
             </Typography>
           )}
-          <Icon className="size-8" variant={link.icon} />
+          <Icon className="size-7" variant={link.icon} />
         </Anchor>
       ))}
 
       <Anchor
-        className="absolute -top-5.5 left-1/2 size-fit -translate-x-1/2 rounded-full border-2 border-black bg-interface-red custom-noise-5 text-white shadow-2xl"
+        className="absolute -top-4 left-1/2 size-fit -translate-x-1/2 rounded-full border-2 border-black bg-interface-red custom-noise-5 text-white shadow-2xl"
         href={
           !!league?.id
             ? `/leagues/${league.id}/matches/create`
             : "/leagues/create"
         }
       >
-        <Icon className="size-18 p-4" variant="plus" />
+        <Icon className="size-16 p-4" variant="plus" />
       </Anchor>
     </div>
   );
