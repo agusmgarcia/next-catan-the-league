@@ -28,7 +28,7 @@ export default function CreateLeaguePage(props: CreateLeaguePageProps) {
         onSubmit={onSubmit}
       >
         {/* NAME */}
-        <label className="flex flex-col gap-2">
+        <label className="flex items-center gap-4">
           <Typography className="underline" variant="span">
             Name:
           </Typography>
@@ -86,6 +86,27 @@ export default function CreateLeaguePage(props: CreateLeaguePageProps) {
             </div>
           ))}
         </div>
+
+        {/* DIVIDER */}
+        <Divider />
+
+        {/* MATCHES COUNT */}
+        <label className="flex items-center justify-end gap-4">
+          <Typography className="underline" variant="span">
+            Matches count:
+          </Typography>
+
+          <Input
+            className="w-13 text-center"
+            disabled={submitting}
+            min={1}
+            name="matchesCount"
+            onChange={onChange}
+            required={true}
+            type="number"
+            value={state.matchesCount}
+          />
+        </label>
 
         {/* CTA */}
         <Button

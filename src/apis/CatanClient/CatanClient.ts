@@ -122,7 +122,7 @@ export default class CatanClient {
   }
 
   async createLeague(
-    { name, players }: CreateLeagueRequest,
+    { matchesCount, name, players }: CreateLeagueRequest,
     _: AbortSignal,
   ): Promise<CreateLeagueResponse> {
     const now = Date.now();
@@ -130,9 +130,9 @@ export default class CatanClient {
     const document = await addDoc(
       collection(this.db, CatanClient.COLLECTIONS.leagues),
       {
-        completedAt: null,
         createdAt: now,
         deletedAt: null,
+        matchesCount,
         name,
         playerAdmins: players.reduce(
           (result, player) => {
@@ -160,8 +160,8 @@ export default class CatanClient {
     data: any,
   ): Omit<NonNullable<GetLeagueResponse>, "id"> {
     return {
-      completedAt: data?.completedAt || undefined,
       createdAt: data?.createdAt || 0,
+      matchesCount: data?.matchesCount || 0,
       name: data?.name || "",
       players:
         data?.playerIds?.map((playerId: string) => ({

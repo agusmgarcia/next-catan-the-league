@@ -6,8 +6,7 @@ import usePodium from "./Podium.hooks";
 import type PodiumProps from "./Podium.types";
 
 export default function Podium(props: PodiumProps) {
-  const { leagueCompleted, players, ready, transitions, ...rest } =
-    usePodium(props);
+  const { players, ready, transitions, ...rest } = usePodium(props);
 
   return (
     <div {...rest} className="flex w-full items-end justify-center">
@@ -32,7 +31,7 @@ export default function Podium(props: PodiumProps) {
             )}
           >
             {/* CROWN */}
-            {leagueCompleted && index === 1 && (
+            {index === 1 && (
               <Icon
                 className="absolute -top-6 stroke-black text-interface-yellow"
                 variant="crown"

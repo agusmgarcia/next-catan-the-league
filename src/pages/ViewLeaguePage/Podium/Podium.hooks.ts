@@ -42,8 +42,6 @@ export default function usePodium(props: PodiumProps) {
     return [players?.at(1), players?.at(0), players?.at(2)];
   }, [league?.id, league?.players, matchesFromStore, usersFromStore]);
 
-  const leagueCompleted = useMemo(() => false, []); // TODO:
-
   useEffect(() => {
     if (!window.__VIEW_LEAGUE_PAGE__PODIUM__RENDERED__) {
       window.__VIEW_LEAGUE_PAGE__PODIUM__RENDERED__ = true;
@@ -54,5 +52,5 @@ export default function usePodium(props: PodiumProps) {
     return () => clearTimeout(handler);
   }, []);
 
-  return { ...props, leagueCompleted, players, ready, transitions };
+  return { ...props, players, ready, transitions };
 }

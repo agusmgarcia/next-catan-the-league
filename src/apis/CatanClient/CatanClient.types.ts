@@ -12,7 +12,7 @@ export type GetLeaguesRequest = {
 
 export type GetLeaguesResponse = Pick<
   NonNullable<GetLeagueResponse>,
-  "completedAt" | "createdAt" | "id" | "name" | "players" | "updatedAt"
+  "createdAt" | "id" | "matchesCount" | "name" | "players" | "updatedAt"
 >[];
 
 export type GetLeagueRequest = {
@@ -21,9 +21,9 @@ export type GetLeagueRequest = {
 
 export type GetLeagueResponse =
   | {
-      completedAt: number | undefined;
       createdAt: number;
       id: string;
+      matchesCount: number;
       name: string;
       players: {
         admin: boolean;
@@ -36,7 +36,7 @@ export type GetLeagueResponse =
 
 export type CreateLeagueRequest = Pick<
   NonNullable<GetLeagueResponse>,
-  "name" | "players"
+  "matchesCount" | "name" | "players"
 >;
 
 export type CreateLeagueResponse = string;

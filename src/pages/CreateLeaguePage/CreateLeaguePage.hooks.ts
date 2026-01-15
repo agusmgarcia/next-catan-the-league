@@ -21,6 +21,7 @@ export default function useCreateLeaguePage(props: CreateLeaguePageProps) {
     () =>
       submitting ||
       !state.name ||
+      !state.matchesCount ||
       state.players.filter((p) => !!p.id).length < 2 ||
       state.players.every((p) => !p.admin) ||
       state.players.some((p) => !p.id && p.admin) ||
@@ -29,7 +30,7 @@ export default function useCreateLeaguePage(props: CreateLeaguePageProps) {
         .map((p) => p.id.toLowerCase())
         .filter(filters.distinct).length !==
         state.players.filter((p) => !!p.id).length,
-    [state.name, state.players, submitting],
+    [state.matchesCount, state.name, state.players, submitting],
   );
 
   const users = useMemo(
@@ -49,6 +50,14 @@ export default function useCreateLeaguePage(props: CreateLeaguePageProps) {
       const name = event.target.name;
       if (name === "name") {
         setState((prevState) => ({ ...prevState, [name]: event.target.value }));
+        return;
+      }
+
+      if (name === "matchesCount") {
+        setState((prevState) => ({
+          ...prevState,
+          [name]: event.target.valueAsNumber,
+        }));
         return;
       }
 
@@ -93,6 +102,7 @@ export default function useCreateLeaguePage(props: CreateLeaguePageProps) {
     if (!user) return;
 
     setState((prevState) => ({
+      matchesCount: 0,
       name: "",
       players: prevState.players.map((p) =>
         p.color === user.defaultColor
@@ -119,6 +129,7 @@ export default function useCreateLeaguePage(props: CreateLeaguePageProps) {
 
 function getDefaultState(): State {
   return {
+    matchesCount: 0,
     name: "",
     players: [
       {
@@ -156,6 +167,7 @@ function getDefaultState(): State {
 }
 
 type State = {
+  matchesCount: number;
   name: string;
   players: {
     admin: boolean;
