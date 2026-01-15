@@ -7,14 +7,14 @@ import type PodiumProps from "./Podium.types";
 
 export default function usePodium(props: PodiumProps) {
   const { league } = useLeague();
-  const { matches } = useMatches();
-  const { users } = useUsers();
+  const { matches: matchesFromStore } = useMatches();
+  const { users: usersFromStore } = useUsers();
 
   const [ready, setReady] = useState(false);
   const [transitions, setTransitions] = useState(false);
 
   const players = useMemo(() => {
-    const recordOfUsers = users.reduce(
+    const users = usersFromStore.reduce(
       (result, user) => {
         result[user.id] = user;
         return result;
@@ -22,30 +22,25 @@ export default function usePodium(props: PodiumProps) {
       {} as Record<string, Users[number]>,
     );
 
-    const approvedMatches = matches.filter(
-      (m) => m.leagueId === league?.id && m.players.every((p) => !!p.approved),
-    );
+    const matches = matchesFromStore
+      .filter((m) => m.leagueId === league?.id)
+      .filter((m) => m.players.every((p) => !!p.approved));
 
     const players = league?.players
-      .map((player) => ({
-        ...player,
-        name: recordOfUsers[player.id]?.name || "Unknown",
-        photoURL: recordOfUsers[player.id]?.photoURL || undefined,
-        points: approvedMatches
-          .flatMap((m) => m.players)
-          .filter((p) => p.id === player.id)
-          .reduce((result, player) => {
-            result += player.points;
-            return result;
-          }, 0),
-        victoryCounts: approvedMatches.filter((m) => m.winnerId === player.id)
-          .length,
+      .map((p) => ({
+        ...p,
+        name: users[p.id]?.name || "Unknown",
+        photoURL: users[p.id]?.photoURL || undefined,
+        points: matches
+          .map((m) => m.players.find((mp) => mp.id === p.id)?.points || 0)
+          .reduce((result, points) => result + points, 0),
+        victoryCounts: matches.filter((m) => m.winnerId === p.id).length,
       }))
       .sort((p1, p2) => sorts.byNumberDesc(p1.points, p2.points))
       .sort((p1, p2) => sorts.byNumberDesc(p1.victoryCounts, p2.victoryCounts));
 
     return [players?.at(1), players?.at(0), players?.at(2)];
-  }, [league?.id, league?.players, matches, users]);
+  }, [league?.id, league?.players, matchesFromStore, usersFromStore]);
 
   const leagueCompleted = useMemo(() => false, []); // TODO:
 
