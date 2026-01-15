@@ -9,9 +9,11 @@ import {
   useUsers,
 } from "#src/store";
 
-import type LayoutProps from "./Layout.types";
+import type AuthenticatedLayoutProps from "./AuthenticatedLayout.types";
 
-export default function useLayout(props: LayoutProps) {
+export default function useAuthenticatedLayout(
+  props: AuthenticatedLayoutProps,
+) {
   const { leagueError, leagueLoading } = useLeague();
   const { leaguesError, leaguesLoading } = useLeagues();
   const { matchesError, matchesLoading } = useMatches();

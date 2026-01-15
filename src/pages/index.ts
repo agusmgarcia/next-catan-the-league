@@ -3,7 +3,6 @@ export * from "./ApproveMatchesPage";
 export * from "./CreateLeaguePage";
 export * from "./CreateMatchPage";
 export * from "./HomePage";
-export * from "./LoginPage";
 export * from "./ViewLeaguePage";
 export * from "./ViewLeaguesPage";
 export * from "./ViewProfilePage";

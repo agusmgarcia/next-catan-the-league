@@ -1,11 +1,11 @@
 import { useEffect, useRef } from "react";
 
-import type BannerProps from "./Banner.types";
+import type BannerImageProps from "./BannerImage.types";
 
-export default function useBanner({
+export default function useBannerImage({
   speed: speedFromProps,
   ...rest
-}: BannerProps) {
+}: BannerImageProps) {
   const ref = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
@@ -21,9 +21,12 @@ export default function useBanner({
       const parentWidth = parentImage.getBoundingClientRect().width;
       const width = image.getBoundingClientRect().width;
 
-      image.style.setProperty("--banner-parent-width", `${parentWidth}px`);
       image.style.setProperty(
-        "--banner-animation-duration",
+        "--banner-image-parent-width",
+        `${parentWidth}px`,
+      );
+      image.style.setProperty(
+        "--banner-image-animation-duration",
         `${Math.ceil((width - parentWidth) / speedFromProps)}s`,
       );
     });

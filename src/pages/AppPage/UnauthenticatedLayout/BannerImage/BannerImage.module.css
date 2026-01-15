@@ -1,0 +1,16 @@
+.bannerImage {
+  animation: banner var(--banner-image-animation-duration, 0s) linear infinite
+    alternate both;
+  will-change: transform;
+}
+
+@keyframes banner {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(
+      calc(calc(100% - var(--banner-image-parent-width)) * -1)
+    );
+  }
+}

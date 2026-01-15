@@ -12,7 +12,6 @@ export default function useHeader(props: HeaderProps) {
 
   const page = useMemo(() => {
     if (pathname === "/") return "home";
-    if (pathname === "/login") return "login";
     if (/^\/profiles\/(.+)\/view$/.test(pathname)) return "viewProfile";
     if (/^\/leagues\/(\w+)\/view$/.test(pathname)) return "viewLeague";
     if (/^\/leagues\/(\w+)\/rules$/.test(pathname)) return "viewRules";
@@ -37,9 +36,6 @@ export default function useHeader(props: HeaderProps) {
 
       case "createLeague":
         return "Create league";
-
-      case "login":
-        return "";
 
       case "viewLeagues":
         return "View leagues";

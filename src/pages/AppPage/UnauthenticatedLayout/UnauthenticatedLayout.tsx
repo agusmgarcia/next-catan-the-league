@@ -1,13 +1,20 @@
 import { twMerge } from "tailwind-merge";
 
-import { Banner, Button, Icon, Typography } from "#src/components";
+import { Button, Icon, Typography } from "#src/components";
 
-import useLoginPage from "./LoginPage.hooks";
-import type LoginPageProps from "./LoginPage.types";
+import { BannerImage } from "./BannerImage";
+import useUnauthenticatedLayout from "./UnauthenticatedLayout.hooks";
+import type UnauthenticatedLayoutProps from "./UnauthenticatedLayout.types";
 
-export default function LoginPage(props: LoginPageProps) {
-  const { loginDisabled, loginLoading, loginOnClick, ...rest } =
-    useLoginPage(props);
+export default function UnauthenticatedLayout(
+  props: UnauthenticatedLayoutProps,
+) {
+  const {
+    googleLoginDisabled,
+    googleLogingLoading,
+    googleLoginOnClick,
+    ...rest
+  } = useUnauthenticatedLayout(props);
 
   return (
     <div
@@ -39,11 +46,11 @@ export default function LoginPage(props: LoginPageProps) {
             "flex w-50 items-center justify-center gap-1 rounded-lg border-2 border-white bg-google text-white shadow-md shadow-google",
             "disabled:shadow-none",
           )}
-          disabled={loginDisabled}
-          onClick={loginOnClick}
+          disabled={googleLoginDisabled}
+          onClick={googleLoginOnClick}
           variant="raw"
         >
-          {loginLoading ? (
+          {googleLogingLoading ? (
             <Icon className="animate-spin" variant="spinner" />
           ) : (
             <>
@@ -56,7 +63,7 @@ export default function LoginPage(props: LoginPageProps) {
 
       {/* BANNER */}
       <div className="absolute inset-0 -z-1 mask-b-from-black mask-b-from-50% mask-b-to-transparent">
-        <Banner speed={5} />
+        <BannerImage speed={5} />
       </div>
 
       {/* VERSION */}
