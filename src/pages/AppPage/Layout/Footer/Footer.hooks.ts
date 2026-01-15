@@ -22,8 +22,7 @@ export default function useFooter(props: FooterProps) {
         selected:
           pathname === "/" ||
           (!!league?.id
-            ? pathname === `/leagues/${league.id}/view` ||
-              pathname === "/leagues/view"
+            ? pathname === `/leagues/${league.id}/view`
             : "/leagues/create"),
       },
       {
