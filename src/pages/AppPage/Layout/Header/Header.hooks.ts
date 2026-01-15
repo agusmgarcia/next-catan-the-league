@@ -52,14 +52,43 @@ export default function useHeader(props: HeaderProps) {
     }
   }, [league?.name, page]);
 
-  const swtichLeagueVisible = useMemo(
-    () =>
-      page === "createMatch" ||
+  const iconLeft = useMemo(() => {
+    const href =
+      page === "viewPastMatches"
+        ? "/leagues/matches/approve"
+        : page === "viewLeagues"
+          ? !league?.id
+            ? "/leagues/create"
+            : `/leagues/${league.id}/view`
+          : page === "createLeague"
+            ? !league?.id
+              ? undefined
+              : "/leagues/view"
+            : undefined;
+
+    if (!href) return undefined;
+    return { href, icon: "arrowLeft" as const };
+  }, [league?.id, page]);
+
+  const iconRight = useMemo(() => {
+    if (
       page === "home" ||
       page === "viewLeague" ||
-      page === "viewRules",
-    [page],
-  );
+      page === "viewRules" ||
+      page === "createMatch"
+    )
+      return { href: "/leagues/view", icon: "switch" as const };
 
-  return { ...props, header, swtichLeagueVisible };
+    if (page === "approveMatches")
+      return { href: "/leagues/matches/past", icon: "hourglass" as const };
+
+    return undefined;
+  }, [page]);
+
+  return {
+    ...props,
+    header,
+    iconLeft,
+    iconRight,
+  };
 }

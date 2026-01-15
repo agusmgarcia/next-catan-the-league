@@ -4,22 +4,31 @@ import useHeader from "./Header.hooks";
 import type HeaderProps from "./Header.types";
 
 export default function Header(props: HeaderProps) {
-  const { header, swtichLeagueVisible, ...rest } = useHeader(props);
+  const { header, iconLeft, iconRight, ...rest } = useHeader(props);
 
   return (
     <div
       {...rest}
       className="flex h-16 w-full items-center justify-between gap-4 border-b bg-interface-red custom-noise-5 p-4 shadow-2xl"
     >
+      {!!header && !!iconLeft && (
+        <Anchor href={iconLeft.href}>
+          <Icon className="size-8 text-white" variant={iconLeft.icon} />
+        </Anchor>
+      )}
+
       {!!header && (
-        <Typography className="line-clamp-1 break-all text-white" variant="h1">
+        <Typography
+          className="mr-auto line-clamp-1 break-all text-white"
+          variant="h1"
+        >
           {header}
         </Typography>
       )}
 
-      {!!header && swtichLeagueVisible && (
-        <Anchor href="/leagues/view">
-          <Icon className="size-8 text-white" variant="switch" />
+      {!!header && !!iconRight && (
+        <Anchor href={iconRight.href}>
+          <Icon className="size-8 text-white" variant={iconRight.icon} />
         </Anchor>
       )}
     </div>
