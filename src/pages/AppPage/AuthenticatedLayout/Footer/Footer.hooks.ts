@@ -23,7 +23,7 @@ export default function useFooter(props: FooterProps) {
           pathname === "/" ||
           (!!league?.id
             ? pathname === `/leagues/${league.id}/view`
-            : "/leagues/create"),
+            : pathname === "/leagues/create"),
       },
       {
         alert: undefined,
