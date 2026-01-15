@@ -2,6 +2,43 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v0.10.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.10.0)
+
+> January 15, 2026
+
+### Features ✅
+
+- **Header**: add icons
+- **Icon**: add hourglass variant
+- **Icon**: add arrowLeft variant
+- **ViewLeaguesPage**: implement page
+- **Icon**: add arrowRightWide variant
+- **Icon**: add switch variant
+- **CreateMatchPage**: set placeholders
+- **CreateLeaguePage**: set placeholders
+- **Input**: handle placeholder property
+
+### Fixes 🎯
+
+- **Footer**: stop making selected on /leagues/view
+- **Footer**: make icons smaller
+- **ApproveMatchesPage**: remove link at bottom
+- **CreateMatchPage**: adjust createdAt styles
+- **Header**: avoid displaying switch icon if no string
+- **PlayerImage**: make color required
+- **ViewLeaguePage**: adjust calculation logic
+
+### Chores ⚙️
+
+- start using matchesCount instead of completedAt
+- **CreateMatchPage**: add comments
+- **CreateLeaguePage**: add comments
+- **Layout**: move it inside AppPage
+- **Layout**: start handling loding and error
+- **Layout**: let header handle the heading
+- **Typography**: add font-semibold
+- **Title**: stop using the component
+
 ## [v0.9.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.9.0)
 
 > January 13, 2026
