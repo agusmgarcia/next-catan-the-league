@@ -36,7 +36,7 @@ export default function Footer(props: FooterProps) {
       ))}
 
       <Anchor
-        className="absolute -top-4 left-1/2 size-fit -translate-x-1/2 rounded-full border-2 border-black bg-interface-red custom-noise-5 text-white shadow-2xl"
+        className="absolute -top-3.5 left-1/2 size-fit -translate-x-1/2 rounded-full border-2 border-black bg-interface-red custom-noise-5 text-white shadow-2xl"
         href={
           !!league?.id
             ? `/leagues/${league.id}/matches/create`
