@@ -89,6 +89,13 @@ export default function Icon(props: IconProps) {
         </svg>
       );
 
+    case "logout":
+      return (
+        <svg {...rest}>
+          <path d="M5 22c-0.55228 0 -1 -0.4477 -1 -1V3c0 -0.55228 0.44772 -1 1 -1h14c0.5523 0 1 0.44772 1 1v3h-2V4H6v16h12v-2h2v3c0 0.5523 -0.4477 1 -1 1H5Zm13 -6v-3h-7v-2h7V8l5 4 -5 4Z" />
+        </svg>
+      );
+
     case "plus":
       return (
         <svg {...rest}>
