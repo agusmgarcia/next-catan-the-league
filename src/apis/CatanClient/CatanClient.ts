@@ -1,3 +1,4 @@
+import { finds } from "@agusmgarcia/react-essentials-utils";
 import { type FirebaseApp, initializeApp } from "firebase/app";
 import {
   type Auth as FirebaseAuth,
@@ -23,6 +24,7 @@ import {
 import { v4 as createUUID } from "uuid";
 
 import unknown from "#public/assets/unknown.webp";
+import { arrays } from "#src/utils";
 
 import {
   type ApproveMatchRequest,
@@ -37,6 +39,8 @@ import {
   type GetLeaguesResponse,
   type GetMatchesRequest,
   type GetMatchesResponse,
+  type GetProfileRequest,
+  type GetProfileResponse,
   type GetUserRequest,
   type GetUserResponse,
   type GetUsersRequest,
@@ -374,5 +378,75 @@ export default class CatanClient {
       profileId: data?.profileId || "",
       updatedAt: data?.updatedAt || 0,
     };
+  }
+
+  async getProfile(
+    { id }: GetProfileRequest,
+    signal: AbortSignal,
+  ): Promise<GetProfileResponse> {
+    if (!id) return undefined;
+
+    const userId = await getDocs(
+      query(
+        collection(this.db, CatanClient.COLLECTIONS.users),
+        where("deletedAt", "==", null),
+        where("profileId", "==", id),
+      ),
+    )
+      .then((userDocs) =>
+        userDocs.docs.map((userDoc) => ({
+          ...CatanClient.transformUser(userDoc.data()),
+          id: userDoc.id,
+        })),
+      )
+      .then((users) => users.find(finds.singleOrDefault))
+      .then((user) => user?.id);
+
+    if (!userId) return undefined;
+
+    return await Promise.all([
+      this.getLeagues({ userId }, signal).then((leagues) =>
+        leagues.reduce(
+          (result, l) => {
+            result[l.id] = l;
+            return result;
+          },
+          {} as Record<string, GetLeaguesResponse[number]>,
+        ),
+      ),
+      this.getMatches({ userId }, signal).then((matches) =>
+        matches.filter((m) => m.players.every((p) => !!p.approved)),
+      ),
+    ]).then(([rawLeagues, matches]) => {
+      const leagues = arrays
+        .groupBy(matches, (m) => m.leagueId)
+        .map((group) => {
+          const league = rawLeagues[group.group];
+          if (!league) return undefined;
+
+          return {
+            id: league.id,
+            winnerId:
+              group.values.length >= league.matchesCount
+                ? arrays
+                    .countOccurrences(group.values.map((m) => m.winnerId))
+                    .find(finds.first)?.item
+                : undefined,
+          };
+        })
+        .filter((l) => !!l);
+
+      return {
+        activeLeaguesCount: leagues.filter((l) => !l.winnerId).length,
+        completedLeaguesCount: leagues.filter((l) => !!l.winnerId).length,
+        id,
+        leaguesWinCount: leagues.filter((l) => l.winnerId === userId).length,
+        matchesCount: matches.length,
+        totalPoints: matches
+          .map((m) => m.players.find((p) => p.id === userId)?.points || 0)
+          .reduce((result, points) => result + points, 0),
+        victoriesCount: matches.filter((m) => m.winnerId === userId).length,
+      };
+    });
   }
 }

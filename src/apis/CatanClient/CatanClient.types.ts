@@ -117,3 +117,19 @@ export type LoginResponse = void;
 export type LogoutRequest = {};
 
 export type LogoutResponse = void;
+
+export type GetProfileRequest = {
+  id: string;
+};
+
+export type GetProfileResponse =
+  | {
+      activeLeaguesCount: number;
+      completedLeaguesCount: number;
+      id: string;
+      leaguesWinCount: number;
+      matchesCount: number;
+      totalPoints: number;
+      victoriesCount: number;
+    }
+  | undefined;

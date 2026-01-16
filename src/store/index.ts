@@ -4,12 +4,14 @@ import { LeagueIdSlice } from "./LeagueIdSlice";
 import { LeagueSlice, type LeagueSliceTypes } from "./LeagueSlice";
 import { LeaguesSlice, type LeaguesSliceTypes } from "./LeaguesSlice";
 import { MatchesSlice, type MatchesSliceTypes } from "./MatchesSlice";
+import { ProfileSlice, type ProfileSliceTypes } from "./ProfileSlice";
 import { UserSlice, type UserSliceTypes } from "./UserSlice";
 import { UsersSlice, type UsersSliceTypes } from "./UsersSlice";
 
 export type League = NonNullable<LeagueSliceTypes.Response>;
 export type Leagues = NonNullable<LeaguesSliceTypes.Response>;
 export type Matches = NonNullable<MatchesSliceTypes.Response>;
+export type Profile = NonNullable<ProfileSliceTypes.Response>;
 export type User = NonNullable<UserSliceTypes.Response>;
 export type Users = NonNullable<UsersSliceTypes.Response>;
 
@@ -19,6 +21,7 @@ const { useSelector, ...reactStore } = createReactStore({
     leagueId: LeagueIdSlice,
     leagues: LeaguesSlice,
     matches: MatchesSlice,
+    profile: ProfileSlice,
     user: UserSlice,
     users: UsersSlice,
   },
@@ -56,6 +59,15 @@ export function useMatches() {
     matchesError: useSelector((state) => state.matches.error),
     matchesLoading: useSelector((state) => state.matches.loading),
     rejectMatch: useSelector((state) => state.matches.rejectMatch),
+  };
+}
+
+export function useProfile() {
+  return {
+    profile: useSelector((state) => state.profile.response),
+    profileError: useSelector((state) => state.profile.error),
+    profileLoading: useSelector((state) => state.profile.loading),
+    setProfileId: useSelector((state) => state.profile.setId),
   };
 }
 

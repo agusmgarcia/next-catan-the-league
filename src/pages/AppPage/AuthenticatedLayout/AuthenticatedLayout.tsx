@@ -10,7 +10,8 @@ import { Footer } from "./Footer";
 import { Header } from "./Header";
 
 export default function AuthenticatedLayout(props: AuthenticatedLayoutProps) {
-  const { children, error, loading, ...rest } = useAuthenticatedLayout(props);
+  const { children, error, loading, padding, ...rest } =
+    useAuthenticatedLayout(props);
 
   return (
     <div
@@ -23,7 +24,8 @@ export default function AuthenticatedLayout(props: AuthenticatedLayoutProps) {
       {/* BODY */}
       <div
         className={twMerge(
-          "flex-1 overflow-hidden p-4",
+          "flex-1 overflow-hidden",
+          !!padding && "p-4",
           !!loading && "flex items-center justify-center",
         )}
       >
