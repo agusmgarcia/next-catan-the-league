@@ -17,6 +17,7 @@ type IconProps = Pick<React.SVGProps<SVGSVGElement>, "className"> & {
     | "profile"
     | "rules"
     | "spinner"
+    | "star"
     | "switch";
 };
 

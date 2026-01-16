@@ -124,6 +124,13 @@ export default function Icon(props: IconProps) {
         </svg>
       );
 
+    case "star":
+      return (
+        <svg {...rest}>
+          <path d="m12.0006 18.26 -7.05345 3.9482 1.57533 -7.9283L0.587891 8.7918l8.027039 -0.95174L12.0006 0.5l3.3856 7.34006 8.027 0.95174 -5.9345 5.4881 1.5753 7.9283 -7.0534 -3.9482Z" />
+        </svg>
+      );
+
     case "switch":
       return (
         <svg {...rest}>
