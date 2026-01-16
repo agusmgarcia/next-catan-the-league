@@ -1,7 +1,7 @@
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 
-import { useLeague } from "#src/store";
+import { useLeague, useProfile, useUser } from "#src/store";
 
 import type HeaderProps from "./Header.types";
 
@@ -9,6 +9,8 @@ export default function useHeader(props: HeaderProps) {
   const pathname = usePathname();
 
   const { league } = useLeague();
+  const { profile } = useProfile();
+  const { logout, user } = useUser();
 
   const page = useMemo(() => {
     if (pathname === "/") return "home";
@@ -78,8 +80,16 @@ export default function useHeader(props: HeaderProps) {
     if (page === "approveMatches")
       return { href: "/leagues/matches/past", icon: "hourglass" as const };
 
+    if (
+      page === "viewProfile" &&
+      !!user?.profileId &&
+      !!profile?.id &&
+      user.profileId === profile.id
+    )
+      return { icon: "logout" as const, onClick: () => logout() };
+
     return undefined;
-  }, [page]);
+  }, [logout, page, profile?.id, user?.profileId]);
 
   return {
     ...props,

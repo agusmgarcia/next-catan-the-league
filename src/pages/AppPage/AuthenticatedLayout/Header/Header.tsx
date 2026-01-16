@@ -1,4 +1,4 @@
-import { Anchor, Icon, Typography } from "#src/components";
+import { Anchor, Button, Icon, Typography } from "#src/components";
 
 import useHeader from "./Header.hooks";
 import type HeaderProps from "./Header.types";
@@ -26,11 +26,21 @@ export default function Header(props: HeaderProps) {
         </Typography>
       )}
 
-      {!!header && !!iconRight && (
-        <Anchor href={iconRight.href}>
-          <Icon className="size-8 text-white" variant={iconRight.icon} />
-        </Anchor>
-      )}
+      {!!header &&
+        !!iconRight &&
+        (!!iconRight.href ? (
+          <Anchor href={iconRight.href}>
+            <Icon className="size-8 text-white" variant={iconRight.icon} />
+          </Anchor>
+        ) : (
+          <Button
+            className="size-fit p-0"
+            onClick={iconRight.onClick}
+            variant="raw"
+          >
+            <Icon className="size-8 text-white" variant={iconRight.icon} />
+          </Button>
+        ))}
     </div>
   );
 }
