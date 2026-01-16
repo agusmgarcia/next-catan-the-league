@@ -51,12 +51,12 @@ export default function useViewLeaguesPage(props: ViewLeaguesPageProps) {
                     (m) => m.players.find((mp) => mp.id === p.id)?.points || 0,
                   )
                   .reduce((result, points) => result + points, 0),
-                victoryCounts: matches.filter((m) => m.winnerId === p.id)
+                victoriesCount: matches.filter((m) => m.winnerId === p.id)
                   .length,
               }))
               .sort((p1, p2) => sorts.byNumberDesc(p1.points, p2.points))
               .sort((p1, p2) =>
-                sorts.byNumberDesc(p1.victoryCounts, p2.victoryCounts),
+                sorts.byNumberDesc(p1.victoriesCount, p2.victoriesCount),
               ),
             updatedAt: l.updatedAt,
           };

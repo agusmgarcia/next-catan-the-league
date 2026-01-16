@@ -35,11 +35,11 @@ export default function useLeagueSummaryCard(props: LeagueSummaryCardProps) {
             .map((m) => m.players.find((mp) => mp.id === p.id)?.points || 0)
             .reduce((result, points) => result + points, 0),
           profileId: users[p.id]?.profileId || "",
-          victoryCounts: matches.filter((m) => m.winnerId === p.id).length,
+          victoriesCount: matches.filter((m) => m.winnerId === p.id).length,
         }))
         .sort((p1, p2) => sorts.byNumberDesc(p1.points, p2.points))
         .sort((p1, p2) =>
-          sorts.byNumberDesc(p1.victoryCounts, p2.victoryCounts),
+          sorts.byNumberDesc(p1.victoriesCount, p2.victoriesCount),
         ) || []
     );
   }, [league?.id, league?.players, matchesFromStore, usersFromStore]);

@@ -34,10 +34,12 @@ export default function usePodium(props: PodiumProps) {
         points: matches
           .map((m) => m.players.find((mp) => mp.id === p.id)?.points || 0)
           .reduce((result, points) => result + points, 0),
-        victoryCounts: matches.filter((m) => m.winnerId === p.id).length,
+        victoriesCount: matches.filter((m) => m.winnerId === p.id).length,
       }))
       .sort((p1, p2) => sorts.byNumberDesc(p1.points, p2.points))
-      .sort((p1, p2) => sorts.byNumberDesc(p1.victoryCounts, p2.victoryCounts));
+      .sort((p1, p2) =>
+        sorts.byNumberDesc(p1.victoriesCount, p2.victoriesCount),
+      );
 
     return [players?.at(1), players?.at(0), players?.at(2)];
   }, [league?.id, league?.players, matchesFromStore, usersFromStore]);
