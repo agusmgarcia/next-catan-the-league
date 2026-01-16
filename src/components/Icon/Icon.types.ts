@@ -9,6 +9,7 @@ type IconProps = Pick<React.SVGProps<SVGSVGElement>, "className"> & {
     | "cross-fill"
     | "crown"
     | "google"
+    | "hex"
     | "home"
     | "hourglass"
     | "list"
