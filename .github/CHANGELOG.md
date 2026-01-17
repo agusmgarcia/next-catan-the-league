@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v0.11.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.11.0)
+
+> January 17, 2026
+
+### Features ✅
+
+- **ViewProfilePage**: implement page
+- **arrays**: add countOccurrences method
+- **Icon**: add flag variant
+- **Icon**: add trophy variant
+- **Icon**: add hex variant
+- **Icon**: add star variant
+- **Header**: add logout functionality
+- **Icon**: add logout variant
+- **PlayerImage**: add 6rem variant
+
+### Fixes 🎯
+
+- **Footer**: adjust CTA height
+- rename victoryCounts by victoriesCount
+- **Footer**: adjust logic to have home selected
+
+### Chores ⚙️
+
+- **AppPage**: remove login page
+
 ## [v0.10.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.10.0)
 
 > January 15, 2026
