@@ -61,6 +61,13 @@ export default function Icon(props: IconProps) {
         </svg>
       );
 
+    case "flag":
+      return (
+        <svg {...rest}>
+          <path d="M3 3h9.382c0.3787 0 0.725 0.214 0.8944 0.55279L14 5h6c0.5523 0 1 0.44772 1 1v11c0 0.5523 -0.4477 1 -1 1h-6.382c-0.3787 0 -0.725 -0.214 -0.8944 -0.5528L12 16H5v6H3V3Z" />
+        </svg>
+      );
+
     case "google":
       return (
         <svg {...rest}>
