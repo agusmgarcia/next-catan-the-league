@@ -145,6 +145,13 @@ export default function Icon(props: IconProps) {
         </svg>
       );
 
+    case "trophy":
+      return (
+        <svg {...rest}>
+          <path d="M13.0049 16.9409v2.0618h5v2H6.00488v-2h5.00002v-2.0618c-3.94633 -0.4921 -7.00002 -3.8585 -7.00002 -7.93815v-6H20.0049v6c0 4.07965 -3.0537 7.44605 -7 7.93815ZM1.00488 5.00275h2v4h-2v-4Zm20.00002 0h2v4h-2v-4Z" />
+        </svg>
+      );
+
     default:
       throw new Error(`Variant ${variant} not found`);
   }
