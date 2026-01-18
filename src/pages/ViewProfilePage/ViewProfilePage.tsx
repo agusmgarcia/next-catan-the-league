@@ -83,7 +83,7 @@ export default function ViewProfilePage(props: ViewProfilePageProps) {
           <Tile
             className="col-span-2"
             title="Matches"
-            value={profile.totalPoints}
+            value={profile.matchesCount}
           >
             <Icon
               className="size-7 stroke-black text-interface-green"
