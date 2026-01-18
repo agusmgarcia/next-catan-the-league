@@ -1,4 +1,4 @@
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useMemo } from "react";
 
 import { useLeague, useProfile, useUser } from "#src/store";
@@ -7,6 +7,7 @@ import type HeaderProps from "./Header.types";
 
 export default function useHeader(props: HeaderProps) {
   const pathname = usePathname();
+  const { replace } = useRouter();
 
   const { league } = useLeague();
   const { profile } = useProfile();
@@ -81,10 +82,13 @@ export default function useHeader(props: HeaderProps) {
       !!profile?.id &&
       user.profileId === profile.id
     )
-      return { icon: "logout" as const, onClick: () => logout() };
+      return {
+        icon: "logout" as const,
+        onClick: () => logout().then(() => replace("/")),
+      };
 
     return undefined;
-  }, [logout, page, profile?.id, user?.profileId]);
+  }, [logout, page, profile?.id, replace, user?.profileId]);
 
   return {
     ...props,
