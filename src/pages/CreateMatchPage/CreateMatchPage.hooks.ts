@@ -130,7 +130,7 @@ export default function useCreateMatchPage(props: CreateMatchPageProps) {
         })),
         winnerId: state.winnerId,
       })
-        .then(() => push("/"))
+        .then(() => push(`/leagues/${league.id}/view`))
         .catch(() => setSubmitting(false));
     },
     [
