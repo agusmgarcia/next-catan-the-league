@@ -69,12 +69,7 @@ export default function useHeader(props: HeaderProps) {
   }, [league?.id, page]);
 
   const iconRight = useMemo(() => {
-    if (
-      page === "home" ||
-      page === "viewLeague" ||
-      page === "viewRules" ||
-      page === "createMatch"
-    )
+    if (page === "home" || page === "viewLeague" || page === "viewRules")
       return { href: "/leagues/view", icon: "switch" as const };
 
     if (page === "approveMatches")
