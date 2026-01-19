@@ -1,1 +1,1 @@
-# Next Catan League
+# Next Catan The League
