@@ -6,9 +6,9 @@ import { useProfile, useUsers } from "#src/store";
 import type ViewProfilePageProps from "./ViewProfilePage.types";
 
 export default function useViewProfilePage(props: ViewProfilePageProps) {
-  const profileId = useParams()?.id;
+  const profileIdFromParams = useParams()?.id;
 
-  const { profile: profileFromStore, setProfileId } = useProfile();
+  const { profile: profileFromStore, profileId, setProfileId } = useProfile();
   const { users } = useUsers();
 
   const profile = useMemo(() => {
@@ -27,10 +27,11 @@ export default function useViewProfilePage(props: ViewProfilePageProps) {
   }, [profileFromStore, users]);
 
   useEffect(() => {
-    if (profileFromStore?.id === profileId) return;
-    if (Array.isArray(profileId)) return;
-    setProfileId(profileId);
-  }, [profileFromStore?.id, profileId, setProfileId]);
+    if (profileId === profileIdFromParams) return;
+    if (Array.isArray(profileIdFromParams)) return;
+    if (!profileIdFromParams) return;
+    setProfileId(profileIdFromParams);
+  }, [profileId, profileIdFromParams, setProfileId]);
 
   return { ...props, profile };
 }

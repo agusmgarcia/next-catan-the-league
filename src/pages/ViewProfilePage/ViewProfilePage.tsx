@@ -1,6 +1,7 @@
 import { twMerge } from "tailwind-merge";
 
 import {
+  Alert,
   Icon,
   PlayerImage,
   Typography,
@@ -13,7 +14,14 @@ import type ViewProfilePageProps from "./ViewProfilePage.types";
 export default function ViewProfilePage(props: ViewProfilePageProps) {
   const { profile, ...rest } = useViewProfilePage(props);
 
-  if (!profile) return <></>;
+  if (!profile)
+    return (
+      <div {...rest} className="flex size-full flex-col p-4">
+        <Alert variant="error">
+          <Typography>Profile not found.</Typography>
+        </Alert>
+      </div>
+    );
 
   return (
     <div {...rest} className="flex size-full flex-col overflow-auto">

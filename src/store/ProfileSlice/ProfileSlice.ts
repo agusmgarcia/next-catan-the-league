@@ -16,7 +16,7 @@ export default class ProfileSlice extends ServerSlice<Response, Request> {
     return CatanClient.INSTANCE.getProfile(request, signal);
   }
 
-  async setId(id: string | undefined, signal: AbortSignal): Promise<void> {
-    await this.reloadWithRequest({ id: id || "" }, signal);
+  async setId(id: string, signal: AbortSignal): Promise<void> {
+    await this.reloadWithRequest({ id }, signal);
   }
 }

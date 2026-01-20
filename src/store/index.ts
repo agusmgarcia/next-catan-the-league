@@ -67,6 +67,7 @@ export function useProfile() {
   return {
     profile: useSelector((state) => state.profile.response),
     profileError: useSelector((state) => state.profile.error),
+    profileId: useSelector((state) => state.profile.request?.id),
     profileLoading: useSelector((state) => state.profile.loading),
     setProfileId: useSelector((state) => state.profile.setId),
   };
