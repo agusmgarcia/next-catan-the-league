@@ -64,6 +64,7 @@ export default function useApproveMatchesPage({
                     name: league.name,
                   },
                   observations: m.observations,
+                  photoBlurURL: m.photoBlurURL,
                   photoURL: m.photoURL,
                   players: m.players
                     .map((p1) => ({
@@ -112,6 +113,7 @@ export default function useApproveMatchesPage({
           }),
           id: m.id,
           observations: m.observations,
+          photoBlurURL: m.photoBlurURL,
           photoURL: m.photoURL,
           players: m.players,
           reject: () => {

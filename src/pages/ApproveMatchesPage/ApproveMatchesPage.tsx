@@ -95,10 +95,12 @@ export default function ApproveMatchesPage(props: ApproveMatchesPageProps) {
                 ))}
               </div>
 
-              {!!match.photoURL && (
+              {!!match.photoURL && !!match.photoBlurURL && (
                 <Image
                   alt="proof of winner"
+                  blurSrc={match.photoBlurURL}
                   className="h-35 rounded-lg"
+                  loading="lazy"
                   src={match.photoURL}
                 />
               )}

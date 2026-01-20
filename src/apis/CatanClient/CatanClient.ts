@@ -268,6 +268,9 @@ export default class CatanClient {
       createdAt: data?.createdAt || 0,
       leagueId: data?.leagueId || "",
       observations: data?.observations || undefined,
+      photoBlurURL: !!data?.photoURL
+        ? CloudinaryClient.INSTANCE.getBlurImage({ url: data.photoURL })
+        : undefined,
       photoURL: data?.photoURL || undefined,
       players:
         data?.playerIds.map((playerId: string) => ({
