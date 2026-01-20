@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v0.12.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.12.0)
+
+> January 20, 2026
+
+### Features ✅
+
+- **ViewProfilePage**: stay in the same page
+- **ViewLeaguePage**: stay in the same page
+- **CreateMatchPage**: go to view league after creating it
+- **Header**: go to home when logging out
+
+### Fixes 🎯
+
+- **LeagueIdSlice**: set undefined when no user
+- **HomePage**: redirect as soon as leagueId has been selected
+- **Header**: display placeholder when no league
+- **Header**: prevent switching leagues while creating new match
+- **ViewProfilePage**: adjust matches count stuff
+
+### Chores ⚙️
+
+- bump dependencies
+
 ## [v0.11.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.11.0)
 
 > January 17, 2026
