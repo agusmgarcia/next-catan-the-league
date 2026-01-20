@@ -1,4 +1,4 @@
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useEffect } from "react";
 
 import { useLeague } from "#src/store";
@@ -6,17 +6,16 @@ import { useLeague } from "#src/store";
 import type ViewLeaguePageProps from "./ViewLeaguePage.types";
 
 export default function useViewLeaguePage(props: ViewLeaguePageProps) {
-  const leagueId = useParams()?.id;
-  const { replace } = useRouter();
+  const leagueIdFromParams = useParams()?.id;
 
-  const { league, setLeagueId } = useLeague();
+  const { league, leagueId, setLeagueId } = useLeague();
 
   useEffect(() => {
-    if (league?.id === leagueId) return;
-    if (Array.isArray(leagueId)) return;
-    setLeagueId(leagueId);
-    replace("/");
-  }, [league?.id, leagueId, replace, setLeagueId]);
+    if (leagueId === leagueIdFromParams) return;
+    if (Array.isArray(leagueIdFromParams)) return;
+    if (!leagueIdFromParams) return;
+    setLeagueId(leagueIdFromParams);
+  }, [leagueId, leagueIdFromParams, setLeagueId]);
 
-  return { ...props };
+  return { ...props, league };
 }

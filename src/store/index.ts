@@ -35,6 +35,7 @@ export function useLeague() {
     leagueError: useSelector(
       (state) => state.leagueId.error || state.league.error,
     ),
+    leagueId: useSelector((state) => state.leagueId.response),
     leagueLoading: useSelector(
       (state) => state.leagueId.loading || state.league.loading,
     ),
