@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v0.13.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.13.0)
+
+> January 20, 2026
+
+### Features ✅
+
+- **CatanClient**: add photoBlurURL property
+- **CreateMatchPage**: add ability to upload image
+- **Icon**: add camera variant
+
+### Fixes 🎯
+
+- **Button**: remove styles for raw variant
+
 ## [v0.12.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.12.0)
 
 > January 20, 2026
