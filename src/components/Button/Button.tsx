@@ -39,8 +39,8 @@ export default function Button(props: ButtonProps) {
       <button
         {...rest}
         className={twMerge(
-          "h-14 w-full cursor-pointer p-4 transition-colors",
-          "disabled:cursor-default disabled:bg-gray-500",
+          "cursor-pointer",
+          "disabled:cursor-default",
           className,
         )}
       >

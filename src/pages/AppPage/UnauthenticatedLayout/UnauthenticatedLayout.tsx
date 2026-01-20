@@ -43,8 +43,8 @@ export default function UnauthenticatedLayout(
         {/* GOOGLE */}
         <Button
           className={twMerge(
-            "flex w-50 items-center justify-center gap-1 rounded-lg border-2 border-white bg-google text-white shadow-md shadow-google",
-            "disabled:shadow-none",
+            "flex h-fit w-52.5 items-center justify-center gap-1 rounded-lg border-2 border-white bg-google p-4 text-white shadow-md shadow-google transition-colors",
+            "disabled:bg-gray-500 disabled:shadow-none",
           )}
           disabled={googleLoginDisabled}
           onClick={googleLoginOnClick}
@@ -55,7 +55,7 @@ export default function UnauthenticatedLayout(
           ) : (
             <>
               <Icon variant="google" />
-              Login with Google
+              Sign in with Google
             </>
           )}
         </Button>
