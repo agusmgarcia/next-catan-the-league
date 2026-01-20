@@ -62,7 +62,7 @@ export type GetMatchesResponse = {
 
 export type CreateMatchRequest = Pick<
   GetMatchesResponse[number],
-  "leagueId" | "observations" | "players" | "winnerId"
+  "leagueId" | "observations" | "photoURL" | "players" | "winnerId"
 >;
 
 export type CreateMatchResponse = void;

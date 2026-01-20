@@ -1,7 +1,10 @@
+import { twMerge } from "tailwind-merge";
+
 import {
   Button,
   Divider,
   Icon,
+  Image,
   Input,
   PlayerImage,
   Typography,
@@ -13,8 +16,11 @@ import type CreateMatchPageProps from "./CreateMatchPage.types";
 
 export default function CreateMatchPage(props: CreateMatchPageProps) {
   const {
+    attachScreenshotInputRef,
     match,
+    onAttachScreenshotClick,
     onChange,
+    onClearPhotoURLClick,
     onSubmit,
     state,
     submitDisabled,
@@ -99,6 +105,57 @@ export default function CreateMatchPage(props: CreateMatchPageProps) {
             </div>
           ))}
         </div>
+
+        {/* DIVIDER */}
+        <Divider />
+
+        {/* ATTACH SCREENSHOT */}
+        {!state.photoURL && (
+          <Button
+            className={twMerge(
+              "flex h-37.5 flex-col items-center justify-center gap-2 rounded-lg border-3 border-dotted border-interface-yellow bg-interface-yellow/25 p-4",
+              "disabled:border-gray-500 disabled:bg-gray-300 disabled:text-gray-500",
+            )}
+            disabled={submitting}
+            onClick={onAttachScreenshotClick}
+            variant="raw"
+          >
+            <Icon className="size-8 flex-none opacity-50" variant="camera" />
+            <Typography>Attach screenshot</Typography>
+          </Button>
+        )}
+
+        {/* PHOTO URL DISPLAY */}
+        {!!state.photoURL && (
+          <div className="relative">
+            <Image
+              alt="A screenshot of the match"
+              className="h-37.5 rounded-lg"
+              src={state.photoURL}
+            />
+
+            {!submitting && (
+              <Button
+                className="absolute top-2 right-2"
+                onClick={onClearPhotoURLClick}
+                variant="raw"
+              >
+                <Icon variant="cross" />
+              </Button>
+            )}
+          </div>
+        )}
+
+        {/* PHOTO URL */}
+        <input
+          ref={attachScreenshotInputRef}
+          accept="image/*"
+          className="hidden"
+          multiple={false}
+          name="photoURL"
+          onChange={onChange}
+          type="file"
+        />
 
         {/* DIVIDER */}
         <Divider />

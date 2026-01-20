@@ -26,6 +26,7 @@ import { v4 as createUUID } from "uuid";
 import unknown from "#public/assets/unknown.webp";
 import { arrays } from "#src/utils";
 
+import { CloudinaryClient } from "../CloudinaryClient";
 import {
   type ApproveMatchRequest,
   type ApproveMatchResponse,
@@ -198,8 +199,8 @@ export default class CatanClient {
   }
 
   async createMatch(
-    { leagueId, observations, players, winnerId }: CreateMatchRequest,
-    _: AbortSignal,
+    { leagueId, observations, photoURL, players, winnerId }: CreateMatchRequest,
+    signal: AbortSignal,
   ): Promise<CreateMatchResponse> {
     const now = Date.now();
     await addDoc(collection(this.db, CatanClient.COLLECTIONS.matches), {
@@ -207,7 +208,9 @@ export default class CatanClient {
       deletedAt: null,
       leagueId,
       observations: observations || null,
-      photoURL: null, // TODO:
+      photoURL: !!photoURL
+        ? await CloudinaryClient.INSTANCE.uploadImage({ url: photoURL }, signal)
+        : null,
       playerApproveds: players.reduce(
         (result, p) => {
           result[p.id] = p.approved || null;

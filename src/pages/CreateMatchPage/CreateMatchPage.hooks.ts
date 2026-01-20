@@ -1,6 +1,6 @@
 import { dates } from "@agusmgarcia/react-essentials-utils";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import {
   useLeague,
@@ -14,6 +14,8 @@ import type CreateMatchPageProps from "./CreateMatchPage.types";
 
 export default function useCreateMatchPage(props: CreateMatchPageProps) {
   const { push } = useRouter();
+
+  const attachScreenshotInputRef = useRef<HTMLInputElement>(null);
 
   const { league } = useLeague();
   const { createMatch } = useMatches();
@@ -59,11 +61,21 @@ export default function useCreateMatchPage(props: CreateMatchPageProps) {
   >((event) => {
     const name = event.target.name;
 
-    if (!name.startsWith("points."))
+    if (name === "winnerId" || name === "observations")
       return setState((prevState) => ({
         ...prevState,
         [name]: event.target.value,
       }));
+
+    if (name === "photoURL") {
+      const file = (event.target as HTMLInputElement).files?.[0];
+      if (!file) return;
+
+      return setState((prevState) => ({
+        ...prevState,
+        [name]: URL.createObjectURL(file),
+      }));
+    }
 
     const playerId = name.replace(/^points\.(.*)$/, "$1");
 
@@ -114,6 +126,20 @@ export default function useCreateMatchPage(props: CreateMatchPageProps) {
     });
   }, []);
 
+  const onAttachScreenshotClick = useCallback<
+    React.MouseEventHandler<HTMLButtonElement>
+  >(() => {
+    const attachScreenshotInput = attachScreenshotInputRef.current;
+    if (!attachScreenshotInput) return;
+    attachScreenshotInput.click();
+  }, []);
+
+  const onClearPhotoURLClick = useCallback<
+    React.MouseEventHandler<HTMLButtonElement>
+  >(() => {
+    setState((prevState) => ({ ...prevState, photoURL: "" }));
+  }, []);
+
   const onSubmit = useCallback<React.FormEventHandler<HTMLFormElement>>(
     (event) => {
       event.preventDefault();
@@ -123,6 +149,7 @@ export default function useCreateMatchPage(props: CreateMatchPageProps) {
       createMatch({
         leagueId: league.id,
         observations: state.observations,
+        photoURL: state.photoURL,
         players: Object.keys(state.players).map((playerId) => ({
           approved: state.players[playerId].approved || undefined,
           id: playerId,
@@ -138,6 +165,7 @@ export default function useCreateMatchPage(props: CreateMatchPageProps) {
       league?.id,
       push,
       state.observations,
+      state.photoURL,
       state.players,
       state.winnerId,
     ],
@@ -146,6 +174,7 @@ export default function useCreateMatchPage(props: CreateMatchPageProps) {
   useEffect(() => {
     setState({
       observations: "",
+      photoURL: "",
       players: match.players.reduce(
         (result, u) => {
           result[u.id] = { approved: !u.admin || user?.id === u.id, points: 0 };
@@ -164,10 +193,18 @@ export default function useCreateMatchPage(props: CreateMatchPageProps) {
     });
   }, [match.players, user?.id]);
 
+  useEffect(() => {
+    const photoURL = state.photoURL;
+    return () => URL.revokeObjectURL(photoURL);
+  }, [state.photoURL]);
+
   return {
     ...props,
+    attachScreenshotInputRef,
     match,
+    onAttachScreenshotClick,
     onChange,
+    onClearPhotoURLClick,
     onSubmit,
     state,
     submitDisabled,
@@ -176,11 +213,18 @@ export default function useCreateMatchPage(props: CreateMatchPageProps) {
 }
 
 function getDefaultState(): State {
-  return { observations: "", players: {}, winnerDisabled: {}, winnerId: "" };
+  return {
+    observations: "",
+    photoURL: "",
+    players: {},
+    winnerDisabled: {},
+    winnerId: "",
+  };
 }
 
 type State = {
   observations: string;
+  photoURL: string;
   players: Record<string, { approved: boolean; points: number }>;
   winnerDisabled: Record<string, boolean>;
   winnerId: string;
