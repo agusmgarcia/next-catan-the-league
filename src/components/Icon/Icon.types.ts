@@ -2,6 +2,7 @@ type IconProps = Pick<React.SVGProps<SVGSVGElement>, "className"> & {
   variant:
     | "arrowLeft"
     | "arrowRightWide"
+    | "camera"
     | "check"
     | "check-fill"
     | "checkboxes"
