@@ -8,12 +8,12 @@ import type HomePageProps from "./HomePage.types";
 export default function useHomePage(props: HomePageProps) {
   const { replace } = useRouter();
 
-  const { league } = useLeague();
+  const { leagueId } = useLeague();
 
   useEffect(() => {
-    if (!league) replace("/leagues/create");
-    else replace(`/leagues/${league.id}/view`);
-  }, [league, replace]);
+    if (!leagueId) replace("/leagues/create");
+    else replace(`/leagues/${leagueId}/view`);
+  }, [leagueId, replace]);
 
   return { ...props };
 }
