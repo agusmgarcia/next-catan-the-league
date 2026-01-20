@@ -35,7 +35,7 @@ export default function useHeader(props: HeaderProps) {
       case "home":
       case "viewLeague":
       case "viewRules":
-        return league?.name || "";
+        return league?.name || "League";
 
       case "createLeague":
         return "Create league";
