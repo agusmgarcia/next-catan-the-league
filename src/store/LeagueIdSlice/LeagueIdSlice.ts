@@ -1,12 +1,13 @@
 import { LocalStorageSlice } from "@agusmgarcia/react-essentials-store";
-import { equals, finds } from "@agusmgarcia/react-essentials-utils";
+import { equals, finds, sorts } from "@agusmgarcia/react-essentials-utils";
 
 import { type LeaguesSlice } from "../LeaguesSlice";
+import { type UserSlice } from "../UserSlice";
 import { type Data } from "./LeagueIdSlice.types";
 
 export default class LeagueIdSlice extends LocalStorageSlice<
   Data,
-  { leagues: LeaguesSlice }
+  { leagues: LeaguesSlice; user: UserSlice }
 > {
   constructor() {
     super("leagueId");
@@ -18,13 +19,35 @@ export default class LeagueIdSlice extends LocalStorageSlice<
     this.subscribe(
       (state) => state,
       (state) => {
+        if (!!state.response) return;
         if (state.loading || this.slices.leagues.loading) return;
         if (!!state.error || !!this.slices.leagues.error) return;
-        if (!!state.response) return;
-        if (this.slices.leagues.response.length !== 1) return;
-        this.response = this.slices.leagues.response.find(finds.single)?.id;
+        this.response = this.slices.leagues.response
+          .sort((l1, l2) => sorts.byNumberDesc(l1.updatedAt, l2.updatedAt))
+          .find(finds.first)?.id;
       },
       equals.shallow,
+    );
+
+    this.slices.leagues.subscribe(
+      (state) => state,
+      (state) => {
+        if (!!this.response) return;
+        if (this.loading || state.loading) return;
+        if (!!this.error || !!state.error) return;
+        this.response = state.response
+          .sort((l1, l2) => sorts.byNumberDesc(l1.updatedAt, l2.updatedAt))
+          .find(finds.first)?.id;
+      },
+      equals.shallow,
+    );
+
+    this.slices.user.subscribe(
+      (state) => state.response?.id,
+      (userId) => {
+        if (!!userId) return;
+        this.response = undefined;
+      },
     );
   }
 
