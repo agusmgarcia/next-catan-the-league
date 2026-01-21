@@ -3,6 +3,7 @@ import { twMerge } from "tailwind-merge";
 import {
   Anchor,
   Divider,
+  Icon,
   Typography,
   VictoryPointImage,
 } from "#src/components";
@@ -28,10 +29,17 @@ export default function LeagueSummaryCard(props: LeagueSummaryCardProps) {
     >
       {/* NAME */}
       <div className="flex items-center justify-between gap-1">
-        <Typography variant="h2">Victory Points</Typography>
+        <Typography variant="h2">Summary</Typography>
 
-        <div className="flex items-center gap-1">
+        <div className="flex flex-[80px] grow-0 items-center justify-between">
+          {/* VICTORY POINTS IMAGE */}
           <VictoryPointImage />
+
+          {/* CROWN */}
+          <Icon
+            className="size-7 stroke-black text-interface-yellow"
+            variant="crown"
+          />
         </div>
       </div>
 
@@ -67,10 +75,15 @@ export default function LeagueSummaryCard(props: LeagueSummaryCardProps) {
               )}
             </Typography>
 
-            {/* POINTS */}
-            <Typography className="ml-auto min-w-7 text-center">
-              {player.points}
-            </Typography>
+            <div className="ml-auto flex w-20 items-center justify-between">
+              {/* POINTS */}
+              <Typography className="w-7 text-center">
+                {player.points}
+              </Typography>
+
+              {/* WINS */}
+              <Typography className="w-7 text-center">{player.wins}</Typography>
+            </div>
           </div>
         ))}
       </div>

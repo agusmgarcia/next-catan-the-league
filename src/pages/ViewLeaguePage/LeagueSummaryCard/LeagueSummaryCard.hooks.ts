@@ -36,6 +36,9 @@ export default function useLeagueSummaryCard(props: LeagueSummaryCardProps) {
             .reduce((result, points) => result + points, 0),
           profileId: users[p.id]?.profileId || "",
           victoriesCount: matches.filter((m) => m.winnerId === p.id).length,
+          wins: matches
+            .map<number>((m) => (m.winnerId === p.id ? 1 : 0))
+            .reduce((result, points) => result + points, 0),
         }))
         .sort((p1, p2) => sorts.byNumberDesc(p1.points, p2.points))
         .sort((p1, p2) =>
