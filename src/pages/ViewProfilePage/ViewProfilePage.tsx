@@ -45,8 +45,8 @@ export default function ViewProfilePage(props: ViewProfilePageProps) {
           {/* LEAGUES */}
           <Tile
             className="col-span-3"
-            title="Leagues"
-            value={profile.activeLeaguesCount + profile.completedLeaguesCount}
+            title={profile.leaguesCountString}
+            value={profile.leaguesCount}
           >
             <Icon
               className="size-7 stroke-black text-interface-red"
@@ -57,7 +57,7 @@ export default function ViewProfilePage(props: ViewProfilePageProps) {
           {/* CHAMPION */}
           <Tile
             className="col-span-3"
-            title="Champion"
+            title={profile.leaguesWinCountString}
             value={profile.leaguesWinCount}
           >
             <Icon
@@ -69,8 +69,8 @@ export default function ViewProfilePage(props: ViewProfilePageProps) {
           {/* VICTORY POINTS */}
           <Tile
             className="col-span-2"
-            title="Points"
-            value={profile.totalPoints}
+            title={profile.pointsString}
+            value={profile.points}
           >
             <VictoryPointImage />
           </Tile>
@@ -78,7 +78,7 @@ export default function ViewProfilePage(props: ViewProfilePageProps) {
           {/* VICTORIES COUNT */}
           <Tile
             className="col-span-2"
-            title="Victories"
+            title={profile.victoriesCountString}
             value={profile.victoriesCount}
           >
             <Icon
@@ -90,7 +90,7 @@ export default function ViewProfilePage(props: ViewProfilePageProps) {
           {/* MATCHES */}
           <Tile
             className="col-span-2"
-            title="Matches"
+            title={profile.matchesCountString}
             value={profile.matchesCount}
           >
             <Icon

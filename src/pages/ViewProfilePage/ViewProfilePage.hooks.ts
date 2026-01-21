@@ -1,3 +1,4 @@
+import { strings } from "@agusmgarcia/react-essentials-utils";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo } from "react";
 
@@ -18,11 +19,36 @@ export default function useViewProfilePage(props: ViewProfilePageProps) {
     if (!user) return undefined;
 
     return {
-      ...profileFromStore,
       defaultColor: user.defaultColor,
       email: user.id,
+      leaguesCount:
+        profileFromStore.activeLeaguesCount +
+        profileFromStore.completedLeaguesCount,
+      leaguesCountString: strings.replace("${leaguesCount?League:Leagues}", {
+        leaguesCount:
+          profileFromStore.activeLeaguesCount +
+          profileFromStore.completedLeaguesCount,
+      }),
+      leaguesWinCount: profileFromStore.leaguesWinCount,
+      leaguesWinCountString: strings.replace(
+        "${leaguesWinCount?Championship:Championships}",
+        { leaguesWinCount: profileFromStore.leaguesWinCount },
+      ),
+      matchesCount: profileFromStore.matchesCount,
+      matchesCountString: strings.replace("${matchesCount?Match:Matches}", {
+        matchesCount: profileFromStore.matchesCount,
+      }),
       name: user.name,
       photoURL: user.photoURL,
+      points: profileFromStore.totalPoints,
+      pointsString: strings.replace("${points?Point:Points}", {
+        points: profileFromStore.totalPoints,
+      }),
+      victoriesCount: profileFromStore.victoriesCount,
+      victoriesCountString: strings.replace(
+        "${victoriesCount?Victory:Victories}",
+        { victoriesCount: profileFromStore.victoriesCount },
+      ),
     };
   }, [profileFromStore, users]);
 
