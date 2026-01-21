@@ -45,7 +45,7 @@ export default function CreateMatchPage(props: CreateMatchPageProps) {
             {/* CROWN */}
             <Icon
               className="size-7 stroke-black text-interface-yellow"
-              variant="crown"
+              variant="star"
             />
           </div>
         </div>

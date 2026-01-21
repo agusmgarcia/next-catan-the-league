@@ -62,7 +62,7 @@ export default function ViewProfilePage(props: ViewProfilePageProps) {
           >
             <Icon
               className="size-7 stroke-black text-interface-yellow"
-              variant="trophy"
+              variant="crown"
             />
           </Tile>
 

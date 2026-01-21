@@ -38,7 +38,7 @@ export default function LeagueSummaryCard(props: LeagueSummaryCardProps) {
           {/* CROWN */}
           <Icon
             className="size-7 stroke-black text-interface-yellow"
-            variant="crown"
+            variant="star"
           />
         </div>
       </div>
