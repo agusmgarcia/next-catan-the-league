@@ -15,7 +15,7 @@ export default function ViewLeaguePage(props: ViewLeaguePageProps) {
       {...rest}
       className={twMerge(
         "flex size-full flex-col gap-4",
-        !!league && "items-center justify-evenly",
+        !!league && "relative items-center justify-evenly",
       )}
     >
       {/* ERROR */}
@@ -32,6 +32,11 @@ export default function ViewLeaguePage(props: ViewLeaguePageProps) {
         </>
       ) : (
         <>
+          {/* MATCHES COUNT */}
+          <Typography className="absolute top-0 right-0 rounded-lg bg-interface-yellow px-2">
+            {league.matchesCount}
+          </Typography>
+
           {/* PODIUM */}
           <Podium />
 
