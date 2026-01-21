@@ -64,8 +64,8 @@ export default function useAuthenticatedLayout(
   );
 
   const padding = useMemo(
-    () => !/^\/profiles\/(.+)\/view$/.test(pathname),
-    [pathname],
+    () => !/^\/profiles\/(.+)\/view$/.test(pathname) || !!error,
+    [error, pathname],
   );
 
   return { ...props, error, loading, padding };
