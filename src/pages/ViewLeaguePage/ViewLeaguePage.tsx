@@ -33,7 +33,12 @@ export default function ViewLeaguePage(props: ViewLeaguePageProps) {
       ) : (
         <>
           {/* MATCHES COUNT */}
-          <Typography className="absolute top-0 right-0 rounded-lg bg-interface-yellow px-2">
+          <Typography
+            className={twMerge(
+              "absolute top-0 right-0 rounded-lg bg-interface-yellow px-2",
+              league.completed && "bg-interface-green text-white",
+            )}
+          >
             {league.matchesCount}
           </Typography>
 

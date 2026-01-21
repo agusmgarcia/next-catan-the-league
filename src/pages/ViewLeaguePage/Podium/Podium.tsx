@@ -6,7 +6,7 @@ import usePodium from "./Podium.hooks";
 import type PodiumProps from "./Podium.types";
 
 export default function Podium(props: PodiumProps) {
-  const { players, ready, transitions, ...rest } = usePodium(props);
+  const { completed, players, ready, transitions, ...rest } = usePodium(props);
 
   return (
     <div {...rest} className="flex w-full items-end justify-center">
@@ -33,7 +33,10 @@ export default function Podium(props: PodiumProps) {
             {/* CROWN */}
             {index === 1 && (
               <Icon
-                className="absolute -top-6 stroke-black text-interface-yellow"
+                className={twMerge(
+                  "absolute -top-6 stroke-black text-interface-yellow",
+                  !completed && "invisible",
+                )}
                 variant="crown"
               />
             )}

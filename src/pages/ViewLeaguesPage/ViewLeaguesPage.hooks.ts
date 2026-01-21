@@ -35,11 +35,21 @@ export default function useViewLeaguesPage(props: ViewLeaguesPageProps) {
 
           return {
             active: l.id === league?.id,
+            completed: matches.length >= l.matchesCount,
             id: l.id,
-            matchesCount: strings.replace(
-              "${matchesLength} of ${totalMatches} ${totalMatches?match:matches}",
-              { matchesLength: matches.length, totalMatches: l.matchesCount },
-            ),
+            matchesCount:
+              matches.length !== l.matchesCount
+                ? strings.replace(
+                    "${matchesLength} of ${totalMatches} ${totalMatches?match:matches}",
+                    {
+                      matchesLength: matches.length,
+                      totalMatches: l.matchesCount,
+                    },
+                  )
+                : strings.replace(
+                    "${totalMatches} ${totalMatches?match:matches}",
+                    { totalMatches: l.matchesCount },
+                  ),
             name: l.name,
             players: l.players
               .map((p) => ({

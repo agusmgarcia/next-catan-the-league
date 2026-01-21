@@ -13,6 +13,14 @@ export default function usePodium(props: PodiumProps) {
   const [ready, setReady] = useState(false);
   const [transitions, setTransitions] = useState(false);
 
+  const matches = useMemo(
+    () =>
+      matchesFromStore
+        .filter((m) => m.leagueId === league?.id)
+        .filter((m) => m.players.every((p) => !!p.approved)),
+    [league?.id, matchesFromStore],
+  );
+
   const players = useMemo(() => {
     const users = usersFromStore.reduce(
       (result, user) => {
@@ -21,10 +29,6 @@ export default function usePodium(props: PodiumProps) {
       },
       {} as Record<string, Users[number]>,
     );
-
-    const matches = matchesFromStore
-      .filter((m) => m.leagueId === league?.id)
-      .filter((m) => m.players.every((p) => !!p.approved));
 
     const players = league?.players
       .map((p) => ({
@@ -42,7 +46,12 @@ export default function usePodium(props: PodiumProps) {
       );
 
     return [players?.at(1), players?.at(0), players?.at(2)];
-  }, [league?.id, league?.players, matchesFromStore, usersFromStore]);
+  }, [league?.players, matches, usersFromStore]);
+
+  const completed = useMemo(
+    () => (!!league?.id ? matches.length >= league.matchesCount : false),
+    [league?.id, league?.matchesCount, matches.length],
+  );
 
   useEffect(() => {
     if (!window.__VIEW_LEAGUE_PAGE__PODIUM__RENDERED__) {
@@ -54,5 +63,5 @@ export default function usePodium(props: PodiumProps) {
     return () => clearTimeout(handler);
   }, []);
 
-  return { ...props, players, ready, transitions };
+  return { ...props, completed, players, ready, transitions };
 }

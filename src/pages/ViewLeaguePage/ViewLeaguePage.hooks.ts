@@ -10,28 +10,34 @@ export default function useViewLeaguePage(props: ViewLeaguePageProps) {
   const leagueIdFromParams = useParams()?.id;
 
   const { league: leagueFromStore, leagueId, setLeagueId } = useLeague();
-  const { matches } = useMatches();
+  const { matches: matchesFromStore } = useMatches();
 
-  const league = useMemo(
-    () =>
-      !!leagueFromStore?.id
-        ? {
-            id: leagueFromStore.id,
-            matchesCount: strings.replace(
+  const league = useMemo(() => {
+    if (!leagueFromStore?.id) return undefined;
+
+    const matches = matchesFromStore.filter(
+      (m) =>
+        m.leagueId === leagueFromStore.id &&
+        m.players.every((p) => !!p.approved),
+    );
+
+    return {
+      completed: matches.length >= leagueFromStore.matchesCount,
+      id: leagueFromStore.id,
+      matchesCount:
+        matches.length !== leagueFromStore.matchesCount
+          ? strings.replace(
               "${matchesLength} of ${totalMatches} ${totalMatches?match:matches}",
               {
-                matchesLength: matches.filter(
-                  (m) =>
-                    m.leagueId === leagueFromStore.id &&
-                    m.players.every((p) => !!p.approved),
-                ).length,
+                matchesLength: matches.length,
                 totalMatches: leagueFromStore.matchesCount,
               },
-            ),
-          }
-        : undefined,
-    [leagueFromStore?.id, leagueFromStore?.matchesCount, matches],
-  );
+            )
+          : strings.replace("${totalMatches} ${totalMatches?match:matches}", {
+              totalMatches: leagueFromStore.matchesCount,
+            }),
+    };
+  }, [leagueFromStore?.id, leagueFromStore?.matchesCount, matchesFromStore]);
 
   useEffect(() => {
     if (leagueId === leagueIdFromParams) return;
