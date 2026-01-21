@@ -1,7 +1,7 @@
 import "lazysizes";
 import "lazysizes/plugins/parent-fit/ls.parent-fit";
 
-import { useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 import type ImageProps from "./Image.types";
@@ -13,6 +13,8 @@ export default function useImage({
   src: srcFromProps,
   ...rest
 }: ImageProps) {
+  const [isLoading, setLoading] = useState(true);
+
   const className = useMemo(
     () =>
       isSVG(srcFromProps) ||
@@ -40,7 +42,20 @@ export default function useImage({
     [blurSrcFromProps, loadingFromProps, srcFromProps],
   );
 
-  return { ...rest, className, "data-src": srcFromProps, loading, src };
+  const onLoad = useCallback(() => setLoading(false), []);
+
+  const onError = useCallback(() => setLoading(false), []);
+
+  return {
+    ...rest,
+    className,
+    "data-src": srcFromProps,
+    isLoading,
+    loading,
+    onError,
+    onLoad,
+    src,
+  };
 }
 
 function isSVG(src: string): boolean {

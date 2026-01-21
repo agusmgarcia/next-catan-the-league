@@ -6,7 +6,7 @@ import type ImageProps from "./Image.types";
 
 export default forwardRef<HTMLImageElement, ImageProps>(
   function Image(props, ref) {
-    const { alt, className, ...rest } = useImage(props);
+    const { alt, className, isLoading, ...rest } = useImage(props);
 
     return (
       // eslint-disable-next-line @next/next/no-img-element
@@ -14,7 +14,11 @@ export default forwardRef<HTMLImageElement, ImageProps>(
         {...rest}
         ref={ref}
         alt={alt}
-        className={twMerge("block size-full object-cover", className)}
+        className={twMerge(
+          "block size-full bg-gray-300 object-cover",
+          isLoading && "animate-pulse",
+          className,
+        )}
       />
     );
   },
