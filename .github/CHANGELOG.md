@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v0.14.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.14.0)
+
+> January 21, 2026
+
+### Features ✅
+
+- start using stars for matches win
+- **ViewLeaguePage**: add wins next to points
+- **ViewLeaguePage**: add matches count reference
+- **ViewLeaguePage**: add button to view other leagues when no league id
+- **Image**: add background as an initial placeholder
+
+### Fixes 🎯
+
+- **LeaguesSlice**: send back the created id
+- **ViewProfilePage**: adjust labels
+- **VictoryPointImage**: set rounded border
+
+### Chores ⚙️
+
+- stop showing matches of total if are the same
+
 ## [v0.13.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.13.0)
 
 > January 20, 2026
