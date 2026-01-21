@@ -18,9 +18,7 @@ export function countOccurrences<TArrayItem>(
     map.set(item, count + 1);
   }
 
-  return map
-    .entries()
-    .toArray()
+  return [...map.entries()]
     .map(([item, count]) => ({ count, item }))
     .sort((a, b) => sorts.byNumberDesc(a.count, b.count));
 }
@@ -36,8 +34,8 @@ export function groupBy<TArrayItem, TGroup extends string | number>(
     result.get(group)!.push(item);
   }
 
-  return result
-    .keys()
-    .map((group) => ({ group, values: result.get(group) || [] }))
-    .toArray();
+  return [...result.keys()].map((group) => ({
+    group,
+    values: result.get(group) || [],
+  }));
 }
