@@ -24,7 +24,7 @@
 
 @theme {
   --font-*: initial;
-  --font-catan: "Catan";
+  --font-sans: var(--font-catan);
 }
 
 @theme {
@@ -69,21 +69,12 @@
     var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
 }
 
-@font-face {
-  font-family: "Catan";
-  src: url("/fonts/catan.woff2") format("woff2");
-  font-weight: normal;
-  font-style: normal;
-  font-display: block;
-  size-adjust: 112.5%;
-}
-
 * {
-  @apply font-catan font-semibold;
+  @apply font-sans font-semibold;
 }
 
 h1 {
-  @apply font-catan font-normal;
+  @apply font-sans font-normal;
 }
 
 body {

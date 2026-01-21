@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { twMerge } from "tailwind-merge";
 
 import useAppPage from "./AppPage.hooks";
 import type AppPageProps from "./AppPage.types";
@@ -6,10 +7,13 @@ import { AuthenticatedLayout } from "./AuthenticatedLayout";
 import { UnauthenticatedLayout } from "./UnauthenticatedLayout";
 
 export default function AppPage(props: AppPageProps) {
-  const { children, user, ...rest } = useAppPage(props);
+  const { children, className, user, ...rest } = useAppPage(props);
 
   return (
-    <main {...rest} className="h-dvh w-screen overflow-hidden bg-black">
+    <main
+      {...rest}
+      className={twMerge("h-dvh w-screen overflow-hidden bg-black", className)}
+    >
       <div className="mx-auto h-full max-w-3xl overflow-hidden">
         {/* TITLE */}
         <Head>
