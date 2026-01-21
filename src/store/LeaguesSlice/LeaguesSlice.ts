@@ -28,8 +28,9 @@ export default class LeaguesSlice extends ServerSlice<
   async createLeague(
     request: CatanClientTypes.CreateLeagueRequest,
     signal: AbortSignal,
-  ): Promise<void> {
-    await CatanClient.INSTANCE.createLeague(request, signal);
+  ): Promise<string> {
+    const leagueId = await CatanClient.INSTANCE.createLeague(request, signal);
     await this.reload(signal);
+    return leagueId;
   }
 }
