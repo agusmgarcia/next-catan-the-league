@@ -1,6 +1,6 @@
 import { twMerge } from "tailwind-merge";
 
-import { Alert, Typography } from "#src/components";
+import { Alert, Anchor, Button, Typography } from "#src/components";
 
 import { LeagueSummaryCard } from "./LeagueSummaryCard";
 import { Podium } from "./Podium";
@@ -14,15 +14,22 @@ export default function ViewLeaguePage(props: ViewLeaguePageProps) {
     <div
       {...rest}
       className={twMerge(
-        "flex size-full flex-col items-center gap-4",
-        !!league && "justify-evenly",
+        "flex size-full flex-col gap-4",
+        !!league && "items-center justify-evenly",
       )}
     >
       {/* ERROR */}
       {!league ? (
-        <Alert variant="error">
-          <Typography>League not found.</Typography>
-        </Alert>
+        <>
+          <Alert variant="error">
+            <Typography>League not found.</Typography>
+          </Alert>
+
+          {/* VIEW LEAGUES */}
+          <Anchor href="/leagues/view">
+            <Button variant="primary">View other leagues</Button>
+          </Anchor>
+        </>
       ) : (
         <>
           {/* PODIUM */}
