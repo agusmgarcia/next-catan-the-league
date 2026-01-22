@@ -102,6 +102,7 @@ export default function ApproveMatchesPage(props: ApproveMatchesPageProps) {
                   className="h-35 rounded-lg"
                   loading="lazy"
                   src={match.photoURL}
+                  viewer="Screenshot"
                 />
               )}
 
