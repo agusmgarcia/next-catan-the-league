@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v0.15.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.15.0)
+
+> January 22, 2026
+
+### Features ✅
+
+- **CreateMatchPage**: add viewer for screenshots
+- **ApproveMatchesPage**: add viewer for screenshots
+- **Image**: add viewer property
+- **Modal**: add component
+
+### Fixes 🎯
+
+- **arrays**: adjust logic when using iterators
+- **AppPage**: handle base_path for fonts
+- **AuthenticatedLayout**: add padding when error in profile
+
 ## [v0.14.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.14.0)
 
 > January 21, 2026
