@@ -1,6 +1,6 @@
 type ImageProps = Required<
   Pick<React.ImgHTMLAttributes<HTMLImageElement>, "alt">
-> & { src: string } & Pick<
+> & { src: string; viewer?: string } & Pick<
     React.ImgHTMLAttributes<HTMLImageElement>,
     "className"
   > &

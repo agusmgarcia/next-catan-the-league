@@ -1,25 +1,32 @@
+/* eslint-disable @next/next/no-img-element */
 import { forwardRef } from "react";
 import { twMerge } from "tailwind-merge";
 
 import useImage from "./Image.hooks";
 import type ImageProps from "./Image.types";
+import { ImageViewerModal } from "./ImageViewerModal";
 
 export default forwardRef<HTMLImageElement, ImageProps>(
   function Image(props, ref) {
-    const { alt, className, isLoading, ...rest } = useImage(props);
+    const { alt, className, isLoading, modalProps, viewer, ...rest } =
+      useImage(props);
 
     return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        {...rest}
-        ref={ref}
-        alt={alt}
-        className={twMerge(
-          "block size-full bg-gray-300 object-cover",
-          isLoading && "animate-pulse",
-          className,
-        )}
-      />
+      <>
+        <img
+          {...rest}
+          ref={ref}
+          alt={alt}
+          className={twMerge(
+            "block size-full bg-gray-300 object-cover",
+            isLoading && "animate-pulse",
+            !!viewer && !isLoading && "cursor-pointer",
+            className,
+          )}
+        />
+
+        <ImageViewerModal {...modalProps} />
+      </>
     );
   },
 );

@@ -14,6 +14,7 @@ export default function useImage({
   ...rest
 }: ImageProps) {
   const [isLoading, setLoading] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const className = useMemo(
     () =>
@@ -46,12 +47,26 @@ export default function useImage({
 
   const onError = useCallback(() => setLoading(false), []);
 
+  const onClick = useCallback<React.MouseEventHandler<HTMLImageElement>>(() => {
+    if (!rest.viewer) return;
+    setModalOpen(true);
+  }, [rest.viewer]);
+
+  const modalOnClose = useCallback(() => setModalOpen(false), []);
+
   return {
     ...rest,
     className,
     "data-src": srcFromProps,
     isLoading,
     loading,
+    modalProps: {
+      heading: rest.viewer || "",
+      imageSrc: srcFromProps,
+      onClose: modalOnClose,
+      open: modalOpen,
+    },
+    onClick,
     onError,
     onLoad,
     src,
