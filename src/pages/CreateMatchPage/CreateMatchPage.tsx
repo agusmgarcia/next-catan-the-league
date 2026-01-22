@@ -132,6 +132,7 @@ export default function CreateMatchPage(props: CreateMatchPageProps) {
               alt="A screenshot of the match"
               className="h-37.5 rounded-lg"
               src={state.photoURL}
+              viewer="Screenshot"
             />
 
             {!submitting && (
