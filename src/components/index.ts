@@ -5,6 +5,7 @@ export * from "./Divider";
 export * from "./Icon";
 export * from "./Image";
 export * from "./Input";
+export * from "./Modal";
 export * from "./PlayerImage";
 export * from "./Typography";
 export * from "./VictoryPointImage";

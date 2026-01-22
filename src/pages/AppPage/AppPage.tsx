@@ -1,6 +1,8 @@
 import Head from "next/head";
 import { twMerge } from "tailwind-merge";
 
+import { Modal } from "#src/components";
+
 import useAppPage from "./AppPage.hooks";
 import type AppPageProps from "./AppPage.types";
 import { AuthenticatedLayout } from "./AuthenticatedLayout";
@@ -25,6 +27,9 @@ export default function AppPage(props: AppPageProps) {
 
         {/* AUTHENTICATED LAYOUT */}
         {!!user && <AuthenticatedLayout>{children}</AuthenticatedLayout>}
+
+        {/* MODAL PROVIDER */}
+        <Modal.Provider />
       </div>
     </main>
   );

@@ -26,7 +26,8 @@
     "uuid": "^13.0.0"
   },
   "devDependencies": {
-    "@agusmgarcia/react-essentials-commands": "^0.14.0"
+    "@agusmgarcia/react-essentials-commands": "^0.14.0",
+    "@types/react-dom": "^19.2.3"
   },
   "engines": {
     "node": "22.16.0"
