@@ -2,6 +2,7 @@ import { twMerge } from "tailwind-merge";
 
 import {
   Alert,
+  Anchor,
   Button,
   Divider,
   Icon,
@@ -31,7 +32,9 @@ export default function ApproveMatchesPage(props: ApproveMatchesPageProps) {
       {leagues.map((league) => (
         <div key={league.id} className="flex flex-col gap-4">
           <div className="flex items-center justify-between gap-1">
-            <Typography variant="h2">{league.name}</Typography>
+            <Typography variant="h2">
+              <Anchor href={`/leagues/${league.id}/view`}>{league.name}</Anchor>
+            </Typography>
 
             <Typography className="rounded-lg bg-interface-yellow px-2">
               {league.count}
