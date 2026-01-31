@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v0.16.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.16.0)
+
+> January 31, 2026
+
+### Features ✅
+
+- **ApproveMatchesPage**: add link to go to the league
+- **CreateMatchPage**: add alert when the league has been completed
+- **CreateLeaguePage**: split form
+- **Carousel**: add component
+- **Icon**: add admin variant
+- **CreateMatchPage**: start using Form component
+- **CreateLueagePage**: start using Form component
+- **Form**: add component
+
+### Fixes 🎯
+
+- **ViewLeaguePage**: sort leagues by active
+- **CreateMatchPage**: add divider
+- **ApproveMatchPage**: switch ctas
+
+### Chores ⚙️
+
+- **Image**: make w-full as other components
+- remove underline when they are not anchors
+- bump vulnerable dependencies
+
 ## [v0.15.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.15.0)
 
 > January 22, 2026
