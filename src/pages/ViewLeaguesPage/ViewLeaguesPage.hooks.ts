@@ -17,18 +17,22 @@ export default function useViewLeaguesPage(props: ViewLeaguesPageProps) {
   const { leagues: leaguesFromStore } = useLeagues();
   const { matches: matchesFromStore } = useMatches();
 
+  const users = useMemo(
+    () =>
+      usersFromStore.reduce(
+        (result, user) => {
+          result[user.id] = user;
+          return result;
+        },
+        {} as Record<string, Users[number]>,
+      ),
+    [usersFromStore],
+  );
+
   const leagues = useMemo(
     () =>
       leaguesFromStore
         .map((l) => {
-          const users = usersFromStore.reduce(
-            (result, user) => {
-              result[user.id] = user;
-              return result;
-            },
-            {} as Record<string, Users[number]>,
-          );
-
           const matches = matchesFromStore
             .filter((m) => m.leagueId === l.id)
             .filter((m) => m.players.every((p) => !!p.approved));
@@ -71,8 +75,8 @@ export default function useViewLeaguesPage(props: ViewLeaguesPageProps) {
             updatedAt: l.updatedAt,
           };
         })
-        .sort((l1, l2) => sorts.byNumberDesc(l1.updatedAt, l2.updatedAt)),
-    [league?.id, leaguesFromStore, matchesFromStore, usersFromStore],
+        .sort((l1, l2) => sorts.byBooleanAsc(l1.active, l2.active)),
+    [league?.id, leaguesFromStore, matchesFromStore, users],
   );
 
   return { ...props, leagues };
