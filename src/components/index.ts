@@ -1,6 +1,7 @@
 export * from "./Alert";
 export * from "./Anchor";
 export * from "./Button";
+export * from "./Carousel";
 export * from "./Divider";
 export * from "./Form";
 export * from "./Icon";
