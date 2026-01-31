@@ -173,6 +173,9 @@ export default function CreateMatchPage(props: CreateMatchPageProps) {
           />
         </label>
 
+        {/* DIVIDER */}
+        <Divider />
+
         {/* CTA */}
         <Button
           className="flex justify-center"
