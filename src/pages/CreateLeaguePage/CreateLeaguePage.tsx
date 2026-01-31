@@ -1,118 +1,50 @@
-import {
-  Button,
-  Divider,
-  Form,
-  Icon,
-  Input,
-  PlayerImage,
-} from "#src/components";
+import { Carousel } from "#src/components";
 
 import useCreateLeaguePage from "./CreateLeaguePage.hooks";
 import type CreateLeaguePageProps from "./CreateLeaguePage.types";
+import { Step1 } from "./Step1";
+import { Step2 } from "./Step2";
 
 export default function CreateLeaguePage(props: CreateLeaguePageProps) {
   const {
+    backDisabled,
+    disabled,
+    onBack,
     onChange,
     onSubmit,
     state,
+    step,
     submitDisabled,
-    submitting,
-    users,
     ...rest
   } = useCreateLeaguePage(props);
 
   return (
-    <div {...rest} className="flex size-full flex-col gap-4 overflow-auto">
-      <Form className="flex flex-col gap-4" onSubmit={onSubmit}>
-        {/* NAME */}
-        <label className="flex items-center gap-4">
-          Name:
-          <Input
-            disabled={submitting}
-            name="name"
-            onChange={onChange}
-            placeholder="Insert a league name..."
-            required={true}
-            type="text"
-            value={state.name}
-          />
-        </label>
+    <div {...rest} className="size-full overflow-auto">
+      <Carousel spacing={16} step={step}>
+        <Step1
+          back="Back"
+          backDisabled={backDisabled}
+          disabled={disabled}
+          onBack={onBack}
+          onChange={onChange}
+          onSubmit={onSubmit}
+          state={state}
+          submit="Next"
+          submitDisabled={submitDisabled}
+        />
 
-        {/* DIVIDER */}
-        <Divider />
-
-        {/* PLAYERS SELECTION */}
-        <div className="flex flex-col gap-4">
-          {state.players.map((p, index) => (
-            <div key={p.color} className="flex items-center gap-4">
-              {/* PLAYER IMAGE */}
-              <div className="relative">
-                <PlayerImage color={p.color} src={users[p.id]} variant="3rem" />
-
-                {!!users[p.id] && (
-                  <Icon
-                    className="absolute top-8 -right-2 text-interface-green"
-                    variant="check-fill"
-                  />
-                )}
-              </div>
-
-              {/* PLAYER EMAIL */}
-              <Input
-                aria-label={`Player ${index + 1} email`}
-                disabled={submitting}
-                name={`players.${index}.id`}
-                onChange={onChange}
-                placeholder="Insert a user email..."
-                type="email"
-                value={p.id}
-              />
-
-              {/* PLAYER ADMIN */}
-              <Input
-                aria-label={`Player ${index + 1} admin`}
-                checked={p.admin}
-                disabled={submitting || !p.id}
-                name={`players.${index}.admin`}
-                onChange={onChange}
-                type="checkbox"
-              />
-            </div>
-          ))}
-        </div>
-
-        {/* DIVIDER */}
-        <Divider />
-
-        {/* MATCHES COUNT */}
-        <label className="flex items-center justify-end gap-4">
-          Matches count:
-          <Input
-            className="w-13 text-center"
-            disabled={submitting}
-            min={1}
-            name="matchesCount"
-            onChange={onChange}
-            required={true}
-            type="number"
-            value={state.matchesCount}
-          />
-        </label>
-
-        {/* CTA */}
-        <Button
-          className="flex justify-center"
-          disabled={submitDisabled}
-          type="submit"
-          variant="primary"
-        >
-          {!submitting ? (
-            "Create"
-          ) : (
-            <Icon className="animate-spin" variant="spinner" />
-          )}
-        </Button>
-      </Form>
+        <Step2
+          back="Back"
+          backDisabled={backDisabled}
+          disabled={disabled}
+          onBack={onBack}
+          onChange={onChange}
+          onSubmit={onSubmit}
+          state={state}
+          submit="Create"
+          submitDisabled={submitDisabled}
+        />
+      </Carousel>
     </div>
   );
 }

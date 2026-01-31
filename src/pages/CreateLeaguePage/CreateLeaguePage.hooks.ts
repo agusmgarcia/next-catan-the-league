@@ -2,47 +2,68 @@ import { filters } from "@agusmgarcia/react-essentials-utils";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { type CatanClientTypes } from "#src/apis";
-import { useLeagues, useUser, useUsers } from "#src/store";
+import { useLeagues, useUser } from "#src/store";
 
 import type CreateLeaguePageProps from "./CreateLeaguePage.types";
+import { type Step1Props } from "./Step1";
+import { type Step2Props } from "./Step2";
 
 export default function useCreateLeaguePage(props: CreateLeaguePageProps) {
   const { push } = useRouter();
 
   const { createLeague } = useLeagues();
   const { user } = useUser();
-  const { users: usersFromStore } = useUsers();
 
   const [state, setState] = useState(getDefaultState);
   const [submitting, setSubmitting] = useState(false);
+  const [step, setStep] = useState<1 | 2>(1);
 
-  const submitDisabled = useMemo(
-    () =>
-      submitting ||
-      !state.name ||
-      !state.matchesCount ||
-      state.players.filter((p) => !!p.id).length < 2 ||
-      state.players.every((p) => !p.admin) ||
-      state.players.some((p) => !p.id && p.admin) ||
-      state.players
-        .filter((p) => !!p.id)
-        .map((p) => p.id.toLowerCase())
-        .filter(filters.distinct).length !==
-        state.players.filter((p) => !!p.id).length,
-    [state.matchesCount, state.name, state.players, submitting],
+  const backDisabled = useMemo(() => {
+    if (submitting) return true;
+    if (step === 1) return true;
+    return false;
+  }, [step, submitting]);
+
+  const disabled = useMemo(
+    () => ({
+      matchesCount: submitting,
+      name: submitting,
+      players: state.players.map((p) => ({
+        admin: submitting || !p.id,
+        id: submitting,
+      })),
+    }),
+    [state.players, submitting],
   );
 
-  const users = useMemo(
-    () =>
-      usersFromStore.reduce(
-        (result, user) => {
-          result[user.id] = user.photoURL;
-          return result;
-        },
-        {} as Record<string, string>,
-      ),
-    [usersFromStore],
+  const submitDisabled = useMemo(() => {
+    if (submitting) return true;
+
+    switch (step) {
+      case 2:
+        if (
+          state.players.filter((p) => !!p.id).length < 2 ||
+          state.players.every((p) => !p.admin) ||
+          state.players.some((p) => !p.id && p.admin) ||
+          state.players
+            .filter((p) => !!p.id)
+            .map((p) => p.id.toLowerCase())
+            .filter(filters.distinct).length !==
+            state.players.filter((p) => !!p.id).length
+        )
+          return true;
+
+      case 1:
+        if (!state.name || !state.matchesCount) return true;
+
+      default:
+        return false;
+    }
+  }, [state.matchesCount, state.name, state.players, step, submitting]);
+
+  const onBack = useCallback(
+    () => setStep((step) => (step > 1 ? ((step - 1) as typeof step) : step)),
+    [],
   );
 
   const onChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>(
@@ -88,11 +109,16 @@ export default function useCreateLeaguePage(props: CreateLeaguePageProps) {
   );
 
   const onSubmit = useCallback<React.FormEventHandler<HTMLFormElement>>(() => {
+    if (step === 1) {
+      setStep(2);
+      return;
+    }
+
     setSubmitting(true);
     createLeague({ ...state, players: state.players.filter((p) => !!p.id) })
       .then((leagueId) => push(`/leagues/${leagueId}/view`))
       .catch(() => setSubmitting(false));
-  }, [createLeague, push, state]);
+  }, [createLeague, push, state, step]);
 
   useEffect(() => {
     if (!user) return;
@@ -114,16 +140,18 @@ export default function useCreateLeaguePage(props: CreateLeaguePageProps) {
 
   return {
     ...props,
+    backDisabled,
+    disabled,
+    onBack,
     onChange,
     onSubmit,
     state,
+    step,
     submitDisabled,
-    submitting,
-    users,
   };
 }
 
-function getDefaultState(): State {
+function getDefaultState(): Step1Props["state"] & Step2Props["state"] {
   return {
     matchesCount: 0,
     name: "",
@@ -161,13 +189,3 @@ function getDefaultState(): State {
     ],
   };
 }
-
-type State = {
-  matchesCount: number;
-  name: string;
-  players: {
-    admin: boolean;
-    color: CatanClientTypes.PlayerColor;
-    id: string;
-  }[];
-};
