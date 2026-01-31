@@ -140,36 +140,32 @@ export default function useCreateMatchPage(props: CreateMatchPageProps) {
     setState((prevState) => ({ ...prevState, photoURL: "" }));
   }, []);
 
-  const onSubmit = useCallback<React.FormEventHandler<HTMLFormElement>>(
-    (event) => {
-      event.preventDefault();
-      if (!league?.id) return;
+  const onSubmit = useCallback<React.FormEventHandler<HTMLFormElement>>(() => {
+    if (!league?.id) return;
 
-      setSubmitting(true);
-      createMatch({
-        leagueId: league.id,
-        observations: state.observations,
-        photoURL: state.photoURL,
-        players: Object.keys(state.players).map((playerId) => ({
-          approved: state.players[playerId].approved || undefined,
-          id: playerId,
-          points: state.players[playerId].points,
-        })),
-        winnerId: state.winnerId,
-      })
-        .then(() => push(`/leagues/${league.id}/view`))
-        .catch(() => setSubmitting(false));
-    },
-    [
-      createMatch,
-      league?.id,
-      push,
-      state.observations,
-      state.photoURL,
-      state.players,
-      state.winnerId,
-    ],
-  );
+    setSubmitting(true);
+    createMatch({
+      leagueId: league.id,
+      observations: state.observations,
+      photoURL: state.photoURL,
+      players: Object.keys(state.players).map((playerId) => ({
+        approved: state.players[playerId].approved || undefined,
+        id: playerId,
+        points: state.players[playerId].points,
+      })),
+      winnerId: state.winnerId,
+    })
+      .then(() => push(`/leagues/${league.id}/view`))
+      .catch(() => setSubmitting(false));
+  }, [
+    createMatch,
+    league?.id,
+    push,
+    state.observations,
+    state.photoURL,
+    state.players,
+    state.winnerId,
+  ]);
 
   useEffect(() => {
     setState({

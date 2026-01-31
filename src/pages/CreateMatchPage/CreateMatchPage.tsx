@@ -3,6 +3,7 @@ import { twMerge } from "tailwind-merge";
 import {
   Button,
   Divider,
+  Form,
   Icon,
   Image,
   Input,
@@ -30,10 +31,7 @@ export default function CreateMatchPage(props: CreateMatchPageProps) {
 
   return (
     <div {...rest} className="flex size-full flex-col gap-4 overflow-auto">
-      <form
-        className="flex w-full flex-col gap-4 rounded-lg border-4 bg-white/60 custom-noise-5 p-4 shadow-2xl"
-        onSubmit={onSubmit}
-      >
+      <Form className="flex flex-col gap-4" onSubmit={onSubmit}>
         <div className="flex items-center justify-between">
           {/* CREATED AT */}
           <Typography>{match.createdAt}</Typography>
@@ -188,7 +186,7 @@ export default function CreateMatchPage(props: CreateMatchPageProps) {
             <Icon className="animate-spin" variant="spinner" />
           )}
         </Button>
-      </form>
+      </Form>
     </div>
   );
 }
