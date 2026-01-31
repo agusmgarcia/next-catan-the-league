@@ -2,6 +2,7 @@ export * from "./Alert";
 export * from "./Anchor";
 export * from "./Button";
 export * from "./Divider";
+export * from "./Form";
 export * from "./Icon";
 export * from "./Image";
 export * from "./Input";
