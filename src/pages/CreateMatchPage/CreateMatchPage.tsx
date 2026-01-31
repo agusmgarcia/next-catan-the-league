@@ -163,9 +163,7 @@ export default function CreateMatchPage(props: CreateMatchPageProps) {
 
         {/* OBSERVATIONS */}
         <label className="flex flex-col gap-2">
-          <Typography className="underline" variant="span">
-            Observations:
-          </Typography>
+          Observations:
           <Input
             disabled={submitting}
             name="observations"

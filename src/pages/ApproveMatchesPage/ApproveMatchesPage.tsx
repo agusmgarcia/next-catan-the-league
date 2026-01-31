@@ -53,7 +53,7 @@ export default function ApproveMatchesPage(props: ApproveMatchesPageProps) {
               )}
             >
               <div className="flex items-center justify-between">
-                <Typography className="underline">{match.createdAt}</Typography>
+                <Typography>{match.createdAt}</Typography>
 
                 {match.status === "Approved" && (
                   <Icon className="text-interface-green" variant="check-fill" />

@@ -22,9 +22,7 @@ export default function ViewLeaguesPage(props: ViewLeaguesPageProps) {
           {/* HEADER */}
           <div className="flex items-center justify-between gap-1">
             {/* NAME */}
-            <Typography className="underline" variant="h2">
-              {l.name}
-            </Typography>
+            <Typography variant="h2">{l.name}</Typography>
 
             {/* MATCHES COUNT */}
             <Typography

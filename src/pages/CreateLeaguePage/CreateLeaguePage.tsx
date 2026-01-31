@@ -1,11 +1,4 @@
-import {
-  Button,
-  Divider,
-  Icon,
-  Input,
-  PlayerImage,
-  Typography,
-} from "#src/components";
+import { Button, Divider, Icon, Input, PlayerImage } from "#src/components";
 
 import useCreateLeaguePage from "./CreateLeaguePage.hooks";
 import type CreateLeaguePageProps from "./CreateLeaguePage.types";
@@ -29,10 +22,7 @@ export default function CreateLeaguePage(props: CreateLeaguePageProps) {
       >
         {/* NAME */}
         <label className="flex items-center gap-4">
-          <Typography className="underline" variant="span">
-            Name:
-          </Typography>
-
+          Name:
           <Input
             disabled={submitting}
             name="name"
@@ -92,10 +82,7 @@ export default function CreateLeaguePage(props: CreateLeaguePageProps) {
 
         {/* MATCHES COUNT */}
         <label className="flex items-center justify-end gap-4">
-          <Typography className="underline" variant="span">
-            Matches count:
-          </Typography>
-
+          Matches count:
           <Input
             className="w-13 text-center"
             disabled={submitting}
