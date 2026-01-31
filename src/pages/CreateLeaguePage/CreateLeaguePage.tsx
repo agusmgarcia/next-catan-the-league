@@ -1,4 +1,11 @@
-import { Button, Divider, Icon, Input, PlayerImage } from "#src/components";
+import {
+  Button,
+  Divider,
+  Form,
+  Icon,
+  Input,
+  PlayerImage,
+} from "#src/components";
 
 import useCreateLeaguePage from "./CreateLeaguePage.hooks";
 import type CreateLeaguePageProps from "./CreateLeaguePage.types";
@@ -16,10 +23,7 @@ export default function CreateLeaguePage(props: CreateLeaguePageProps) {
 
   return (
     <div {...rest} className="flex size-full flex-col gap-4 overflow-auto">
-      <form
-        className="flex w-full flex-col gap-4 rounded-lg border-4 bg-white/60 custom-noise-5 p-4 shadow-2xl"
-        onSubmit={onSubmit}
-      >
+      <Form className="flex flex-col gap-4" onSubmit={onSubmit}>
         {/* NAME */}
         <label className="flex items-center gap-4">
           Name:
@@ -108,7 +112,7 @@ export default function CreateLeaguePage(props: CreateLeaguePageProps) {
             <Icon className="animate-spin" variant="spinner" />
           )}
         </Button>
-      </form>
+      </Form>
     </div>
   );
 }

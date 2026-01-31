@@ -87,16 +87,12 @@ export default function useCreateLeaguePage(props: CreateLeaguePageProps) {
     [],
   );
 
-  const onSubmit = useCallback<React.FormEventHandler<HTMLFormElement>>(
-    (event) => {
-      event.preventDefault();
-      setSubmitting(true);
-      createLeague({ ...state, players: state.players.filter((p) => !!p.id) })
-        .then((leagueId) => push(`/leagues/${leagueId}/view`))
-        .catch(() => setSubmitting(false));
-    },
-    [createLeague, push, state],
-  );
+  const onSubmit = useCallback<React.FormEventHandler<HTMLFormElement>>(() => {
+    setSubmitting(true);
+    createLeague({ ...state, players: state.players.filter((p) => !!p.id) })
+      .then((leagueId) => push(`/leagues/${leagueId}/view`))
+      .catch(() => setSubmitting(false));
+  }, [createLeague, push, state]);
 
   useEffect(() => {
     if (!user) return;
