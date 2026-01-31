@@ -1,6 +1,7 @@
 import { twMerge } from "tailwind-merge";
 
 import {
+  Alert,
   Button,
   Divider,
   Form,
@@ -18,6 +19,7 @@ import type CreateMatchPageProps from "./CreateMatchPage.types";
 export default function CreateMatchPage(props: CreateMatchPageProps) {
   const {
     attachScreenshotInputRef,
+    completed,
     match,
     onAttachScreenshotClick,
     onChange,
@@ -31,6 +33,13 @@ export default function CreateMatchPage(props: CreateMatchPageProps) {
 
   return (
     <div {...rest} className="flex size-full flex-col gap-4 overflow-auto">
+      {completed && (
+        <Alert variant="error">
+          The league has reached out the maximum number of matches. You can add
+          more at your own risk.
+        </Alert>
+      )}
+
       <Form className="flex flex-col gap-4" onSubmit={onSubmit}>
         <div className="flex items-center justify-between">
           {/* CREATED AT */}

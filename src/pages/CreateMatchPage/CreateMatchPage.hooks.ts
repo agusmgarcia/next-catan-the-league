@@ -18,12 +18,22 @@ export default function useCreateMatchPage(props: CreateMatchPageProps) {
   const attachScreenshotInputRef = useRef<HTMLInputElement>(null);
 
   const { league } = useLeague();
-  const { createMatch } = useMatches();
+  const { createMatch, matches } = useMatches();
   const { user } = useUser();
   const { users } = useUsers();
 
   const [state, setState] = useState(getDefaultState);
   const [submitting, setSubmitting] = useState(false);
+
+  const completed = useMemo(() => {
+    if (!league) return false;
+
+    const matchesLength = matches.filter(
+      (m) => m.leagueId === league.id && m.players.every((p) => !!p.approved),
+    ).length;
+
+    return matchesLength >= league.matchesCount;
+  }, [league, matches]);
 
   const submitDisabled = useMemo(
     () => submitting || !league?.id || !state.winnerId || !user?.id,
@@ -197,6 +207,7 @@ export default function useCreateMatchPage(props: CreateMatchPageProps) {
   return {
     ...props,
     attachScreenshotInputRef,
+    completed,
     match,
     onAttachScreenshotClick,
     onChange,
