@@ -118,22 +118,6 @@ export default function ApproveMatchesPage(props: ApproveMatchesPageProps) {
                 <div className="flex gap-2">
                   <Button
                     className="flex items-center justify-center gap-1"
-                    disabled={match.approveDisabled}
-                    onClick={match.approve}
-                    variant="primary"
-                  >
-                    {match.approveLoading ? (
-                      <Icon className="animate-spin" variant="spinner" />
-                    ) : (
-                      <>
-                        <Icon variant="check" />
-                        Approve
-                      </>
-                    )}
-                  </Button>
-
-                  <Button
-                    className="flex items-center justify-center gap-1"
                     disabled={match.rejectDisabled}
                     onClick={match.reject}
                     variant="secondary"
@@ -144,6 +128,22 @@ export default function ApproveMatchesPage(props: ApproveMatchesPageProps) {
                       <>
                         <Icon variant="cross" />
                         Reject
+                      </>
+                    )}
+                  </Button>
+
+                  <Button
+                    className="flex items-center justify-center gap-1"
+                    disabled={match.approveDisabled}
+                    onClick={match.approve}
+                    variant="primary"
+                  >
+                    {match.approveLoading ? (
+                      <Icon className="animate-spin" variant="spinner" />
+                    ) : (
+                      <>
+                        <Icon variant="check" />
+                        Approve
                       </>
                     )}
                   </Button>
