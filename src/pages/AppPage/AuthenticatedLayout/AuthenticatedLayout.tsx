@@ -34,6 +34,7 @@ export default function AuthenticatedLayout(props: AuthenticatedLayoutProps) {
           <Image
             alt="papyrus"
             blurSrc={papyrusBlur.src}
+            className="size-full"
             loading="lazy"
             src={papyrus.src}
           />

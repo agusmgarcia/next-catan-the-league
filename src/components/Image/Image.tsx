@@ -18,7 +18,7 @@ export default forwardRef<HTMLImageElement, ImageProps>(
           ref={ref}
           alt={alt}
           className={twMerge(
-            "block size-full bg-gray-300 object-cover",
+            "block w-full bg-gray-300 object-cover",
             isLoading && "animate-pulse",
             !!viewer && !isLoading && "cursor-pointer",
             className,
