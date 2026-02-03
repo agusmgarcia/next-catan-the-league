@@ -1,6 +1,6 @@
 import { filters } from "@agusmgarcia/react-essentials-utils";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import { useLeagues, useUser } from "#src/store";
 
@@ -14,7 +14,30 @@ export default function useCreateLeaguePage(props: CreateLeaguePageProps) {
   const { createLeague } = useLeagues();
   const { user } = useUser();
 
-  const [state, setState] = useState(getDefaultState);
+  const initialState = useMemo<State>(
+    () => ({
+      matchesCount: 0,
+      name: "",
+      players: (
+        ["blue", "orange", "red", "white", "brown", "green"] as const
+      ).map((color) =>
+        color === user?.defaultColor
+          ? {
+              admin: true,
+              color: user.defaultColor,
+              id: user.id,
+            }
+          : {
+              admin: false,
+              color,
+              id: "",
+            },
+      ),
+    }),
+    [user],
+  );
+
+  const [state, setState] = useState(initialState);
   const [submitting, setSubmitting] = useState(false);
   const [step, setStep] = useState<1 | 2>(1);
 
@@ -120,24 +143,6 @@ export default function useCreateLeaguePage(props: CreateLeaguePageProps) {
       .catch(() => setSubmitting(false));
   }, [createLeague, push, state, step]);
 
-  useEffect(() => {
-    if (!user) return;
-
-    setState((prevState) => ({
-      matchesCount: 0,
-      name: "",
-      players: prevState.players.map((p) =>
-        p.color === user.defaultColor
-          ? {
-              admin: true,
-              color: user.defaultColor,
-              id: user.id,
-            }
-          : p,
-      ),
-    }));
-  }, [user]);
-
   return {
     ...props,
     backDisabled,
@@ -151,41 +156,4 @@ export default function useCreateLeaguePage(props: CreateLeaguePageProps) {
   };
 }
 
-function getDefaultState(): Step1Props["state"] & Step2Props["state"] {
-  return {
-    matchesCount: 0,
-    name: "",
-    players: [
-      {
-        admin: false,
-        color: "blue",
-        id: "",
-      },
-      {
-        admin: false,
-        color: "orange",
-        id: "",
-      },
-      {
-        admin: false,
-        color: "red",
-        id: "",
-      },
-      {
-        admin: false,
-        color: "white",
-        id: "",
-      },
-      {
-        admin: false,
-        color: "brown",
-        id: "",
-      },
-      {
-        admin: false,
-        color: "green",
-        id: "",
-      },
-    ],
-  };
-}
+type State = Step1Props["state"] & Step2Props["state"];

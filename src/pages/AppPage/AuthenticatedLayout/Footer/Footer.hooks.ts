@@ -62,7 +62,7 @@ export default function useFooter(props: FooterProps) {
           !!user?.profileId && pathname === `/profiles/${user.profileId}/view`,
       },
     ],
-    [league?.id, matches, pathname, user?.profileId, user?.id],
+    [league, matches, pathname, user],
   );
 
   return { ...props, league, links };

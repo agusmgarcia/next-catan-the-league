@@ -88,7 +88,7 @@ export default function useHeader(props: HeaderProps) {
       };
 
     return undefined;
-  }, [logout, page, profile?.id, replace, user?.profileId]);
+  }, [logout, page, profile, replace, user]);
 
   return {
     ...props,

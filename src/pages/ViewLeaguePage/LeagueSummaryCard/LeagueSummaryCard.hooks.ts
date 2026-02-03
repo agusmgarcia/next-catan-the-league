@@ -50,6 +50,7 @@ export default function useLeagueSummaryCard(props: LeagueSummaryCardProps) {
   useEffect(() => {
     if (!window.__VIEW_LEAGUE_PAGE__LEAGUE_SUMMARY_CARD__RENDERED__) {
       window.__VIEW_LEAGUE_PAGE__LEAGUE_SUMMARY_CARD__RENDERED__ = true;
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setTransitions(true);
     }
 

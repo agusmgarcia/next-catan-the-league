@@ -22,24 +22,6 @@ export default function useCreateMatchPage(props: CreateMatchPageProps) {
   const { user } = useUser();
   const { users } = useUsers();
 
-  const [state, setState] = useState(getDefaultState);
-  const [submitting, setSubmitting] = useState(false);
-
-  const completed = useMemo(() => {
-    if (!league) return false;
-
-    const matchesLength = matches.filter(
-      (m) => m.leagueId === league.id && m.players.every((p) => !!p.approved),
-    ).length;
-
-    return matchesLength >= league.matchesCount;
-  }, [league, matches]);
-
-  const submitDisabled = useMemo(
-    () => submitting || !league?.id || !state.winnerId || !user?.id,
-    [league?.id, state.winnerId, submitting, user?.id],
-  );
-
   const match = useMemo(() => {
     const recordOfUsers = users.reduce(
       (result, user) => {
@@ -65,6 +47,47 @@ export default function useCreateMatchPage(props: CreateMatchPageProps) {
         })) || [],
     };
   }, [league?.players, users]);
+
+  const initialState = useMemo<State>(
+    () => ({
+      observations: "",
+      photoURL: "",
+      players: match.players.reduce(
+        (result, u) => {
+          result[u.id] = { approved: !u.admin || user?.id === u.id, points: 0 };
+          return result;
+        },
+        {} as State["players"],
+      ),
+      winnerDisabled: match.players.reduce(
+        (result, user) => {
+          result[user.id] = false;
+          return result;
+        },
+        {} as State["winnerDisabled"],
+      ),
+      winnerId: "",
+    }),
+    [match.players, user],
+  );
+
+  const [state, setState] = useState(initialState);
+  const [submitting, setSubmitting] = useState(false);
+
+  const completed = useMemo(() => {
+    if (!league) return false;
+
+    const matchesLength = matches.filter(
+      (m) => m.leagueId === league.id && m.players.every((p) => !!p.approved),
+    ).length;
+
+    return matchesLength >= league.matchesCount;
+  }, [league, matches]);
+
+  const submitDisabled = useMemo(
+    () => submitting || !league?.id || !state.winnerId || !user?.id,
+    [league?.id, state.winnerId, submitting, user?.id],
+  );
 
   const onChange = useCallback<
     React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
@@ -169,35 +192,13 @@ export default function useCreateMatchPage(props: CreateMatchPageProps) {
       .catch(() => setSubmitting(false));
   }, [
     createMatch,
-    league?.id,
+    league,
     push,
     state.observations,
     state.photoURL,
     state.players,
     state.winnerId,
   ]);
-
-  useEffect(() => {
-    setState({
-      observations: "",
-      photoURL: "",
-      players: match.players.reduce(
-        (result, u) => {
-          result[u.id] = { approved: !u.admin || user?.id === u.id, points: 0 };
-          return result;
-        },
-        {} as State["players"],
-      ),
-      winnerDisabled: match.players.reduce(
-        (result, user) => {
-          result[user.id] = false;
-          return result;
-        },
-        {} as State["winnerDisabled"],
-      ),
-      winnerId: "",
-    });
-  }, [match.players, user?.id]);
 
   useEffect(() => {
     const photoURL = state.photoURL;
@@ -216,16 +217,6 @@ export default function useCreateMatchPage(props: CreateMatchPageProps) {
     state,
     submitDisabled,
     submitting,
-  };
-}
-
-function getDefaultState(): State {
-  return {
-    observations: "",
-    photoURL: "",
-    players: {},
-    winnerDisabled: {},
-    winnerId: "",
   };
 }
 

@@ -56,6 +56,7 @@ export default function usePodium(props: PodiumProps) {
   useEffect(() => {
     if (!window.__VIEW_LEAGUE_PAGE__PODIUM__RENDERED__) {
       window.__VIEW_LEAGUE_PAGE__PODIUM__RENDERED__ = true;
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setTransitions(true);
     }
 

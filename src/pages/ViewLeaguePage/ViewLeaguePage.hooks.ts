@@ -37,7 +37,7 @@ export default function useViewLeaguePage(props: ViewLeaguePageProps) {
               totalMatches: leagueFromStore.matchesCount,
             }),
     };
-  }, [leagueFromStore?.id, leagueFromStore?.matchesCount, matchesFromStore]);
+  }, [leagueFromStore, matchesFromStore]);
 
   useEffect(() => {
     if (leagueId === leagueIdFromParams) return;

@@ -132,14 +132,13 @@ export default function useApproveMatchesPage({
       }));
   }, [
     approveMatch,
-    league?.id,
+    league,
     leagues,
     matches,
     pastFromProps,
     rejectMatch,
-    state?.matchId,
-    state?.type,
-    user?.id,
+    state,
+    user,
     users,
   ]);
 
