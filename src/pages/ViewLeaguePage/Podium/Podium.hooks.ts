@@ -30,22 +30,25 @@ export default function usePodium(props: PodiumProps) {
       {} as Record<string, Users[number]>,
     );
 
-    const players = league?.players
-      .map((p) => ({
-        ...p,
-        name: users[p.id]?.name || "Unknown",
-        photoURL: users[p.id]?.photoURL || undefined,
-        points: matches
-          .map((m) => m.players.find((mp) => mp.id === p.id)?.points || 0)
-          .reduce((result, points) => result + points, 0),
-        victoriesCount: matches.filter((m) => m.winnerId === p.id).length,
-      }))
-      .sort((p1, p2) => sorts.byNumberDesc(p1.points, p2.points))
-      .sort((p1, p2) =>
-        sorts.byNumberDesc(p1.victoriesCount, p2.victoriesCount),
-      );
+    const players =
+      league?.players
+        .map((p) => ({
+          color: p.color,
+          id: p.id,
+          name: users[p.id]?.name || "Unknown",
+          photoURL: users[p.id]?.photoURL || undefined,
+          points: matches
+            .map((m) => m.players.find((mp) => mp.id === p.id)?.points || 0)
+            .reduce((result, points) => result + points, 0),
+          style: { width: 0 },
+          victoriesCount: matches.filter((m) => m.winnerId === p.id).length,
+        }))
+        .sort((p1, p2) => sorts.byNumberDesc(p1.points, p2.points))
+        .sort((p1, p2) =>
+          sorts.byNumberDesc(p1.victoriesCount, p2.victoriesCount),
+        ) || [];
 
-    return [players?.at(1), players?.at(0), players?.at(2)];
+    return [players.at(1), players.at(0), players.at(2)];
   }, [league?.players, matches, usersFromStore]);
 
   const completed = useMemo(

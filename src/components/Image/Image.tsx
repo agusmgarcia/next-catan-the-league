@@ -8,7 +8,7 @@ import { ImageViewerModal } from "./ImageViewerModal";
 
 export default forwardRef<HTMLImageElement, ImageProps>(
   function Image(props, ref) {
-    const { alt, className, isLoading, modalProps, viewer, ...rest } =
+    const { alt, className, modalProps, status, viewer, ...rest } =
       useImage(props);
 
     return (
@@ -19,8 +19,8 @@ export default forwardRef<HTMLImageElement, ImageProps>(
           alt={alt}
           className={twMerge(
             "block w-full bg-gray-300 object-cover",
-            isLoading && "animate-pulse",
-            !!viewer && !isLoading && "cursor-pointer",
+            status === "loading" && "animate-pulse",
+            !!viewer && status === "loaded" && "cursor-pointer",
             className,
           )}
         />

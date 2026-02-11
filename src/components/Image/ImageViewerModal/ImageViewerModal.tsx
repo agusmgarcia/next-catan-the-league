@@ -4,14 +4,18 @@ import useImageViewerModal from "./ImageViewerModal.hooks";
 import type ImageViewerModalProps from "./ImageViewerModal.types";
 
 export default function ImageViewerModal(props: ImageViewerModalProps) {
-  const { imageSrc, ...rest } = useImageViewerModal(props);
+  const { containerRef, imageAlt, imageSrc, ...rest } =
+    useImageViewerModal(props);
 
   return (
     <Modal {...rest}>
-      <div className="size-full overflow-hidden rounded-lg">
+      <div
+        ref={containerRef}
+        className="size-full overflow-x-hidden overflow-y-auto rounded-lg"
+      >
         <img
-          alt="asd"
-          className="block size-full bg-gray-300 object-cover"
+          alt={imageAlt}
+          className="block w-full bg-gray-300 object-cover"
           src={imageSrc}
         />
       </div>

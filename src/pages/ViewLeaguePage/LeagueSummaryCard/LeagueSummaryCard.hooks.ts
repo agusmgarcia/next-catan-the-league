@@ -29,7 +29,8 @@ export default function useLeagueSummaryCard(props: LeagueSummaryCardProps) {
     return (
       league?.players
         .map((p) => ({
-          ...p,
+          color: p.color,
+          id: p.id,
           name: users[p.id]?.name || "Unknown",
           points: matches
             .map((m) => m.players.find((mp) => mp.id === p.id)?.points || 0)

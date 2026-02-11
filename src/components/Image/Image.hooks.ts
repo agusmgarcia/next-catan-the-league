@@ -13,7 +13,7 @@ export default function useImage({
   src: srcFromProps,
   ...rest
 }: ImageProps) {
-  const [isLoading, setLoading] = useState(true);
+  const [status, setStatus] = useState<Status>("loading");
   const [modalOpen, setModalOpen] = useState(false);
 
   const className = useMemo(
@@ -43,14 +43,15 @@ export default function useImage({
     [blurSrcFromProps, loadingFromProps, srcFromProps],
   );
 
-  const onLoad = useCallback(() => setLoading(false), []);
+  const onLoad = useCallback(() => setStatus("loaded"), []);
 
-  const onError = useCallback(() => setLoading(false), []);
+  const onError = useCallback(() => setStatus("error"), []);
 
   const onClick = useCallback<React.MouseEventHandler<HTMLImageElement>>(() => {
     if (!rest.viewer) return;
+    if (status !== "loaded") return;
     setModalOpen(true);
-  }, [rest.viewer]);
+  }, [rest.viewer, status]);
 
   const modalOnClose = useCallback(() => setModalOpen(false), []);
 
@@ -58,10 +59,10 @@ export default function useImage({
     ...rest,
     className,
     "data-src": srcFromProps,
-    isLoading,
     loading,
     modalProps: {
       heading: rest.viewer || "",
+      imageAlt: rest.alt,
       imageSrc: srcFromProps,
       onClose: modalOnClose,
       open: modalOpen,
@@ -70,9 +71,12 @@ export default function useImage({
     onError,
     onLoad,
     src,
+    status,
   };
 }
 
 function isSVG(src: string): boolean {
   return src.endsWith(".svg");
 }
+
+type Status = "error" | "loaded" | "loading";
