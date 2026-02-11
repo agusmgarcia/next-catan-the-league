@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v0.17.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.17.0)
+
+> February 11, 2026
+
+### Features ✅
+
+- **Image**: add ability to scroll within the modal
+
+### Chores ⚙️
+
+- bump dependencies
+
 ## [v0.16.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.16.0)
 
 > January 31, 2026
