@@ -10,11 +10,20 @@ export default class CloudinaryClient {
 
   private constructor() {}
 
-  getBlurImage({ url }: GetBlurImageRequest): GetBlurImageResponse {
-    return url.replace(
+  async getBlurImage(
+    { url }: GetBlurImageRequest,
+    signal: AbortSignal,
+  ): Promise<GetBlurImageResponse> {
+    url = url.replace(
       "/upload/",
       "/upload/w_200,e_blur:1000,f_auto,q_auto:low/",
     );
+
+    try {
+      await fetch(url, { signal }).then((response) => response.blob());
+    } catch {}
+
+    return url;
   }
 
   async uploadImage(

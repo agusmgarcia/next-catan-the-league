@@ -203,14 +203,23 @@ export default class CatanClient {
     signal: AbortSignal,
   ): Promise<CreateMatchResponse> {
     const now = Date.now();
+
+    photoURL = !!photoURL
+      ? await CloudinaryClient.INSTANCE.uploadImage({ url: photoURL }, signal)
+      : undefined;
+
     await addDoc(collection(this.db, CatanClient.COLLECTIONS.matches), {
       createdAt: now,
       deletedAt: null,
       leagueId,
       observations: observations || null,
-      photoURL: !!photoURL
-        ? await CloudinaryClient.INSTANCE.uploadImage({ url: photoURL }, signal)
+      photoBlurURL: !!photoURL
+        ? await CloudinaryClient.INSTANCE.getBlurImage(
+            { url: photoURL },
+            signal,
+          )
         : null,
+      photoURL: photoURL || null,
       playerApproveds: players.reduce(
         (result, p) => {
           result[p.id] = p.approved || null;
@@ -268,9 +277,7 @@ export default class CatanClient {
       createdAt: data?.createdAt || 0,
       leagueId: data?.leagueId || "",
       observations: data?.observations || undefined,
-      photoBlurURL: !!data?.photoURL
-        ? CloudinaryClient.INSTANCE.getBlurImage({ url: data.photoURL })
-        : undefined,
+      photoBlurURL: data?.photoBlurURL || undefined,
       photoURL: data?.photoURL || undefined,
       players:
         data?.playerIds.map((playerId: string) => ({
