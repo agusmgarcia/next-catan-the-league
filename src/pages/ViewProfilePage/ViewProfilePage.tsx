@@ -2,6 +2,7 @@ import { twMerge } from "tailwind-merge";
 
 import {
   Alert,
+  Button,
   Icon,
   PlayerImage,
   Typography,
@@ -12,7 +13,14 @@ import useViewProfilePage from "./ViewProfilePage.hooks";
 import type ViewProfilePageProps from "./ViewProfilePage.types";
 
 export default function ViewProfilePage(props: ViewProfilePageProps) {
-  const { profile, ...rest } = useViewProfilePage(props);
+  const {
+    onPlayerImageChange,
+    onPlayerImageClick,
+    playerImageRef,
+    profile,
+    user,
+    ...rest
+  } = useViewProfilePage(props);
 
   if (!profile)
     return (
@@ -27,11 +35,37 @@ export default function ViewProfilePage(props: ViewProfilePageProps) {
     <div {...rest} className="flex size-full flex-col overflow-auto">
       <div className="flex flex-2/5 flex-col items-center justify-center gap-2">
         {/* IMAGE */}
-        <PlayerImage
-          color={profile.defaultColor}
-          src={profile.photoURL}
-          variant="6rem"
-        />
+        {user?.profileId === profile.id ? (
+          <>
+            <Button
+              className="rounded-full"
+              onClick={onPlayerImageClick}
+              variant="raw"
+            >
+              <PlayerImage
+                color={profile.defaultColor}
+                src={profile.photoURL}
+                variant="6rem"
+              />
+            </Button>
+
+            <input
+              ref={playerImageRef}
+              accept="image/*"
+              className="hidden"
+              multiple={false}
+              name="playerImage"
+              onChange={onPlayerImageChange}
+              type="file"
+            />
+          </>
+        ) : (
+          <PlayerImage
+            color={profile.defaultColor}
+            src={profile.photoURL}
+            variant="6rem"
+          />
+        )}
 
         {/* NAME */}
         <Typography variant="h1">{profile.name}</Typography>

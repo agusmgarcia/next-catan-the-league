@@ -53,6 +53,8 @@ import {
   type PlayerColor,
   type RejectMatchRequest,
   type RejectMatchResponse,
+  type UpdateUserRequest,
+  type UpdateUserResponse,
 } from "./CatanClient.types";
 
 export default class CatanClient {
@@ -378,6 +380,20 @@ export default class CatanClient {
 
   async logout({}: LogoutRequest, _: AbortSignal): Promise<LogoutResponse> {
     await signOut(this.auth);
+  }
+
+  async updateUser(
+    { id, photoURL }: UpdateUserRequest,
+    signal: AbortSignal,
+  ): Promise<UpdateUserResponse> {
+    if (!id) return;
+
+    await updateDoc(doc(this.db, CatanClient.COLLECTIONS.users, id), {
+      photoURL: !!photoURL
+        ? await CloudinaryClient.INSTANCE.uploadImage({ url: photoURL }, signal)
+        : unknown.src,
+      updatedAt: Date.now(),
+    });
   }
 
   private static transformUser(

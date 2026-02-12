@@ -77,6 +77,7 @@ export function useUser() {
   return {
     login: useSelector((state) => state.user.login),
     logout: useSelector((state) => state.user.logout),
+    updateUser: useSelector((state) => state.user.update),
     user: useSelector((state) => state.user.response),
     userError: useSelector((state) => state.user.error),
     userLoading: useSelector((state) => state.user.loading),

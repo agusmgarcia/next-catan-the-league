@@ -24,4 +24,8 @@ export default class UsersSlice extends ServerSlice<
   ): Promise<Response> {
     return CatanClient.INSTANCE.getUsers(request, signal);
   }
+
+  override async reload(signal: AbortSignal): Promise<void> {
+    await super.reload(signal);
+  }
 }

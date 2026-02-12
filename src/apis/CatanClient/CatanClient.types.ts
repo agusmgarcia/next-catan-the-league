@@ -119,6 +119,12 @@ export type LogoutRequest = {};
 
 export type LogoutResponse = void;
 
+export type UpdateUserRequest = {
+  id: string;
+} & Pick<NonNullable<GetUserResponse>, "photoURL">;
+
+export type UpdateUserResponse = void;
+
 export type GetProfileRequest = {
   id: string;
 };

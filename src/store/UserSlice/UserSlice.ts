@@ -1,10 +1,15 @@
 import { ServerSlice } from "@agusmgarcia/react-essentials-store";
 
-import { CatanClient } from "#src/apis";
+import { CatanClient, type CatanClientTypes } from "#src/apis";
 
+import { type UsersSlice } from "../UsersSlice";
 import { type Request, type Response } from "./UserSlice.types";
 
-export default class UserSlice extends ServerSlice<Response, Request> {
+export default class UserSlice extends ServerSlice<
+  Response,
+  Request,
+  { users: UsersSlice }
+> {
   constructor() {
     super(undefined);
   }
@@ -28,5 +33,14 @@ export default class UserSlice extends ServerSlice<Response, Request> {
   async logout(signal: AbortSignal): Promise<void> {
     await CatanClient.INSTANCE.logout({}, signal);
     await this.reload(signal);
+  }
+
+  async update(
+    user: CatanClientTypes.UpdateUserRequest,
+    signal: AbortSignal,
+  ): Promise<void> {
+    await CatanClient.INSTANCE.updateUser(user, signal);
+    await this.reload(signal);
+    await this.slices.users.reload(signal);
   }
 }

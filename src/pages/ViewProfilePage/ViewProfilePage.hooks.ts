@@ -1,16 +1,21 @@
 import { strings } from "@agusmgarcia/react-essentials-utils";
 import { useParams } from "next/navigation";
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import { useProfile, useUsers } from "#src/store";
+import { useProfile, useUser, useUsers } from "#src/store";
 
 import type ViewProfilePageProps from "./ViewProfilePage.types";
 
 export default function useViewProfilePage(props: ViewProfilePageProps) {
   const profileIdFromParams = useParams()?.id;
 
+  const playerImageRef = useRef<HTMLInputElement>(null);
+
   const { profile: profileFromStore, profileId, setProfileId } = useProfile();
   const { users } = useUsers();
+  const { updateUser, user: userFromStore } = useUser();
+
+  const [photoURL, setPhotoURL] = useState(userFromStore?.photoURL);
 
   const profile = useMemo(() => {
     if (!profileFromStore) return undefined;
@@ -21,6 +26,7 @@ export default function useViewProfilePage(props: ViewProfilePageProps) {
     return {
       defaultColor: user.defaultColor,
       email: user.id,
+      id: profileFromStore.id,
       leaguesCount:
         profileFromStore.activeLeaguesCount +
         profileFromStore.completedLeaguesCount,
@@ -39,7 +45,10 @@ export default function useViewProfilePage(props: ViewProfilePageProps) {
         matchesCount: profileFromStore.matchesCount,
       }),
       name: user.name,
-      photoURL: user.photoURL,
+      photoURL:
+        userFromStore?.profileId === profileFromStore.id
+          ? photoURL || user.photoURL
+          : user.photoURL,
       points: profileFromStore.totalPoints,
       pointsString: strings.replace("${points?Point:Points}", {
         points: profileFromStore.totalPoints,
@@ -50,7 +59,40 @@ export default function useViewProfilePage(props: ViewProfilePageProps) {
         { victoriesCount: profileFromStore.victoriesCount },
       ),
     };
-  }, [profileFromStore, users]);
+  }, [photoURL, profileFromStore, userFromStore?.profileId, users]);
+
+  const onPlayerImageClick = useCallback(() => {
+    const playerImage = playerImageRef.current;
+    if (!playerImage) return;
+    playerImage.click();
+  }, []);
+
+  const onPlayerImageChange = useCallback<
+    React.ChangeEventHandler<HTMLInputElement>
+  >(
+    async (event) => {
+      if (!userFromStore?.id) return;
+
+      const file = event.target.files?.[0];
+      if (!file) return;
+
+      const photoURL = URL.createObjectURL(file);
+      setPhotoURL(photoURL);
+
+      try {
+        await updateUser({ id: userFromStore.id, photoURL });
+      } catch {
+        setPhotoURL(userFromStore.photoURL);
+      } finally {
+        URL.revokeObjectURL(photoURL);
+      }
+    },
+    [updateUser, userFromStore?.id, userFromStore?.photoURL],
+  );
+
+  useEffect(() => {
+    setPhotoURL(userFromStore?.photoURL);
+  }, [userFromStore?.photoURL]);
 
   useEffect(() => {
     if (profileId === profileIdFromParams) return;
@@ -59,5 +101,12 @@ export default function useViewProfilePage(props: ViewProfilePageProps) {
     setProfileId(profileIdFromParams);
   }, [profileId, profileIdFromParams, setProfileId]);
 
-  return { ...props, profile };
+  return {
+    ...props,
+    onPlayerImageChange,
+    onPlayerImageClick,
+    playerImageRef,
+    profile,
+    user: userFromStore,
+  };
 }
