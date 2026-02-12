@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v0.18.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.18.0)
+
+> February 12, 2026
+
+### Features ✅
+
+- **ViewProfilePage**: add ability to change user image
+- **CatanClient**: save photoBlurURL
+
 ## [v0.17.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.17.0)
 
 > February 11, 2026
