@@ -13,5 +13,15 @@ export default function usePlayerImage({
 
   const src = useMemo(() => srcFromProps || unknown.src, [srcFromProps]);
 
-  return { ...rest, alt, src };
+  const width = useMemo(
+    () => (rest.variant === "3rem" ? 48 : rest.variant === "3.5rem" ? 56 : 80),
+    [rest.variant],
+  );
+
+  const height = useMemo(
+    () => (rest.variant === "3rem" ? 48 : rest.variant === "3.5rem" ? 56 : 80),
+    [rest.variant],
+  );
+
+  return { ...rest, alt, height, src, width };
 }

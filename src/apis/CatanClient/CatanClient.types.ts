@@ -50,7 +50,6 @@ export type GetMatchesResponse = {
   id: string;
   leagueId: string;
   observations: string | undefined;
-  photoBlurURL: string | undefined;
   photoURL: string | undefined;
   players: {
     approved: boolean | undefined;

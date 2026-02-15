@@ -137,7 +137,8 @@ export default function CreateMatchPage(props: CreateMatchPageProps) {
           <div className="relative">
             <Image
               alt="A screenshot of the match"
-              className="h-37.5 rounded-lg"
+              className="rounded-lg"
+              height={150}
               src={state.photoURL}
               viewer="Screenshot"
             />

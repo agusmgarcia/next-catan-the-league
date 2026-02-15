@@ -215,12 +215,6 @@ export default class CatanClient {
       deletedAt: null,
       leagueId,
       observations: observations || null,
-      photoBlurURL: !!photoURL
-        ? await CloudinaryClient.INSTANCE.getBlurImage(
-            { url: photoURL },
-            signal,
-          )
-        : null,
       photoURL: photoURL || null,
       playerApproveds: players.reduce(
         (result, p) => {
@@ -279,7 +273,6 @@ export default class CatanClient {
       createdAt: data?.createdAt || 0,
       leagueId: data?.leagueId || "",
       observations: data?.observations || undefined,
-      photoBlurURL: data?.photoBlurURL || undefined,
       photoURL: data?.photoURL || undefined,
       players:
         data?.playerIds.map((playerId: string) => ({

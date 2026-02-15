@@ -3,14 +3,13 @@ type ImageProps = Required<
 > & { src: string; viewer?: string } & Pick<
     React.ImgHTMLAttributes<HTMLImageElement>,
     "className"
-  > &
-  (
+  > & { height?: number; width?: number } & (
     | {
         blurSrc?: never;
         loading?: "eager";
       }
     | {
-        blurSrc: string;
+        blurSrc?: string;
         loading: "lazy";
       }
   );

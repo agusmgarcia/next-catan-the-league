@@ -53,8 +53,7 @@ export default function LeagueSummaryCard(props: LeagueSummaryCardProps) {
             {/* COLOR */}
             <div
               className={twMerge(
-                "size-4 max-h-4 min-h-4 max-w-4 min-w-4 rounded-xs border border-black",
-
+                "size-4 max-h-4 min-h-4 max-w-4 min-w-4 rounded-full border border-black",
                 player.color === "red" && "bg-player-red",
                 player.color === "blue" && "bg-player-blue",
                 player.color === "white" && "bg-player-white",

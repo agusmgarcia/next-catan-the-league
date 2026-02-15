@@ -1,6 +1,4 @@
 import {
-  type GetBlurImageRequest,
-  type GetBlurImageResponse,
   type UploadImageRequest,
   type UploadImageResponse,
 } from "./CloudinaryClient.types";
@@ -9,22 +7,6 @@ export default class CloudinaryClient {
   static readonly INSTANCE: CloudinaryClient = new CloudinaryClient();
 
   private constructor() {}
-
-  async getBlurImage(
-    { url }: GetBlurImageRequest,
-    signal: AbortSignal,
-  ): Promise<GetBlurImageResponse> {
-    url = url.replace(
-      "/upload/",
-      "/upload/w_200,e_blur:1000,f_auto,q_auto:low/",
-    );
-
-    try {
-      await fetch(url, { signal }).then((response) => response.blob());
-    } catch {}
-
-    return url;
-  }
 
   async uploadImage(
     { url }: UploadImageRequest,
@@ -40,14 +22,9 @@ export default class CloudinaryClient {
 
     return await fetch(
       `https://api.cloudinary.com/v1_1/dkzns8hvq/image/upload`,
-      {
-        body,
-        method: "POST",
-        signal,
-      },
+      { body, method: "POST", signal },
     )
       .then((response) => response.json())
-      .then((data) => data.secure_url)
-      .then((url) => url.replace("/upload/", "/upload/f_auto,q_auto/"));
+      .then((data) => data.secure_url);
   }
 }

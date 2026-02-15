@@ -11,8 +11,10 @@ export default function VictoryPointImage(props: VictoryPointImageProps) {
     <Image
       {...rest}
       alt="victory points"
-      className="size-7 max-h-7 min-h-7 max-w-7 min-w-7 rounded-full"
+      className="max-h-7 min-h-7 max-w-7 min-w-7 rounded-full"
+      height={28}
       src={victoryPoint.src}
+      width={28}
     />
   );
 }
