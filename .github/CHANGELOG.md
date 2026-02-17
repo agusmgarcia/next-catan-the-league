@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v0.19.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.19.0)
+
+> February 17, 2026
+
+### Features ✅
+
+- calculate image at client side
+
 ## [v0.18.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.18.0)
 
 > February 12, 2026
