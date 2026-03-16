@@ -1,10 +1,4 @@
-export type PlayerColor =
-  | "blue"
-  | "brown"
-  | "green"
-  | "orange"
-  | "red"
-  | "white";
+type PlayerColor = "blue" | "brown" | "green" | "orange" | "red" | "white";
 
 export type GetLeaguesRequest = {
   userId: string;

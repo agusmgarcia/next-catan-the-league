@@ -68,7 +68,7 @@ export default function UnauthenticatedLayout(
 
       {/* VERSION */}
       <Typography className="absolute right-4 bottom-4 text-white">
-        v{process.env.APP_VERSION || "0.0.0"}
+        v{process.env["APP_VERSION"] || "0.0.0"}
       </Typography>
     </div>
   );

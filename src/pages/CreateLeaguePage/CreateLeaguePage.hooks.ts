@@ -63,6 +63,7 @@ export default function useCreateLeaguePage(props: CreateLeaguePageProps) {
     if (submitting) return true;
 
     switch (step) {
+      // @ts-expect-error ts-7029
       case 2:
         if (
           state.players.filter((p) => !!p.id).length < 2 ||
@@ -76,6 +77,7 @@ export default function useCreateLeaguePage(props: CreateLeaguePageProps) {
         )
           return true;
 
+      // @ts-expect-error ts-7029
       case 1:
         if (!state.name || !state.matchesCount) return true;
 

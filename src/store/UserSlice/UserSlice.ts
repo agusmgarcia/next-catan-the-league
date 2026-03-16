@@ -1,6 +1,6 @@
 import { ServerSlice } from "@agusmgarcia/react-essentials-store";
 
-import { CatanClient, type CatanClientTypes } from "#src/apis";
+import { CatanClient, type CatanClientTypes } from "#src/clients";
 
 import { type UsersSlice } from "../UsersSlice";
 import { type Request, type Response } from "./UserSlice.types";

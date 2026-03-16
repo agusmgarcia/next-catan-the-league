@@ -16,7 +16,7 @@ export default function BannerImage(props: BannerImageProps) {
       {...rest}
       alt="banner"
       blurSrc={bannerBlur.src}
-      className={twMerge("size-full min-w-max", styles.bannerImage)}
+      className={twMerge("size-full min-w-max", styles["bannerImage"])}
       loading="lazy"
       src={banner.src}
     />

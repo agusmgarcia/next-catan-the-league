@@ -1,4 +1,4 @@
-import { finds } from "@agusmgarcia/react-essentials-utils";
+import { finds, groupBy } from "@agusmgarcia/react-essentials-utils";
 import { type FirebaseApp, initializeApp } from "firebase/app";
 import {
   type Auth as FirebaseAuth,
@@ -24,9 +24,9 @@ import {
 import { v4 as createUUID } from "uuid";
 
 import unknown from "#public/assets/unknown.webp";
-import { arrays } from "#src/utils";
+import { CloudinaryClient } from "#src/clients";
+import { countOccurrences } from "#src/utils";
 
-import { CloudinaryClient } from "../CloudinaryClient";
 import {
   type ApproveMatchRequest,
   type ApproveMatchResponse,
@@ -50,7 +50,6 @@ import {
   type LoginResponse,
   type LogoutRequest,
   type LogoutResponse,
-  type PlayerColor,
   type RejectMatchRequest,
   type RejectMatchResponse,
   type UpdateUserRequest,
@@ -120,7 +119,7 @@ export default class CatanClient {
     if (!leagueDoc.exists()) return undefined;
 
     const data = leagueDoc.data();
-    if (!!data.deletedAt) return undefined;
+    if (!!data["deletedAt"]) return undefined;
 
     return {
       ...CatanClient.transformLeague(data),
@@ -153,7 +152,7 @@ export default class CatanClient {
             result[player.id] = player.color;
             return result;
           },
-          {} as Record<string, PlayerColor>,
+          {} as Record<string, string>,
         ),
         playerIds: players.map((p) => p.id),
         updatedAt: now,
@@ -323,7 +322,7 @@ export default class CatanClient {
     if (!userDoc.exists()) return undefined;
 
     const data = userDoc.data();
-    if (!!data.deletedAt) return undefined;
+    if (!!data["deletedAt"]) return undefined;
 
     return { ...CatanClient.transformUser(data), id: userDoc.id };
   }
@@ -343,7 +342,7 @@ export default class CatanClient {
       if (!!userDoc.exists()) {
         const data = userDoc.data();
 
-        if (!!data.deletedAt) {
+        if (!!data["deletedAt"]) {
           const now = Date.now();
           transaction.update(userRef, { deletedAt: null, updatedAt: now });
 
@@ -440,19 +439,18 @@ export default class CatanClient {
         matches.filter((m) => m.players.every((p) => !!p.approved)),
       ),
     ]).then(([rawLeagues, matches]) => {
-      const leagues = arrays
-        .groupBy(matches, (m) => m.leagueId)
+      const leagues = groupBy(matches, (m) => m.leagueId)
         .map((group) => {
-          const league = rawLeagues[group.group];
+          const league = rawLeagues[group.key];
           if (!league) return undefined;
 
           return {
             id: league.id,
             winnerId:
               group.values.length >= league.matchesCount
-                ? arrays
-                    .countOccurrences(group.values.map((m) => m.winnerId))
-                    .find(finds.first)?.item
+                ? countOccurrences(group.values.map((m) => m.winnerId)).find(
+                    finds.first,
+                  )?.item
                 : undefined,
           };
         })

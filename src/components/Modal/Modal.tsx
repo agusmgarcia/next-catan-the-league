@@ -1,9 +1,8 @@
 import ReactDOM from "react-dom";
 import { twMerge } from "tailwind-merge";
 
-import { Button } from "../Button";
-import { Icon } from "../Icon";
-import { Typography } from "../Typography";
+import { Button, Icon, Typography } from "#src/components";
+
 import useModal from "./Modal.hooks";
 import type ModalProps from "./Modal.types";
 

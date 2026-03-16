@@ -1,7 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import { twMerge } from "tailwind-merge";
 
-import { Modal } from "../../Modal";
+import { Modal } from "#src/components";
+
 import useImageViewerModal from "./ImageViewerModal.hooks";
 import type ImageViewerModalProps from "./ImageViewerModal.types";
 

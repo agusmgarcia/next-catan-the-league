@@ -1,4 +1,4 @@
-import { type CatanClientTypes } from "#src/apis";
+import { type CatanClientTypes } from "#src/clients";
 
 export type Request = CatanClientTypes.GetUserRequest;
 

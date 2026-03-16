@@ -1,6 +1,6 @@
 import victoryPoint from "#public/assets/victoryPoint.webp";
+import { Image } from "#src/components";
 
-import { Image } from "../Image";
 import useVictoryPointImage from "./VictoryPointImage.hooks";
 import type VictoryPointImageProps from "./VictoryPointImage.types";
 

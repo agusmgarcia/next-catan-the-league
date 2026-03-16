@@ -1,4 +1,9 @@
-import { dates, sorts, strings } from "@agusmgarcia/react-essentials-utils";
+import {
+  dates,
+  groupBy,
+  sorts,
+  strings,
+} from "@agusmgarcia/react-essentials-utils";
 import { useMemo, useState } from "react";
 
 import {
@@ -10,7 +15,6 @@ import {
   useUser,
   useUsers,
 } from "#src/store";
-import { arrays } from "#src/utils";
 
 import type ApproveMatchesPageProps from "./ApproveMatchesPage.types";
 
@@ -43,53 +47,52 @@ export default function useApproveMatchesPage({
       {} as Record<string, Leagues[number]>,
     );
 
-    return arrays
-      .groupBy(
-        !!user?.id
-          ? matches
-              .filter(
-                (m) =>
-                  typeof m.players.find((p) => p.id === user.id)?.approved ===
-                  (!pastFromProps ? "undefined" : "boolean"),
-              )
-              .map((m) => {
-                const league = recordOfLeagues[m.leagueId];
-                if (!league) return undefined;
+    return groupBy(
+      !!user?.id
+        ? matches
+            .filter(
+              (m) =>
+                typeof m.players.find((p) => p.id === user.id)?.approved ===
+                (!pastFromProps ? "undefined" : "boolean"),
+            )
+            .map((m) => {
+              const league = recordOfLeagues[m.leagueId];
+              if (!league) return undefined;
 
-                return {
-                  createdAt: m.createdAt,
-                  id: m.id,
-                  league: {
-                    id: league.id,
-                    name: league.name,
-                  },
-                  observations: m.observations,
-                  photoURL: m.photoURL,
-                  players: m.players
-                    .map((p1) => ({
-                      approved: p1.approved,
-                      color:
-                        league.players.find((p2) => p2.id === p1.id)?.color ||
-                        undefined,
-                      id: p1.id,
-                      name: recordOfUsers[p1.id]?.name || "Unknown",
-                      photoURL: recordOfUsers[p1.id]?.photoURL || undefined,
-                      points: p1.points,
-                      winner: m.winnerId === p1.id,
-                    }))
-                    .sort((p1, p2) => sorts.byNumberDesc(p1.points, p2.points))
-                    .sort((p1, p2) => sorts.byBooleanAsc(p1.winner, p2.winner)),
-                };
-              })
-              .filter((m) => !!m)
-              .sort((m1, m2) => sorts.byNumberDesc(m1.createdAt, m2.createdAt))
-          : [],
-        (match) => match.league.id,
-      )
+              return {
+                createdAt: m.createdAt,
+                id: m.id,
+                league: {
+                  id: league.id,
+                  name: league.name,
+                },
+                observations: m.observations,
+                photoURL: m.photoURL,
+                players: m.players
+                  .map((p1) => ({
+                    approved: p1.approved,
+                    color:
+                      league.players.find((p2) => p2.id === p1.id)?.color ||
+                      undefined,
+                    id: p1.id,
+                    name: recordOfUsers[p1.id]?.name || "Unknown",
+                    photoURL: recordOfUsers[p1.id]?.photoURL || undefined,
+                    points: p1.points,
+                    winner: m.winnerId === p1.id,
+                  }))
+                  .sort((p1, p2) => sorts.byNumberDesc(p1.points, p2.points))
+                  .sort((p1, p2) => sorts.byBooleanAsc(p1.winner, p2.winner)),
+              };
+            })
+            .filter((m) => !!m)
+            .sort((m1, m2) => sorts.byNumberDesc(m1.createdAt, m2.createdAt))
+        : [],
+      (match) => match.league.id,
+    )
       .sort((group1, group2) =>
         sorts.byBooleanAsc(
-          group1.group === league?.id,
-          group2.group === league?.id,
+          group1.key === league?.id,
+          group2.key === league?.id,
         ),
       )
       .map((group) => ({
@@ -97,7 +100,7 @@ export default function useApproveMatchesPage({
           "${matchesLength} ${matchesLength?match:matches}",
           { matchesLength: group.values.length },
         ),
-        id: group.group,
+        id: group.key,
         matches: group.values.map((m) => ({
           approve: () => {
             setState({ matchId: m.id, type: "approve" });

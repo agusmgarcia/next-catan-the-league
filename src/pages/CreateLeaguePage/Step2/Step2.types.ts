@@ -1,7 +1,7 @@
 import { type Func } from "@agusmgarcia/react-essentials-utils";
 
-import { type CatanClientTypes } from "#src/apis";
 import { type FormProps, type InputProps } from "#src/components";
+import { type User } from "#src/store";
 
 type Step2Props = {
   back: string | undefined;
@@ -11,7 +11,7 @@ type Step2Props = {
   state: {
     players: {
       admin: boolean;
-      color: CatanClientTypes.PlayerColor;
+      color: User["defaultColor"];
       id: string;
     }[];
   };

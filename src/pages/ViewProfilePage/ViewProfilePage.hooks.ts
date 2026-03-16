@@ -7,7 +7,7 @@ import { useProfile, useUser, useUsers } from "#src/store";
 import type ViewProfilePageProps from "./ViewProfilePage.types";
 
 export default function useViewProfilePage(props: ViewProfilePageProps) {
-  const profileIdFromParams = useParams()?.id;
+  const profileIdFromParams = useParams()?.["id"];
 
   const playerImageRef = useRef<HTMLInputElement>(null);
 

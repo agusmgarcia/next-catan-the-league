@@ -1,6 +1,7 @@
 import { twMerge } from "tailwind-merge";
 
-import { Image } from "../Image";
+import { Image } from "#src/components";
+
 import usePlayerImage from "./PlayerImage.hooks";
 import type PlayerImageProps from "./PlayerImage.types";
 

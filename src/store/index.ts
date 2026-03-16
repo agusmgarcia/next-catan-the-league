@@ -15,7 +15,7 @@ export type Profile = NonNullable<ProfileSliceTypes.Response>;
 export type User = NonNullable<UserSliceTypes.Response>;
 export type Users = NonNullable<UsersSliceTypes.Response>;
 
-const { useSelector, ...reactStore } = createReactStore({
+const reactStore = createReactStore({
   slices: {
     league: LeagueSlice,
     leagueId: LeagueIdSlice,
@@ -28,6 +28,8 @@ const { useSelector, ...reactStore } = createReactStore({
 });
 
 export const StoreProvider = reactStore.StoreProvider;
+
+const useSelector = reactStore.useSelector;
 
 export function useLeague() {
   return {
