@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v0.19.1](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.19.1)
+
+> May 14, 2026
+
+### Chores ⚙️
+
+- adjust project structure
+- bump vulnerable dependencies
+
 ## [v0.19.0](https://github.com/agusmgarcia/next-catan-the-league/tree/v0.19.0)
 
 > February 17, 2026

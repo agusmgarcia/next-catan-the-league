@@ -1,7 +1,7 @@
 {
   "name": "@agusmgarcia/next-catan-the-league",
   "core": "app",
-  "version": "0.19.0",
+  "version": "0.19.1",
   "private": true,
   "author": "Agus Garcia",
   "description": "An app to register Catan matches",
